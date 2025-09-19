@@ -23,7 +23,7 @@ class ProjectKanban extends Component
     protected $rules = [
         'taskTitle' => 'required|min:3|max:255',
         'taskDescription' => 'nullable|max:1000',
-        'taskStatus' => 'required|in:todo,in_progress,completed,cancelled',
+        'taskStatus' => 'required|in:todo,in_progress,completed,blocked',
         'taskPriority' => 'required|in:low,medium,high,urgent',
         'taskDueDate' => 'nullable|date',
         'taskEstimatedHours' => 'nullable|numeric|min:0',

@@ -197,22 +197,22 @@
                     </div>
                 </div>
 
-                <!-- Cancelled Column -->
+                <!-- Blocked Column -->
                 <div class="bg-red-50 dark:bg-red-900/10">
                     <div class="p-4 border-b border-gray-200 dark:border-gray-600">
                         <h3 class="font-medium text-gray-900 dark:text-white flex items-center justify-between">
-                            <span>Cancelled</span>
+                            <span>Blocked</span>
                             <span class="bg-red-200 dark:bg-red-600 text-red-700 dark:text-red-200 text-xs px-2 py-1 rounded-full">
-                                {{ $tasksByStatus->get('cancelled', collect())->count() }}
+                                {{ $tasksByStatus->get('blocked', collect())->count() }}
                             </span>
                         </h3>
                     </div>
                     <div class="p-4 space-y-3 overflow-y-auto h-full pb-20 drop-zone"
                          ondragover="event.preventDefault(); event.currentTarget.classList.add('bg-red-100', 'dark:bg-red-900/30')"
                          ondragleave="event.currentTarget.classList.remove('bg-red-100', 'dark:bg-red-900/30')"
-                         ondrop="handleDrop(event, 'cancelled')"
-                         data-status="cancelled">
-                        @foreach($tasksByStatus->get('cancelled', collect()) as $task)
+                         ondrop="handleDrop(event, 'blocked')"
+                         data-status="blocked">
+                        @foreach($tasksByStatus->get('blocked', collect()) as $task)
                             <div class="task-card bg-white dark:bg-gray-800 p-3 rounded-lg border border-red-200 dark:border-red-600 shadow-sm cursor-move hover:shadow-md transition-shadow opacity-75"
                                  draggable="true"
                                  ondragstart="event.dataTransfer.setData('text/plain', '{{ $task->id }}')"
@@ -224,7 +224,7 @@
                                 
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="text-xs px-2 py-1 rounded-full bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200">
-                                        Cancelled
+                                        Blocked
                                     </span>
                                     @if($task->due_date)
                                         <span class="text-xs text-gray-500 dark:text-gray-400">
@@ -292,7 +292,7 @@
                                             <option value="todo">To Do</option>
                                             <option value="in_progress">In Progress</option>
                                             <option value="completed">Completed</option>
-                                            <option value="cancelled">Cancelled</option>
+                                            <option value="blocked">Blocked</option>
                                         </select>
                                         @error('taskStatus') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
