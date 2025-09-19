@@ -135,7 +135,7 @@ freelanceflow/
 - [ ] Recurring invoices
 - [ ] Expense tracking
 - [ ] Financial reports
-- [ ] API endpoints
+- [ ] API endpointsh
 - [ ] Webhook integrations
 - [ ] Two-factor authentication
 - [ ] File attachments handling

@@ -15,16 +15,16 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link href="#" :active="false" class="opacity-50 cursor-not-allowed">
+                    <x-nav-link :href="route('time-tracking.index')" :active="request()->routeIs('time-tracking.*')">
                         {{ __('Time Tracking') }}
                     </x-nav-link>
-                    <x-nav-link href="#" :active="false" class="opacity-50 cursor-not-allowed">
+                    <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">
                         {{ __('Projects') }}
                     </x-nav-link>
                     <x-nav-link href="#" :active="false" class="opacity-50 cursor-not-allowed">
                         {{ __('Clients') }}
                     </x-nav-link>
-                    <x-nav-link href="#" :active="false" class="opacity-50 cursor-not-allowed">
+                    <x-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.*')">
                         {{ __('Invoices') }}
                     </x-nav-link>
                 </div>
@@ -84,6 +84,12 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('time-tracking.index')" :active="request()->routeIs('time-tracking.*')">
+                {{ __('Time Tracking') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">
+                {{ __('Projects') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -94,6 +100,11 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                <!-- Dark Mode Toggle for Mobile -->
+                <div class="px-4 py-2">
+                    <livewire:dark-mode-toggle />
+                </div>
+                
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>

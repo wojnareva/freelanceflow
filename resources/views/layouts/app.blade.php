@@ -13,6 +13,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @livewireStyles
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -32,5 +33,14 @@
                 {{ $slot }}
             </main>
         </div>
+        
+        <!-- Floating Timer (disabled for now - use main Time Tracking page) -->
+        {{-- 
+        @auth
+            <livewire:time-tracking.floating-timer />
+        @endauth
+        --}}
+        
+        @livewireScripts
     </body>
 </html>
