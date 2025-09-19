@@ -81,7 +81,7 @@ class ActivityFeed extends Component
                     'details' => [
                         'client' => $project->client->name,
                         'status' => ucfirst($project->status),
-                        'budget' => $project->budget ? '$' . number_format($project->budget, 2) : 'No budget set'
+                        'budget' => $project->budget && is_numeric($project->budget) ? '$' . number_format($project->budget, 2) : 'No budget set'
                     ],
                     'created_at' => $project->created_at,
                 ];

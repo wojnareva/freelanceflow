@@ -132,13 +132,13 @@
                             @if($project->budget)
                                 <div>
                                     <span class="text-gray-500 dark:text-gray-400">Budget:</span>
-                                    <span class="font-medium text-gray-900 dark:text-white ml-1">${{ number_format($project->budget, 0) }}</span>
+                                    <span class="font-medium text-gray-900 dark:text-white ml-1">${{ number_format($project->budget ?? 0, 0) }}</span>
                                 </div>
                             @endif
                             @if($project->hourly_rate)
                                 <div>
                                     <span class="text-gray-500 dark:text-gray-400">Rate:</span>
-                                    <span class="font-medium text-gray-900 dark:text-white ml-1">${{ number_format($project->hourly_rate, 0) }}/hr</span>
+                                    <span class="font-medium text-gray-900 dark:text-white ml-1">${{ number_format($project->hourly_rate ?? 0, 0) }}/hr</span>
                                 </div>
                             @endif
                         </div>

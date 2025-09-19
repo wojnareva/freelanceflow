@@ -42,14 +42,14 @@
                     @if($project->budget)
                         <div>
                             <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Budget</dt>
-                            <dd class="mt-1 text-sm text-gray-900 dark:text-white">${{ number_format($project->budget, 0) }}</dd>
+                            <dd class="mt-1 text-sm text-gray-900 dark:text-white">${{ number_format($project->budget ?? 0, 0) }}</dd>
                         </div>
                     @endif
                     
                     @if($project->hourly_rate)
                         <div>
                             <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Hourly Rate</dt>
-                            <dd class="mt-1 text-sm text-gray-900 dark:text-white">${{ number_format($project->hourly_rate, 0) }}/hr</dd>
+                            <dd class="mt-1 text-sm text-gray-900 dark:text-white">${{ number_format($project->hourly_rate ?? 0, 0) }}/hr</dd>
                         </div>
                     @endif
                 </div>
