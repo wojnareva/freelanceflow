@@ -6,7 +6,7 @@
                     {{ $project->name }}
                 </h2>
                 <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    {{ $project->client->name }} • {{ ucfirst(str_replace('_', ' ', $project->status)) }}
+                    {{ $project->client->name }} • {{ $project->status->label() }}
                 </p>
             </div>
             <div class="flex space-x-2">

@@ -32,8 +32,8 @@
                         @foreach($projects as $project)
                             <option value="{{ $project->id }}">
                                 {{ $project->name }} ({{ $project->client->name }})
-                                @if($project->status !== 'active')
-                                    - {{ ucfirst(str_replace('_', ' ', $project->status)) }}
+                                @if($project->status->value !== 'active')
+                                    - {{ $project->status->label() }}
                                 @endif
                             </option>
                         @endforeach

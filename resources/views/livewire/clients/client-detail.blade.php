@@ -147,9 +147,9 @@
                         <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                             <div class="flex items-center space-x-4">
                                 <div class="w-3 h-3 rounded-full 
-                                    @if($project->status === 'active') bg-green-400
-                                    @elseif($project->status === 'on_hold') bg-yellow-400
-                                    @elseif($project->status === 'completed') bg-blue-400
+                                    @if($project->status->value === 'active') bg-green-400
+                                    @elseif($project->status->value === 'on_hold') bg-yellow-400
+                                    @elseif($project->status->value === 'completed') bg-blue-400
                                     @else bg-gray-400
                                     @endif">
                                 </div>
@@ -163,12 +163,12 @@
                             </div>
                             <div class="flex items-center space-x-3">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                    @if($project->status === 'active') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
-                                    @elseif($project->status === 'on_hold') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
-                                    @elseif($project->status === 'completed') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                                    @if($project->status->value === 'active') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                                    @elseif($project->status->value === 'on_hold') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
+                                    @elseif($project->status->value === 'completed') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
                                     @else bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200
                                     @endif">
-                                    {{ ucfirst(str_replace('_', ' ', $project->status)) }}
+                                    {{ $project->status->label() }}
                                 </span>
                                 <a 
                                     href="{{ route('projects.show', $project) }}" 

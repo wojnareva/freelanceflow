@@ -5,7 +5,7 @@
             <div>
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ $project->name }} - Timeline</h2>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    {{ $project->client->name }} • {{ ucfirst(str_replace('_', ' ', $project->status)) }}
+                    {{ $project->client->name }} • {{ $project->status->label() }}
                 </p>
             </div>
             
