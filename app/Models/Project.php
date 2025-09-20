@@ -38,6 +38,11 @@ class Project extends Model
         'completed_at' => 'date',
     ];
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
