@@ -32,6 +32,6 @@ class InvoiceItem extends Model
 
     public function timeEntries(): HasMany
     {
-        return $this->hasMany(TimeEntry::class);
+        return $this->hasMany(TimeEntry::class, 'invoice_item_id');
     }
 }

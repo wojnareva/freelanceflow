@@ -81,7 +81,7 @@ class InvoiceBuilder extends Component
     {
         $query = TimeEntry::with(['task', 'project', 'project.client'])
             ->where('billable', true)
-            ->whereDoesntHave('invoiceItems')
+            ->whereNull('invoice_item_id')
             ->whereBetween('date', [$this->dateFrom, $this->dateTo]);
 
         if ($this->selectedClient) {
@@ -204,14 +204,17 @@ class InvoiceBuilder extends Component
 
         // Create invoice items from time entries
         foreach ($selectedEntries as $entry) {
-            InvoiceItem::create([
+            $invoiceItem = InvoiceItem::create([
                 'invoice_id' => $invoice->id,
-                'time_entry_id' => $entry->id,
+                'type' => 'time',
                 'description' => $entry->description,
                 'quantity' => $entry->duration / 60, // Convert minutes to hours
                 'rate' => $entry->hourly_rate,
                 'amount' => ($entry->duration / 60) * $entry->hourly_rate,
             ]);
+            
+            // Link the time entry to this invoice item
+            $entry->update(['invoice_item_id' => $invoiceItem->id]);
         }
 
         session()->flash('success', 'Invoice created successfully!');
