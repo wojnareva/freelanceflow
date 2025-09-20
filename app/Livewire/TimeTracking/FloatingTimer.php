@@ -95,6 +95,7 @@ class FloatingTimer extends Component
             'description' => $this->description,
             'date' => today(),
             'started_at' => $this->startTime,
+            'duration' => 0, // Will be updated when timer stops
             'hourly_rate' => $project->hourly_rate ?? $project->client->hourly_rate ?? 0,
             'billable' => true,
             'billed' => false,
