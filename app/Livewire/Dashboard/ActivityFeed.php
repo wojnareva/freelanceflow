@@ -53,13 +53,13 @@ class ActivityFeed extends Component
                 return [
                     'type' => 'invoice',
                     'icon' => 'document-text',
-                    'color' => $invoice->status === 'paid' ? 'green' : 'yellow',
-                    'title' => 'Invoice '.strtolower($invoice->status),
+                    'color' => $invoice->status->value === 'paid' ? 'green' : 'yellow',
+                    'title' => 'Invoice '.strtolower($invoice->status->value),
                     'description' => 'Invoice #'.$invoice->invoice_number,
                     'details' => [
                         'client' => $invoice->client->name,
-                        'amount' => '$'.number_format($invoice->total, 2),
-                        'status' => ucfirst($invoice->status),
+                        'amount' => $invoice->formatted_total,
+                        'status' => $invoice->status->label(),
                     ],
                     'created_at' => $invoice->created_at,
                 ];
@@ -79,7 +79,7 @@ class ActivityFeed extends Component
                     'description' => $project->name,
                     'details' => [
                         'client' => $project->client->name,
-                        'status' => ucfirst($project->status),
+                        'status' => $project->status->label(),
                         'budget' => $project->budget && is_numeric($project->budget) ? '$'.number_format($project->budget, 2) : 'No budget set',
                     ],
                     'created_at' => $project->created_at,
@@ -95,13 +95,13 @@ class ActivityFeed extends Component
                 return [
                     'type' => 'task',
                     'icon' => 'check-circle',
-                    'color' => $task->status === 'completed' ? 'green' : 'gray',
-                    'title' => 'Task '.strtolower($task->status),
+                    'color' => $task->status->value === 'completed' ? 'green' : 'gray',
+                    'title' => 'Task '.strtolower($task->status->value),
                     'description' => $task->title,
                     'details' => [
                         'project' => $task->project->name,
                         'priority' => ucfirst($task->priority),
-                        'status' => ucfirst($task->status),
+                        'status' => $task->status->label(),
                     ],
                     'created_at' => $task->updated_at,
                 ];
