@@ -38,6 +38,7 @@ class InvoiceBuilder extends Component
 
     protected $rules = [
         'selectedTimeEntries' => 'required|array|min:1',
+        'invoiceNumber' => 'required|string|unique:invoices,invoice_number',
         'issueDate' => 'required|date',
         'dueDate' => 'required|date|after_or_equal:issueDate',
         'taxRate' => 'required|numeric|min:0|max:100',
@@ -52,6 +53,7 @@ class InvoiceBuilder extends Component
         $this->dueDate = Carbon::now()->addDays(30)->format('Y-m-d');
         $this->dateFrom = Carbon::now()->startOfMonth()->format('Y-m-d');
         $this->dateTo = Carbon::now()->endOfMonth()->format('Y-m-d');
+        $this->invoiceNumber = $this->generateInvoiceNumber();
         
         $this->loadTimeEntries();
     }
@@ -188,6 +190,7 @@ class InvoiceBuilder extends Component
 
         // Create the invoice
         $invoice = Invoice::create([
+            'invoice_number' => $this->invoiceNumber,
             'client_id' => $client->id,
             'project_id' => $primaryProject->id,
             'status' => 'draft',
@@ -232,6 +235,23 @@ class InvoiceBuilder extends Component
             return Project::where('client_id', $this->selectedClient)->orderBy('name')->get();
         }
         return collect();
+    }
+
+    private function generateInvoiceNumber()
+    {
+        $prefix = 'INV-' . Carbon::now()->format('Y') . '-';
+        $lastInvoice = Invoice::where('invoice_number', 'like', $prefix . '%')
+                             ->orderBy('invoice_number', 'desc')
+                             ->first();
+        
+        if ($lastInvoice) {
+            $lastNumber = (int) substr($lastInvoice->invoice_number, strlen($prefix));
+            $nextNumber = $lastNumber + 1;
+        } else {
+            $nextNumber = 1;
+        }
+        
+        return $prefix . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 
     public function render()

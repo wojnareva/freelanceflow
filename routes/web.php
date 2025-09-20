@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 Route::get('/', function () {
     return view('welcome');
@@ -64,7 +65,8 @@ Route::middleware('auth')->group(function () {
     })->name('invoices.show');
     
     Route::get('/invoices/{invoice}/pdf', function (App\Models\Invoice $invoice) {
-        return response()->download(storage_path('app/invoices/invoice-' . $invoice->id . '.pdf'));
+        $pdf = PDF::loadView('invoices.pdf', compact('invoice'));
+        return $pdf->download('invoice-' . $invoice->invoice_number . '.pdf');
     })->name('invoices.pdf');
 });
 
