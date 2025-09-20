@@ -10,13 +10,15 @@ use Carbon\Carbon;
 
 class ProjectTimeline extends Component
 {
-    public Project $project;
+    public ?Project $project = null;
     public $viewMode = 'month'; // week, month, quarter
     public $currentDate;
+    public $showAllProjects = false;
 
-    public function mount(Project $project)
+    public function mount(?Project $project = null)
     {
         $this->project = $project;
+        $this->showAllProjects = $project === null;
         $this->currentDate = Carbon::now();
     }
 
@@ -65,23 +67,48 @@ class ProjectTimeline extends Component
         $startDate = $this->getStartDate();
         $endDate = $this->getEndDate();
 
-        // Get tasks in the date range
-        $tasks = $this->project->tasks()
+        if ($this->showAllProjects) {
+            // Get tasks from all active projects
+            $tasks = Task::whereHas('project', function ($query) {
+                $query->where('status', '!=', 'archived');
+            })
             ->where(function ($query) use ($startDate, $endDate) {
                 $query->whereBetween('due_date', [$startDate, $endDate])
                       ->orWhereBetween('created_at', [$startDate, $endDate]);
             })
+            ->with(['project.client'])
             ->orderBy('due_date')
             ->orderBy('created_at')
             ->get();
 
-        // Get time entries in the date range
-        $timeEntries = $this->project->timeEntries()
+            // Get time entries from all projects
+            $timeEntries = TimeEntry::whereHas('project', function ($query) {
+                $query->where('status', '!=', 'archived');
+            })
             ->whereBetween('date', [$startDate, $endDate])
-            ->with(['task'])
+            ->with(['task', 'project.client'])
             ->orderBy('date')
             ->get()
             ->groupBy('date');
+        } else {
+            // Get tasks for specific project
+            $tasks = $this->project->tasks()
+                ->where(function ($query) use ($startDate, $endDate) {
+                    $query->whereBetween('due_date', [$startDate, $endDate])
+                          ->orWhereBetween('created_at', [$startDate, $endDate]);
+                })
+                ->orderBy('due_date')
+                ->orderBy('created_at')
+                ->get();
+
+            // Get time entries for specific project
+            $timeEntries = $this->project->timeEntries()
+                ->whereBetween('date', [$startDate, $endDate])
+                ->with(['task'])
+                ->orderBy('date')
+                ->get()
+                ->groupBy('date');
+        }
 
         // Combine and organize data by date
         $timeline = [];
@@ -97,6 +124,9 @@ class ProjectTimeline extends Component
                 }),
                 'time_entries' => $timeEntries->get($dateKey, collect()),
                 'total_hours' => $timeEntries->get($dateKey, collect())->sum('duration') / 60,
+                'projects' => $this->showAllProjects ? 
+                    $timeEntries->get($dateKey, collect())->unique('project_id')->pluck('project') : 
+                    ($this->project ? collect([$this->project]) : collect()),
             ];
             
             $current->addDay();
@@ -109,29 +139,68 @@ class ProjectTimeline extends Component
     {
         $milestones = [];
         
-        if ($this->project->start_date) {
-            $milestones[] = [
-                'date' => $this->project->start_date,
-                'title' => 'Project Start',
-                'type' => 'start',
-                'icon' => 'play'
-            ];
-        }
-        
-        if ($this->project->end_date) {
-            $milestones[] = [
-                'date' => $this->project->end_date,
-                'title' => 'Project Due',
-                'type' => 'due',
-                'icon' => 'flag'
-            ];
-        }
-
-        // Add task milestones (high priority or urgent tasks)
-        $importantTasks = $this->project->tasks()
+        if ($this->showAllProjects) {
+            // Get milestones from all active projects
+            $projects = Project::where('status', '!=', 'archived')->get();
+            
+            foreach ($projects as $project) {
+                if ($project->start_date) {
+                    $milestones[] = [
+                        'date' => $project->start_date,
+                        'title' => $project->name . ' - Start',
+                        'type' => 'start',
+                        'icon' => 'play',
+                        'project' => $project->name,
+                        'client' => $project->client->name
+                    ];
+                }
+                
+                if ($project->end_date) {
+                    $milestones[] = [
+                        'date' => $project->end_date,
+                        'title' => $project->name . ' - Due',
+                        'type' => 'due',
+                        'icon' => 'flag',
+                        'project' => $project->name,
+                        'client' => $project->client->name
+                    ];
+                }
+            }
+            
+            // Add task milestones from all projects
+            $importantTasks = Task::whereHas('project', function ($query) {
+                $query->where('status', '!=', 'archived');
+            })
             ->whereIn('priority', ['high', 'urgent'])
             ->whereNotNull('due_date')
+            ->with(['project.client'])
             ->get();
+        } else {
+            // Single project milestones
+            if ($this->project->start_date) {
+                $milestones[] = [
+                    'date' => $this->project->start_date,
+                    'title' => 'Project Start',
+                    'type' => 'start',
+                    'icon' => 'play'
+                ];
+            }
+            
+            if ($this->project->end_date) {
+                $milestones[] = [
+                    'date' => $this->project->end_date,
+                    'title' => 'Project Due',
+                    'type' => 'due',
+                    'icon' => 'flag'
+                ];
+            }
+
+            // Add task milestones (high priority or urgent tasks)
+            $importantTasks = $this->project->tasks()
+                ->whereIn('priority', ['high', 'urgent'])
+                ->whereNotNull('due_date')
+                ->get();
+        }
 
         foreach ($importantTasks as $task) {
             $milestones[] = [
@@ -140,7 +209,9 @@ class ProjectTimeline extends Component
                 'type' => 'task',
                 'icon' => 'exclamation',
                 'priority' => $task->priority,
-                'status' => $task->status
+                'status' => $task->status,
+                'project' => $this->showAllProjects ? $task->project->name : null,
+                'client' => $this->showAllProjects ? $task->project->client->name : null
             ];
         }
 

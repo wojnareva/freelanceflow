@@ -11,12 +11,16 @@ class Project extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'user_id',
         'client_id',
         'name',
         'description',
         'status',
         'budget',
         'hourly_rate',
+        'start_date',
+        'end_date',
+        'estimated_hours',
         'deadline',
         'started_at',
         'completed_at',
@@ -26,6 +30,9 @@ class Project extends Model
     protected $casts = [
         'budget' => 'decimal:2',
         'hourly_rate' => 'decimal:2',
+        'estimated_hours' => 'decimal:2',
+        'start_date' => 'date',
+        'end_date' => 'date',
         'deadline' => 'date',
         'started_at' => 'date',
         'completed_at' => 'date',
@@ -68,5 +75,18 @@ class Project extends Model
         
         $completedTasks = $this->tasks()->where('status', 'completed')->count();
         return ($completedTasks / $totalTasks) * 100;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($project) {
+            // Delete related records before deleting the project
+            $project->timeEntries()->delete();
+            $project->tasks()->delete();
+            $project->expenses()->delete();
+            // Note: We don't delete invoices as they may need to be preserved for accounting
+        });
     }
 }

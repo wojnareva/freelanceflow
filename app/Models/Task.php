@@ -55,4 +55,14 @@ class Task extends Model
         $this->actual_hours = $this->timeEntries->sum(fn($entry) => $entry->duration / 60);
         $this->save();
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($task) {
+            // Delete related time entries when deleting a task
+            $task->timeEntries()->delete();
+        });
+    }
 }

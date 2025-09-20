@@ -5,12 +5,16 @@
                 {{ __('Projects') }}
             </h2>
             <div class="flex space-x-2">
+                <a href="{{ route('projects.timeline-all') }}" 
+                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                    📅 All Projects Timeline
+                </a>
                 <a href="{{ route('projects.kanban', ['project' => 1]) }}" 
                    class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
                     Sample Kanban
                 </a>
                 <a href="{{ route('projects.timeline', ['project' => 1]) }}" 
-                   class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                   class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
                     Sample Timeline
                 </a>
             </div>

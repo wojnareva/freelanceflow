@@ -34,12 +34,10 @@
             </main>
         </div>
         
-        <!-- Floating Timer (disabled for now - use main Time Tracking page) -->
-        {{-- 
+        <!-- Floating Timer -->
         @auth
             <livewire:time-tracking.floating-timer />
         @endauth
-        --}}
         
         @livewireScripts
     </body>

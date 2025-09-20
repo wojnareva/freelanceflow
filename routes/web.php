@@ -34,6 +34,10 @@ Route::middleware('auth')->group(function () {
         return view('projects.index');
     })->name('projects.index');
     
+    Route::get('/projects/timeline', function () {
+        return view('projects.timeline-all');
+    })->name('projects.timeline-all');
+    
     Route::get('/projects/{project}', function (App\Models\Project $project) {
         return view('projects.show', compact('project'));
     })->name('projects.show');
