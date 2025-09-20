@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class InvoiceItem extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'invoice_id',
         'type',

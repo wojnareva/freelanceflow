@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Invoice extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'invoice_number',
         'client_id',
@@ -73,8 +74,8 @@ class Invoice extends Model
         parent::boot();
 
         static::creating(function ($invoice) {
-            if (!$invoice->invoice_number) {
-                $invoice->invoice_number = 'INV-' . date('Y') . '-' . str_pad(static::count() + 1, 4, '0', STR_PAD_LEFT);
+            if (! $invoice->invoice_number) {
+                $invoice->invoice_number = 'INV-'.date('Y').'-'.str_pad(static::count() + 1, 4, '0', STR_PAD_LEFT);
             }
         });
     }

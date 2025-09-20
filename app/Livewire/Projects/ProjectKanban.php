@@ -2,22 +2,29 @@
 
 namespace App\Livewire\Projects;
 
-use Livewire\Component;
 use App\Models\Project;
 use App\Models\Task;
+use Livewire\Component;
 
 class ProjectKanban extends Component
 {
     public Project $project;
+
     public $showTaskModal = false;
+
     public $editingTask = null;
-    
+
     // Task form properties
     public $taskTitle = '';
+
     public $taskDescription = '';
+
     public $taskStatus = 'todo';
+
     public $taskPriority = 'medium';
+
     public $taskDueDate = '';
+
     public $taskEstimatedHours = '';
 
     protected $rules = [

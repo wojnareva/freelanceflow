@@ -2,38 +2,51 @@
 
 namespace App\Livewire\Invoicing;
 
-use Livewire\Component;
+use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
-use App\Models\TimeEntry;
-use App\Models\Client;
 use App\Models\Project;
+use App\Models\TimeEntry;
 use Carbon\Carbon;
+use Livewire\Component;
 
 class InvoiceBuilder extends Component
 {
     public $step = 1; // 1: Select Time Entries, 2: Invoice Details, 3: Review
-    
+
     // Step 1: Time Entry Selection
     public $selectedClient = '';
+
     public $selectedProject = '';
+
     public $dateFrom = '';
+
     public $dateTo = '';
+
     public $selectedTimeEntries = [];
+
     public $availableTimeEntries = [];
 
     // Step 2: Invoice Details
     public $invoiceNumber = '';
+
     public $issueDate = '';
+
     public $dueDate = '';
+
     public $taxRate = '0';
+
     public $currency = 'USD';
+
     public $notes = '';
+
     public $clientDetails = '';
 
     // Calculated totals
     public $subtotal = 0;
+
     public $taxAmount = 0;
+
     public $total = 0;
 
     protected $rules = [
@@ -54,7 +67,7 @@ class InvoiceBuilder extends Component
         $this->dateFrom = Carbon::now()->startOfMonth()->format('Y-m-d');
         $this->dateTo = Carbon::now()->endOfMonth()->format('Y-m-d');
         $this->invoiceNumber = $this->generateInvoiceNumber();
-        
+
         $this->loadTimeEntries();
     }
 
@@ -97,11 +110,11 @@ class InvoiceBuilder extends Component
         }
 
         $this->availableTimeEntries = $query->orderBy('date', 'desc')->get();
-        
+
         // Clear selected entries if they're no longer available
         $availableIds = $this->availableTimeEntries->pluck('id')->toArray();
         $this->selectedTimeEntries = array_intersect($this->selectedTimeEntries, $availableIds);
-        
+
         $this->calculateTotals();
     }
 
@@ -112,7 +125,7 @@ class InvoiceBuilder extends Component
         } else {
             $this->selectedTimeEntries[] = $timeEntryId;
         }
-        
+
         $this->calculateTotals();
     }
 
@@ -131,11 +144,11 @@ class InvoiceBuilder extends Component
     public function calculateTotals()
     {
         $selectedEntries = $this->availableTimeEntries->whereIn('id', $this->selectedTimeEntries);
-        
+
         $this->subtotal = $selectedEntries->sum(function ($entry) {
             return ($entry->duration / 60) * $entry->hourly_rate;
         });
-        
+
         $this->taxAmount = $this->subtotal * ($this->taxRate / 100);
         $this->total = $this->subtotal + $this->taxAmount;
     }
@@ -149,22 +162,22 @@ class InvoiceBuilder extends Component
     {
         if ($this->step === 1) {
             $this->validate(['selectedTimeEntries' => 'required|array|min:1']);
-            
+
             // Auto-fill client details if we have selected entries
-            if (!empty($this->selectedTimeEntries)) {
+            if (! empty($this->selectedTimeEntries)) {
                 $firstEntry = $this->availableTimeEntries->firstWhere('id', $this->selectedTimeEntries[0]);
                 if ($firstEntry && $firstEntry->project && $firstEntry->project->client) {
                     $client = $firstEntry->project->client;
-                    $this->clientDetails = $client->name . "\n" . 
-                                         ($client->email ? $client->email . "\n" : '') .
-                                         ($client->phone ? $client->phone . "\n" : '') .
+                    $this->clientDetails = $client->name."\n".
+                                         ($client->email ? $client->email."\n" : '').
+                                         ($client->phone ? $client->phone."\n" : '').
                                          ($client->address ? $client->address : '');
                 }
             }
         } elseif ($this->step === 2) {
             $this->validate();
         }
-        
+
         $this->step++;
     }
 
@@ -176,14 +189,15 @@ class InvoiceBuilder extends Component
     public function createInvoice()
     {
         $this->validate();
-        
+
         if (empty($this->selectedTimeEntries)) {
             session()->flash('error', 'Please select at least one time entry.');
+
             return;
         }
 
         $selectedEntries = TimeEntry::whereIn('id', $this->selectedTimeEntries)->get();
-        
+
         // Group by project to get the primary project and client
         $primaryProject = $selectedEntries->first()->project;
         $client = $primaryProject->client;
@@ -215,12 +229,13 @@ class InvoiceBuilder extends Component
                 'rate' => $entry->hourly_rate,
                 'amount' => ($entry->duration / 60) * $entry->hourly_rate,
             ]);
-            
+
             // Link the time entry to this invoice item
             $entry->update(['invoice_item_id' => $invoiceItem->id]);
         }
 
         session()->flash('success', 'Invoice created successfully!');
+
         return redirect()->route('invoices.show', $invoice);
     }
 
@@ -234,24 +249,25 @@ class InvoiceBuilder extends Component
         if ($this->selectedClient) {
             return Project::where('client_id', $this->selectedClient)->orderBy('name')->get();
         }
+
         return collect();
     }
 
     private function generateInvoiceNumber()
     {
-        $prefix = 'INV-' . Carbon::now()->format('Y') . '-';
-        $lastInvoice = Invoice::where('invoice_number', 'like', $prefix . '%')
-                             ->orderBy('invoice_number', 'desc')
-                             ->first();
-        
+        $prefix = 'INV-'.Carbon::now()->format('Y').'-';
+        $lastInvoice = Invoice::where('invoice_number', 'like', $prefix.'%')
+            ->orderBy('invoice_number', 'desc')
+            ->first();
+
         if ($lastInvoice) {
             $lastNumber = (int) substr($lastInvoice->invoice_number, strlen($prefix));
             $nextNumber = $lastNumber + 1;
         } else {
             $nextNumber = 1;
         }
-        
-        return $prefix . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
+
+        return $prefix.str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     }
 
     public function render()

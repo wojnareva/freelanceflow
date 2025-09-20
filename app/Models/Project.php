@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Project extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'user_id',
         'client_id',
@@ -70,15 +71,18 @@ class Project extends Model
 
     public function getTotalHoursAttribute(): float
     {
-        return $this->timeEntries->sum(fn($entry) => $entry->duration / 60);
+        return $this->timeEntries->sum(fn ($entry) => $entry->duration / 60);
     }
 
     public function getProgressAttribute(): float
     {
         $totalTasks = $this->tasks()->count();
-        if ($totalTasks === 0) return 0;
-        
+        if ($totalTasks === 0) {
+            return 0;
+        }
+
         $completedTasks = $this->tasks()->where('status', 'completed')->count();
+
         return ($completedTasks / $totalTasks) * 100;
     }
 

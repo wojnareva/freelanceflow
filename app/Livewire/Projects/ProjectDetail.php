@@ -2,23 +2,29 @@
 
 namespace App\Livewire\Projects;
 
-use Livewire\Component;
 use App\Models\Project;
 use App\Models\Task;
-use App\Models\TimeEntry;
+use Livewire\Component;
 
 class ProjectDetail extends Component
 {
     public Project $project;
+
     public $showTaskModal = false;
+
     public $editingTask = null;
-    
+
     // Task form properties
     public $taskTitle = '';
+
     public $taskDescription = '';
+
     public $taskStatus = 'todo';
+
     public $taskPriority = 'medium';
+
     public $taskDueDate = '';
+
     public $taskEstimatedHours = '';
 
     protected $rules = [
@@ -27,7 +33,7 @@ class ProjectDetail extends Component
         'taskStatus' => 'required|in:todo,in_progress,completed,blocked',
         'taskPriority' => 'required|in:low,medium,high,urgent',
         'taskDueDate' => 'nullable|date',
-        'taskEstimatedHours' => 'nullable|numeric|min:0',
+        'taskEstimatedHours' => 'nullable|numeric|min:0|max:999.99',
     ];
 
     public function mount(Project $project)
@@ -59,10 +65,10 @@ class ProjectDetail extends Component
 
         $data = [
             'title' => $this->taskTitle,
-            'description' => $this->taskDescription,
+            'description' => $this->taskDescription ?: null,
             'status' => $this->taskStatus,
             'priority' => $this->taskPriority,
-            'due_date' => $this->taskDueDate,
+            'due_date' => $this->taskDueDate ?: null,
             'estimated_hours' => $this->taskEstimatedHours,
         ];
 
@@ -116,7 +122,7 @@ class ProjectDetail extends Component
             'completed_tasks' => $this->project->tasks()->where('status', 'completed')->count(),
             'total_time' => $this->project->timeEntries()->sum('duration'),
             'total_earnings' => $this->project->timeEntries()->selectRaw('SUM(duration * hourly_rate / 60) as total')->value('total') ?? 0,
-            'progress' => $this->project->tasks()->count() > 0 
+            'progress' => $this->project->tasks()->count() > 0
                 ? round(($this->project->tasks()->where('status', 'completed')->count() / $this->project->tasks()->count()) * 100)
                 : 0,
         ];
@@ -144,15 +150,17 @@ class ProjectDetail extends Component
 
     private function formatDuration($minutes)
     {
-        if (!$minutes) return '0h';
-        
+        if (! $minutes) {
+            return '0h';
+        }
+
         $hours = floor($minutes / 60);
         $mins = $minutes % 60;
-        
+
         if ($hours > 0) {
             return $mins > 0 ? "{$hours}h {$mins}m" : "{$hours}h";
         }
-        
+
         return "{$mins}m";
     }
 

@@ -2,19 +2,23 @@
 
 namespace App\Livewire\Invoicing;
 
+use App\Models\Client;
+use App\Models\Invoice;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Invoice;
-use App\Models\Client;
 
 class InvoicesList extends Component
 {
     use WithPagination;
 
     public $search = '';
+
     public $statusFilter = '';
+
     public $clientFilter = '';
+
     public $sortBy = 'created_at';
+
     public $sortDirection = 'desc';
 
     protected $queryString = [
@@ -62,7 +66,7 @@ class InvoicesList extends Component
     {
         $invoice = Invoice::findOrFail($invoiceId);
         $invoice->update(['status' => $status]);
-        
+
         if ($status === 'paid') {
             $invoice->update(['paid_at' => now()]);
         } else {
@@ -76,7 +80,7 @@ class InvoicesList extends Component
     {
         $invoice = Invoice::findOrFail($invoiceId);
         $invoice->delete();
-        
+
         session()->flash('success', 'Invoice deleted successfully!');
     }
 
@@ -85,10 +89,10 @@ class InvoicesList extends Component
         $query = Invoice::with(['client', 'project'])
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->where('invoice_number', 'like', '%' . $this->search . '%')
-                      ->orWhereHas('client', function ($clientQuery) {
-                          $clientQuery->where('name', 'like', '%' . $this->search . '%');
-                      });
+                    $q->where('invoice_number', 'like', '%'.$this->search.'%')
+                        ->orWhereHas('client', function ($clientQuery) {
+                            $clientQuery->where('name', 'like', '%'.$this->search.'%');
+                        });
                 });
             })
             ->when($this->statusFilter, function ($query) {
@@ -113,8 +117,8 @@ class InvoicesList extends Component
         $totalRevenue = Invoice::where('status', 'paid')->sum('total');
         $pendingInvoices = Invoice::where('status', 'sent')->count();
         $overdueInvoices = Invoice::where('status', '!=', 'paid')
-                                 ->where('due_date', '<', now())
-                                 ->count();
+            ->where('due_date', '<', now())
+            ->count();
 
         return [
             'total_invoices' => $totalInvoices,

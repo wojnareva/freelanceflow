@@ -16,11 +16,11 @@ class DarkModeToggle extends Component
 
     public function toggleDarkMode()
     {
-        $this->darkMode = !$this->darkMode;
-        
+        $this->darkMode = ! $this->darkMode;
+
         // Set cookie to remember preference
         cookie()->queue('dark-mode', $this->darkMode ? 'true' : 'false', 60 * 24 * 365); // 1 year
-        
+
         $this->dispatch('dark-mode-toggled', darkMode: $this->darkMode);
     }
 

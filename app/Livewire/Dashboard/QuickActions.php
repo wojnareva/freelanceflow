@@ -2,13 +2,14 @@
 
 namespace App\Livewire\Dashboard;
 
-use Livewire\Component;
-use App\Models\Project;
 use App\Models\Client;
+use App\Models\Project;
+use Livewire\Component;
 
 class QuickActions extends Component
 {
     public $recentProjects;
+
     public $recentClients;
 
     public function mount()
@@ -39,6 +40,7 @@ class QuickActions extends Component
     {
         // This will redirect to invoice creation page
         $query = $projectId ? ['project' => $projectId] : [];
+
         return redirect()->route('invoices.create', $query);
     }
 

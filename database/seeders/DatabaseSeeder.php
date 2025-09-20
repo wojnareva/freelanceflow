@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
 
         // Create projects for each client
         $projects = collect();
-        $clients->each(function ($client) use (&$projects, $user) {
+        $clients->each(function ($client) use (&$projects) {
             $clientProjects = \App\Models\Project::factory(rand(1, 3))->create([
                 'client_id' => $client->id,
             ]);
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
         $timeEntries = collect();
         $projects->each(function ($project) use (&$timeEntries, $user, $tasks) {
             $projectTasks = $tasks->where('project_id', $project->id);
-            
+
             for ($i = 0; $i < rand(5, 15); $i++) {
                 $task = $projectTasks->random();
                 $timeEntry = \App\Models\TimeEntry::factory()->create([
@@ -102,7 +102,7 @@ class DatabaseSeeder extends Seeder
         });
 
         $this->command->info('FreelanceFlow demo data created successfully! 🎉');
-        $this->command->info("Login with: john@freelanceflow.app (password: password)");
+        $this->command->info('Login with: john@freelanceflow.app (password: password)');
         $this->command->info("Created: {$clients->count()} clients, {$projects->count()} projects, {$tasks->count()} tasks");
         $this->command->info("Created: {$timeEntries->count()} time entries, {$invoices->count()} invoices");
     }

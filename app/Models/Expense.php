@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Expense extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'project_id',
         'title',

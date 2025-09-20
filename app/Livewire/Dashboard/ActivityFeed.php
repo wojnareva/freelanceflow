@@ -2,17 +2,16 @@
 
 namespace App\Livewire\Dashboard;
 
-use Livewire\Component;
-use App\Models\TimeEntry;
 use App\Models\Invoice;
 use App\Models\Project;
 use App\Models\Task;
-use Carbon\Carbon;
-use Illuminate\Support\Collection;
+use App\Models\TimeEntry;
+use Livewire\Component;
 
 class ActivityFeed extends Component
 {
     public $activities;
+
     public $limit = 10;
 
     public function mount()
@@ -39,7 +38,7 @@ class ActivityFeed extends Component
                     'details' => [
                         'project' => $entry->project->name,
                         'duration' => $this->formatDuration($entry->duration),
-                        'amount' => '$' . number_format($entry->amount, 2)
+                        'amount' => '$'.number_format($entry->amount, 2),
                     ],
                     'created_at' => $entry->created_at,
                 ];
@@ -55,12 +54,12 @@ class ActivityFeed extends Component
                     'type' => 'invoice',
                     'icon' => 'document-text',
                     'color' => $invoice->status === 'paid' ? 'green' : 'yellow',
-                    'title' => 'Invoice ' . strtolower($invoice->status),
-                    'description' => 'Invoice #' . $invoice->invoice_number,
+                    'title' => 'Invoice '.strtolower($invoice->status),
+                    'description' => 'Invoice #'.$invoice->invoice_number,
                     'details' => [
                         'client' => $invoice->client->name,
-                        'amount' => '$' . number_format($invoice->total, 2),
-                        'status' => ucfirst($invoice->status)
+                        'amount' => '$'.number_format($invoice->total, 2),
+                        'status' => ucfirst($invoice->status),
                     ],
                     'created_at' => $invoice->created_at,
                 ];
@@ -81,7 +80,7 @@ class ActivityFeed extends Component
                     'details' => [
                         'client' => $project->client->name,
                         'status' => ucfirst($project->status),
-                        'budget' => $project->budget && is_numeric($project->budget) ? '$' . number_format($project->budget, 2) : 'No budget set'
+                        'budget' => $project->budget && is_numeric($project->budget) ? '$'.number_format($project->budget, 2) : 'No budget set',
                     ],
                     'created_at' => $project->created_at,
                 ];
@@ -97,12 +96,12 @@ class ActivityFeed extends Component
                     'type' => 'task',
                     'icon' => 'check-circle',
                     'color' => $task->status === 'completed' ? 'green' : 'gray',
-                    'title' => 'Task ' . strtolower($task->status),
+                    'title' => 'Task '.strtolower($task->status),
                     'description' => $task->title,
                     'details' => [
                         'project' => $task->project->name,
                         'priority' => ucfirst($task->priority),
-                        'status' => ucfirst($task->status)
+                        'status' => ucfirst($task->status),
                     ],
                     'created_at' => $task->updated_at,
                 ];
@@ -123,11 +122,11 @@ class ActivityFeed extends Component
     {
         $hours = floor($minutes / 60);
         $mins = $minutes % 60;
-        
+
         if ($hours > 0) {
             return $mins > 0 ? "{$hours}h {$mins}m" : "{$hours}h";
         }
-        
+
         return "{$mins}m";
     }
 

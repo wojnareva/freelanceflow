@@ -19,7 +19,7 @@ class InvoiceItemFactory extends Factory
         $quantity = fake()->randomFloat(2, 1, 100);
         $rate = fake()->randomFloat(2, 50, 200);
         $amount = $quantity * $rate;
-        
+
         return [
             'invoice_id' => \App\Models\Invoice::factory(),
             'type' => fake()->randomElement(['time', 'fixed', 'expense']),

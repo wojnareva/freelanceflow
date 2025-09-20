@@ -12,7 +12,7 @@ enum ProjectStatus: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Draft => 'Draft',
             self::Active => 'Active',
             self::OnHold => 'On Hold',
@@ -23,7 +23,7 @@ enum ProjectStatus: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Draft => 'gray',
             self::Active => 'green',
             self::OnHold => 'yellow',

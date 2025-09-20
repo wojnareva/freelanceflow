@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class TimeEntry extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'user_id',
         'project_id',
@@ -68,6 +69,7 @@ class TimeEntry extends Model
     {
         $hours = intval($this->duration / 60);
         $minutes = $this->duration % 60;
+
         return sprintf('%dh %02dm', $hours, $minutes);
     }
 }

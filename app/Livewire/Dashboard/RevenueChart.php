@@ -2,16 +2,18 @@
 
 namespace App\Livewire\Dashboard;
 
-use Livewire\Component;
 use App\Models\Invoice;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
+use Livewire\Component;
 
 class RevenueChart extends Component
 {
     public $chartData;
+
     public $totalRevenue;
+
     public $previousPeriodRevenue;
+
     public $growthPercentage;
 
     public function mount()
@@ -23,17 +25,17 @@ class RevenueChart extends Component
     {
         $months = collect();
         $revenueData = collect();
-        
+
         // Get last 6 months of revenue data
         for ($i = 5; $i >= 0; $i--) {
             $month = Carbon::now()->subMonths($i);
             $monthName = $month->format('M Y');
-            
+
             $revenue = Invoice::where('status', 'paid')
                 ->whereYear('paid_at', $month->year)
                 ->whereMonth('paid_at', $month->month)
                 ->sum('total');
-            
+
             $months->push($monthName);
             $revenueData->push($revenue);
         }
@@ -45,7 +47,7 @@ class RevenueChart extends Component
 
         // Calculate metrics
         $this->totalRevenue = $revenueData->sum();
-        
+
         // Previous 6 months for comparison
         $previousPeriodRevenue = 0;
         for ($i = 11; $i >= 6; $i--) {
@@ -55,9 +57,9 @@ class RevenueChart extends Component
                 ->whereMonth('paid_at', $month->month)
                 ->sum('total');
         }
-        
+
         $this->previousPeriodRevenue = $previousPeriodRevenue;
-        
+
         if ($previousPeriodRevenue > 0) {
             $this->growthPercentage = (($this->totalRevenue - $previousPeriodRevenue) / $previousPeriodRevenue) * 100;
         } else {

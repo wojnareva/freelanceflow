@@ -2,33 +2,46 @@
 
 namespace App\Livewire\Projects;
 
+use App\Models\Client;
+use App\Models\Project;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Project;
-use App\Models\Client;
-use App\Models\User;
 
 class ProjectsList extends Component
 {
     use WithPagination;
 
     public $search = '';
+
     public $statusFilter = '';
+
     public $clientFilter = '';
+
     public $sortBy = 'created_at';
+
     public $sortDirection = 'desc';
-    
+
     // Create/Edit Project Modal
     public $showModal = false;
+
     public $editingProject = null;
+
     public $name = '';
+
     public $description = '';
+
     public $clientId = '';
+
     public $status = 'active';
+
     public $startDate = '';
+
     public $endDate = '';
+
     public $budget = '';
+
     public $hourlyRate = '';
+
     public $estimatedHours = '';
 
     protected $rules = [
@@ -145,11 +158,11 @@ class ProjectsList extends Component
             ->withSum('timeEntries', 'duration')
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
-                    $q->where('name', 'like', '%' . $this->search . '%')
-                      ->orWhere('description', 'like', '%' . $this->search . '%')
-                      ->orWhereHas('client', function ($clientQuery) {
-                          $clientQuery->where('name', 'like', '%' . $this->search . '%');
-                      });
+                    $q->where('name', 'like', '%'.$this->search.'%')
+                        ->orWhere('description', 'like', '%'.$this->search.'%')
+                        ->orWhereHas('client', function ($clientQuery) {
+                            $clientQuery->where('name', 'like', '%'.$this->search.'%');
+                        });
                 });
             })
             ->when($this->statusFilter, function ($query) {
@@ -170,17 +183,17 @@ class ProjectsList extends Component
     public function getStatsProperty()
     {
         $baseQuery = Project::query();
-        
+
         if ($this->search) {
             $baseQuery->where(function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhere('description', 'like', '%' . $this->search . '%')
-                  ->orWhereHas('client', function ($clientQuery) {
-                      $clientQuery->where('name', 'like', '%' . $this->search . '%');
-                  });
+                $q->where('name', 'like', '%'.$this->search.'%')
+                    ->orWhere('description', 'like', '%'.$this->search.'%')
+                    ->orWhereHas('client', function ($clientQuery) {
+                        $clientQuery->where('name', 'like', '%'.$this->search.'%');
+                    });
             });
         }
-        
+
         if ($this->clientFilter) {
             $baseQuery->where('client_id', $this->clientFilter);
         }
@@ -197,15 +210,17 @@ class ProjectsList extends Component
 
     private function formatDuration($minutes)
     {
-        if (!$minutes) return '0h';
-        
+        if (! $minutes) {
+            return '0h';
+        }
+
         $hours = floor($minutes / 60);
         $mins = $minutes % 60;
-        
+
         if ($hours > 0) {
             return $mins > 0 ? "{$hours}h {$mins}m" : "{$hours}h";
         }
-        
+
         return "{$mins}m";
     }
 

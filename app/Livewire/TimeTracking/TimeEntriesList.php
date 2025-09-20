@@ -2,28 +2,36 @@
 
 namespace App\Livewire\TimeTracking;
 
+use App\Models\Project;
+use App\Models\TimeEntry;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\TimeEntry;
-use App\Models\Project;
-use Carbon\Carbon;
 
 class TimeEntriesList extends Component
 {
     use WithPagination;
 
     public $search = '';
+
     public $projectFilter = '';
+
     public $dateFrom = '';
+
     public $dateTo = '';
+
     public $showOnlyBillable = false;
+
     public $showEditModal = false;
+
     public $editingEntry = null;
 
     // Edit form properties
     public $editDescription = '';
+
     public $editDuration = '';
+
     public $editDate = '';
+
     public $editBillable = true;
 
     protected $rules = [
@@ -92,7 +100,7 @@ class TimeEntriesList extends Component
         return TimeEntry::with(['project.client', 'task'])
             ->where('user_id', auth()->id())
             ->when($this->search, function ($query) {
-                $query->where('description', 'like', '%' . $this->search . '%');
+                $query->where('description', 'like', '%'.$this->search.'%');
             })
             ->when($this->projectFilter, function ($query) {
                 $query->where('project_id', $this->projectFilter);
@@ -123,7 +131,7 @@ class TimeEntriesList extends Component
     {
         return TimeEntry::where('user_id', auth()->id())
             ->when($this->search, function ($query) {
-                $query->where('description', 'like', '%' . $this->search . '%');
+                $query->where('description', 'like', '%'.$this->search.'%');
             })
             ->when($this->projectFilter, function ($query) {
                 $query->where('project_id', $this->projectFilter);
@@ -144,7 +152,7 @@ class TimeEntriesList extends Component
     {
         return TimeEntry::where('user_id', auth()->id())
             ->when($this->search, function ($query) {
-                $query->where('description', 'like', '%' . $this->search . '%');
+                $query->where('description', 'like', '%'.$this->search.'%');
             })
             ->when($this->projectFilter, function ($query) {
                 $query->where('project_id', $this->projectFilter);
@@ -166,11 +174,11 @@ class TimeEntriesList extends Component
     {
         $hours = floor($minutes / 60);
         $mins = $minutes % 60;
-        
+
         if ($hours > 0) {
             return $mins > 0 ? "{$hours}h {$mins}m" : "{$hours}h";
         }
-        
+
         return "{$mins}m";
     }
 

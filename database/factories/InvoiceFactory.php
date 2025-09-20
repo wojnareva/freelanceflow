@@ -20,7 +20,7 @@ class InvoiceFactory extends Factory
         $taxRate = fake()->randomFloat(2, 0, 25);
         $taxAmount = $subtotal * ($taxRate / 100);
         $total = $subtotal + $taxAmount;
-        
+
         return [
             'client_id' => \App\Models\Client::factory(),
             'project_id' => \App\Models\Project::factory(),

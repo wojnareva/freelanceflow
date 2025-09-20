@@ -2,20 +2,25 @@
 
 namespace App\Livewire\Dashboard;
 
-use Livewire\Component;
+use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\Project;
 use App\Models\TimeEntry;
-use App\Models\Client;
 use Carbon\Carbon;
+use Livewire\Component;
 
 class StatsOverview extends Component
 {
     public $monthlyRevenue;
+
     public $unpaidInvoices;
+
     public $activeProjects;
+
     public $hoursThisWeek;
+
     public $totalClients;
+
     public $overdueInvoices;
 
     public function mount()
@@ -42,7 +47,7 @@ class StatsOverview extends Component
 
         $this->hoursThisWeek = TimeEntry::whereBetween('date', [
             Carbon::now()->startOfWeek(),
-            Carbon::now()->endOfWeek()
+            Carbon::now()->endOfWeek(),
         ])->sum('duration') / 60;
     }
 

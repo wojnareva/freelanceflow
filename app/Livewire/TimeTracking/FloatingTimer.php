@@ -2,22 +2,30 @@
 
 namespace App\Livewire\TimeTracking;
 
-use Livewire\Component;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\TimeEntry;
 use Carbon\Carbon;
+use Livewire\Component;
 
 class FloatingTimer extends Component
 {
     public $isRunning = false;
+
     public $startTime = null;
+
     public $elapsedTime = 0;
+
     public $selectedProjectId = null;
+
     public $selectedTaskId = null;
+
     public $description = '';
+
     public $projects = [];
+
     public $tasks = [];
+
     public $isMinimized = false;
 
     protected $rules = [
@@ -83,7 +91,7 @@ class FloatingTimer extends Component
         }
 
         $project = Project::find($this->selectedProjectId);
-        
+
         $this->startTime = now();
         $this->isRunning = true;
         $this->elapsedTime = 0;
@@ -103,12 +111,12 @@ class FloatingTimer extends Component
         ]);
 
         $this->dispatch('timer-started');
-        session()->flash('success', 'Timer started for ' . $project->name);
+        session()->flash('success', 'Timer started for '.$project->name);
     }
 
     public function stopTimer()
     {
-        if (!$this->isRunning) {
+        if (! $this->isRunning) {
             return;
         }
 
@@ -135,12 +143,12 @@ class FloatingTimer extends Component
         $this->selectedTaskId = null;
 
         $this->dispatch('timer-stopped');
-        session()->flash('success', 'Time entry saved: ' . $this->formatDuration($duration));
+        session()->flash('success', 'Time entry saved: '.$this->formatDuration($duration));
     }
 
     public function toggleMinimize()
     {
-        $this->isMinimized = !$this->isMinimized;
+        $this->isMinimized = ! $this->isMinimized;
     }
 
     public function updateElapsedTime()
@@ -154,18 +162,18 @@ class FloatingTimer extends Component
     {
         $hours = floor($minutes / 60);
         $mins = $minutes % 60;
-        
+
         if ($hours > 0) {
             return $mins > 0 ? "{$hours}h {$mins}m" : "{$hours}h";
         }
-        
+
         return "{$mins}m";
     }
 
     public function render()
     {
         $this->updateElapsedTime();
-        
+
         return view('livewire.time-tracking.floating-timer');
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Task extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'project_id',
         'user_id',
@@ -29,6 +30,16 @@ class Task extends Model
         'due_date' => 'date',
         'sort_order' => 'integer',
     ];
+
+    public function setEstimatedHoursAttribute($value)
+    {
+        $this->attributes['estimated_hours'] = $value === '' || $value === null ? null : $value;
+    }
+
+    public function setActualHoursAttribute($value)
+    {
+        $this->attributes['actual_hours'] = $value === '' || $value === null ? 0 : $value;
+    }
 
     public function project(): BelongsTo
     {
@@ -52,7 +63,7 @@ class Task extends Model
 
     public function updateActualHours(): void
     {
-        $this->actual_hours = $this->timeEntries->sum(fn($entry) => $entry->duration / 60);
+        $this->actual_hours = $this->timeEntries->sum(fn ($entry) => $entry->duration / 60);
         $this->save();
     }
 
