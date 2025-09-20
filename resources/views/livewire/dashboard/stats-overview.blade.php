@@ -15,10 +15,10 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                            Monthly Revenue
+                            Monthly Revenue ({{ $userCurrency->value }})
                         </dt>
                         <dd class="text-lg font-semibold text-gray-900 dark:text-white">
-                            ${{ number_format($monthlyRevenue, 2) }}
+                            {{ $this->formattedMonthlyRevenue }}
                         </dd>
                     </dl>
                 </div>
@@ -93,7 +93,7 @@
                             Unpaid Invoices
                         </dt>
                         <dd class="text-lg font-semibold text-gray-900 dark:text-white">
-                            ${{ number_format($unpaidInvoices, 2) }}
+                            {{ $this->formattedUnpaidInvoices }}
                         </dd>
                     </dl>
                 </div>
@@ -143,7 +143,7 @@
                             Overdue Invoices
                         </dt>
                         <dd class="text-lg font-semibold text-gray-900 dark:text-white">
-                            ${{ number_format($overdueInvoices, 2) }}
+                            {{ $this->formattedOverdueInvoices }}
                         </dd>
                     </dl>
                 </div>

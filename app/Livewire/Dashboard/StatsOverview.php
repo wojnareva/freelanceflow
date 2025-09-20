@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\Project;
 use App\Models\TimeEntry;
+use App\Services\CurrencyService;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -30,21 +31,39 @@ class StatsOverview extends Component
 
     public function calculateStats()
     {
-        $this->monthlyRevenue = Invoice::where('status', 'paid')
+        $currencyService = app(CurrencyService::class);
+        $userCurrency = $currencyService->getUserCurrency();
+
+        // Calculate monthly revenue with currency conversion
+        $monthlyRevenue = 0;
+        $monthlyInvoices = Invoice::where('status', 'paid')
             ->whereMonth('paid_at', Carbon::now()->month)
             ->whereYear('paid_at', Carbon::now()->year)
-            ->sum('total');
+            ->get();
 
-        $this->unpaidInvoices = Invoice::whereIn('status', ['sent', 'overdue'])
-            ->sum('total');
+        foreach ($monthlyInvoices as $invoice) {
+            $monthlyRevenue += $currencyService->convert($invoice->total, $invoice->currency, $userCurrency);
+        }
+        $this->monthlyRevenue = $monthlyRevenue;
 
-        $this->overdueInvoices = Invoice::where('status', 'overdue')
-            ->sum('total');
+        // Calculate unpaid invoices with currency conversion
+        $unpaidTotal = 0;
+        $unpaidInvoices = Invoice::whereIn('status', ['sent', 'overdue'])->get();
+        foreach ($unpaidInvoices as $invoice) {
+            $unpaidTotal += $currencyService->convert($invoice->total, $invoice->currency, $userCurrency);
+        }
+        $this->unpaidInvoices = $unpaidTotal;
+
+        // Calculate overdue invoices with currency conversion
+        $overdueTotal = 0;
+        $overdueInvoices = Invoice::where('status', 'overdue')->get();
+        foreach ($overdueInvoices as $invoice) {
+            $overdueTotal += $currencyService->convert($invoice->total, $invoice->currency, $userCurrency);
+        }
+        $this->overdueInvoices = $overdueTotal;
 
         $this->activeProjects = Project::where('status', 'active')->count();
-
         $this->totalClients = Client::count();
-
         $this->hoursThisWeek = TimeEntry::whereBetween('date', [
             Carbon::now()->startOfWeek(),
             Carbon::now()->endOfWeek(),
@@ -56,8 +75,33 @@ class StatsOverview extends Component
         $this->calculateStats();
     }
 
+    public function getFormattedMonthlyRevenueProperty()
+    {
+        $currencyService = app(CurrencyService::class);
+
+        return $currencyService->format($this->monthlyRevenue, $currencyService->getUserCurrency());
+    }
+
+    public function getFormattedUnpaidInvoicesProperty()
+    {
+        $currencyService = app(CurrencyService::class);
+
+        return $currencyService->format($this->unpaidInvoices, $currencyService->getUserCurrency());
+    }
+
+    public function getFormattedOverdueInvoicesProperty()
+    {
+        $currencyService = app(CurrencyService::class);
+
+        return $currencyService->format($this->overdueInvoices, $currencyService->getUserCurrency());
+    }
+
     public function render()
     {
-        return view('livewire.dashboard.stats-overview');
+        $currencyService = app(CurrencyService::class);
+
+        return view('livewire.dashboard.stats-overview', [
+            'userCurrency' => $currencyService->getUserCurrency(),
+        ]);
     }
 }

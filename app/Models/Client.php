@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\Currency;
+use App\Services\CurrencyService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Client extends Model
@@ -11,6 +14,7 @@ class Client extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'name',
         'company',
         'email',
@@ -19,10 +23,12 @@ class Client extends Model
         'address',
         'currency',
         'hourly_rate',
+        'notes',
         'settings',
     ];
 
     protected $casts = [
+        'currency' => Currency::class,
         'settings' => 'array',
         'hourly_rate' => 'decimal:2',
     ];
@@ -40,5 +46,43 @@ class Client extends Model
     public function timeEntries(): HasMany
     {
         return $this->hasManyThrough(TimeEntry::class, Project::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getFormattedHourlyRateAttribute(): string
+    {
+        if (! $this->hourly_rate) {
+            return 'Not set';
+        }
+
+        return $this->currency->formatAmount($this->hourly_rate);
+    }
+
+    public function getTotalRevenueAttribute(): float
+    {
+        return $this->invoices()
+            ->where('status', 'paid')
+            ->sum('total');
+    }
+
+    public function getFormattedTotalRevenueAttribute(): string
+    {
+        return $this->currency->formatAmount($this->total_revenue);
+    }
+
+    public function getTotalHoursAttribute(): float
+    {
+        return $this->timeEntries()->sum('duration') / 60;
+    }
+
+    public function convertAmountToUserCurrency(float $amount): string
+    {
+        $currencyService = app(CurrencyService::class);
+
+        return $currencyService->convertAndFormat($amount, $this->currency);
     }
 }
