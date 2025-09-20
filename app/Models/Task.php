@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TaskStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,6 +26,7 @@ class Task extends Model
     ];
 
     protected $casts = [
+        'status' => TaskStatus::class,
         'estimated_hours' => 'decimal:2',
         'actual_hours' => 'decimal:2',
         'due_date' => 'date',

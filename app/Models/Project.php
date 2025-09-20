@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ProjectStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,6 +30,7 @@ class Project extends Model
     ];
 
     protected $casts = [
+        'status' => ProjectStatus::class,
         'budget' => 'decimal:2',
         'hourly_rate' => 'decimal:2',
         'estimated_hours' => 'decimal:2',
