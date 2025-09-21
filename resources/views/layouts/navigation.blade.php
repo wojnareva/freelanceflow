@@ -24,8 +24,11 @@
                     <x-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">
                         {{ __('Clients') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.*')">
+                    <x-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.*') && !request()->routeIs('invoice-templates.*')">
                         {{ __('Invoices') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('invoice-templates.index')" :active="request()->routeIs('invoice-templates.*')">
+                        {{ __('Recurring') }}
                     </x-nav-link>
                 </div>
             </div>

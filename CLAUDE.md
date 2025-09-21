@@ -136,7 +136,7 @@ freelanceflow/
   - [x] User scoping and proper relationships
 
 ### Phase 5: Advanced Features
-- [ ] Multi-currency support
+- [x] Multi-currency support
 - [ ] Recurring invoices
 - [ ] Expense tracking
 - [ ] Financial reports

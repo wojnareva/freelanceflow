@@ -18,6 +18,7 @@ class Invoice extends Model
         'invoice_number',
         'client_id',
         'project_id',
+        'invoice_template_id',
         'status',
         'issue_date',
         'due_date',
@@ -62,6 +63,11 @@ class Invoice extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function invoiceTemplate(): BelongsTo
+    {
+        return $this->belongsTo(InvoiceTemplate::class);
     }
 
     public function getIsOverdueAttribute(): bool
@@ -120,13 +126,18 @@ class Invoice extends Model
         ];
     }
 
+    public static function generateInvoiceNumber(): string
+    {
+        return 'INV-'.date('Y').'-'.str_pad(static::count() + 1, 4, '0', STR_PAD_LEFT);
+    }
+
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($invoice) {
             if (! $invoice->invoice_number) {
-                $invoice->invoice_number = 'INV-'.date('Y').'-'.str_pad(static::count() + 1, 4, '0', STR_PAD_LEFT);
+                $invoice->invoice_number = static::generateInvoiceNumber();
             }
         });
     }

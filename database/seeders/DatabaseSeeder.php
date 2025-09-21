@@ -101,9 +101,21 @@ class DatabaseSeeder extends Seeder
             ]);
         });
 
+        // Create invoice templates (recurring invoices)
+        $invoiceTemplates = collect();
+        $clients->random(4)->each(function ($client) use (&$invoiceTemplates, $user, $projects) {
+            $clientProjects = $projects->where('client_id', $client->id);
+            $template = \App\Models\InvoiceTemplate::factory()->create([
+                'user_id' => $user->id,
+                'client_id' => $client->id,
+                'project_id' => $clientProjects->isNotEmpty() ? $clientProjects->random()->id : null,
+            ]);
+            $invoiceTemplates->push($template);
+        });
+
         $this->command->info('FreelanceFlow demo data created successfully! 🎉');
         $this->command->info('Login with: john@freelanceflow.app (password: password)');
         $this->command->info("Created: {$clients->count()} clients, {$projects->count()} projects, {$tasks->count()} tasks");
-        $this->command->info("Created: {$timeEntries->count()} time entries, {$invoices->count()} invoices");
+        $this->command->info("Created: {$timeEntries->count()} time entries, {$invoices->count()} invoices, {$invoiceTemplates->count()} invoice templates");
     }
 }

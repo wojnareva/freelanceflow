@@ -82,6 +82,17 @@ Route::middleware('auth')->group(function () {
 
         return $pdf->download('invoice-'.$invoice->invoice_number.'.pdf');
     })->name('invoices.pdf');
+
+    // Invoice Templates (Recurring Invoices) Routes
+    Route::get('/invoice-templates', App\Livewire\InvoiceTemplates\Index::class)->name('invoice-templates.index');
+    
+    Route::get('/invoice-templates/create', function () {
+        return view('invoice-templates.create');
+    })->name('invoice-templates.create');
+
+    Route::get('/invoice-templates/{template}/edit', function (App\Models\InvoiceTemplate $template) {
+        return view('invoice-templates.edit', compact('template'));
+    })->name('invoice-templates.edit');
 });
 
 require __DIR__.'/auth.php';
