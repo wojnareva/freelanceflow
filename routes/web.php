@@ -93,6 +93,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/invoice-templates/{template}/edit', function (App\Models\InvoiceTemplate $template) {
         return view('invoice-templates.edit', compact('template'));
     })->name('invoice-templates.edit');
+
+    // Expenses Routes
+    Route::get('/expenses', App\Livewire\Expenses\Index::class)->name('expenses.index');
+    
+    Route::get('/expenses/create', function () {
+        return view('expenses.create');
+    })->name('expenses.create');
+
+    Route::get('/expenses/{expense}/edit', function (App\Models\Expense $expense) {
+        return view('expenses.edit', compact('expense'));
+    })->name('expenses.edit');
 });
 
 require __DIR__.'/auth.php';

@@ -30,6 +30,9 @@
                     <x-nav-link :href="route('invoice-templates.index')" :active="request()->routeIs('invoice-templates.*')">
                         {{ __('Recurring') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('expenses.index')" :active="request()->routeIs('expenses.*')">
+                        {{ __('Expenses') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -96,8 +99,14 @@
             <x-responsive-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">
                 {{ __('Clients') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.*')">
+            <x-responsive-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.*') && !request()->routeIs('invoice-templates.*')">
                 {{ __('Invoices') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('invoice-templates.index')" :active="request()->routeIs('invoice-templates.*')">
+                {{ __('Recurring') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('expenses.index')" :active="request()->routeIs('expenses.*')">
+                {{ __('Expenses') }}
             </x-responsive-nav-link>
         </div>
 

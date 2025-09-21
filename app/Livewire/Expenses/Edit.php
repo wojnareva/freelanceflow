@@ -1,0 +1,142 @@
+<?php
+
+namespace App\Livewire\Expenses;
+
+use App\Models\Expense;
+use App\Models\Project;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
+
+class Edit extends Component
+{
+    use WithFileUploads;
+
+    public Expense $expense;
+    public $title;
+    public $description;
+    public $amount;
+    public $currency;
+    public $category;
+    public $project_id;
+    public $billable;
+    public $expense_date;
+    public $receipt;
+    public $removeReceipt = false;
+
+    protected $rules = [
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string|max:1000',
+        'amount' => 'required|numeric|min:0.01',
+        'currency' => 'required|string|size:3',
+        'category' => 'required|string',
+        'project_id' => 'nullable|exists:projects,id',
+        'billable' => 'boolean',
+        'expense_date' => 'required|date',
+        'receipt' => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:10240',
+    ];
+
+    protected $messages = [
+        'title.required' => 'The expense title is required.',
+        'amount.required' => 'The amount is required.',
+        'amount.min' => 'The amount must be greater than 0.',
+        'currency.size' => 'Currency must be a 3-letter code.',
+        'category.required' => 'Please select a category.',
+        'expense_date.required' => 'The expense date is required.',
+        'receipt.mimes' => 'Receipt must be a JPEG, PNG, or PDF file.',
+        'receipt.max' => 'Receipt file size cannot exceed 10MB.',
+    ];
+
+    public function mount()
+    {
+        $this->title = $this->expense->title;
+        $this->description = $this->expense->description;
+        $this->amount = $this->expense->amount;
+        $this->currency = $this->expense->currency;
+        $this->category = $this->expense->category;
+        $this->project_id = $this->expense->project_id;
+        $this->billable = $this->expense->billable;
+        $this->expense_date = $this->expense->expense_date->format('Y-m-d');
+    }
+
+    public function save()
+    {
+        $this->validate();
+
+        $updateData = [
+            'title' => $this->title,
+            'description' => $this->description,
+            'amount' => $this->amount,
+            'currency' => $this->currency,
+            'category' => $this->category,
+            'project_id' => $this->project_id ?: null,
+            'billable' => $this->billable,
+            'expense_date' => $this->expense_date,
+        ];
+
+        // Handle receipt upload/removal
+        if ($this->receipt) {
+            // Delete old receipt if exists
+            if ($this->expense->receipt_path) {
+                Storage::disk('public')->delete($this->expense->receipt_path);
+            }
+            // Store new receipt
+            $updateData['receipt_path'] = $this->receipt->store('receipts', 'public');
+        } elseif ($this->removeReceipt && $this->expense->receipt_path) {
+            // Remove existing receipt
+            Storage::disk('public')->delete($this->expense->receipt_path);
+            $updateData['receipt_path'] = null;
+        }
+
+        $this->expense->update($updateData);
+
+        $this->dispatch('expense-updated', [
+            'expense' => $this->expense->title,
+            'amount' => $this->expense->formatted_amount
+        ]);
+
+        return redirect()->route('expenses.index');
+    }
+
+    public function markRemoveReceipt()
+    {
+        $this->removeReceipt = true;
+    }
+
+    public function cancelRemoveReceipt()
+    {
+        $this->removeReceipt = false;
+    }
+
+    public function getProjectsProperty()
+    {
+        return Project::where('user_id', auth()->id())
+            ->orderBy('name')
+            ->get();
+    }
+
+    public function getCurrenciesProperty()
+    {
+        return [
+            'USD' => 'USD - US Dollar',
+            'EUR' => 'EUR - Euro',
+            'GBP' => 'GBP - British Pound',
+            'CAD' => 'CAD - Canadian Dollar',
+            'AUD' => 'AUD - Australian Dollar',
+            'JPY' => 'JPY - Japanese Yen',
+            'CHF' => 'CHF - Swiss Franc',
+            'CNY' => 'CNY - Chinese Yuan',
+            'INR' => 'INR - Indian Rupee',
+            'BRL' => 'BRL - Brazilian Real',
+        ];
+    }
+
+    public function render()
+    {
+        return view('livewire.expenses.edit', [
+            'projects' => $this->projects,
+            'categories' => Expense::getCategories(),
+            'currencies' => $this->currencies,
+        ]);
+    }
+}

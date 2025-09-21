@@ -137,8 +137,8 @@ freelanceflow/
 
 ### Phase 5: Advanced Features
 - [x] Multi-currency support
-- [ ] Recurring invoices
-- [ ] Expense tracking
+- [x] Recurring invoices
+- [x] Expense tracking
 - [ ] Financial reports
 - [ ] API endpoints
 - [ ] Webhook integrations
