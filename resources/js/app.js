@@ -1,7 +1,2 @@
 import './bootstrap';
-
-import Alpine from 'alpinejs';
-
-window.Alpine = Alpine;
-
-Alpine.start();
+// Alpine is provided by Livewire (@livewireScripts). Avoid starting a second instance here.

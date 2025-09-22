@@ -46,7 +46,8 @@ class LocaleSelector extends Component
         $this->showDropdown = false;
         
         // Force a full navigation so middleware re-runs with updated session
-        return $this->redirect(request()->url(), navigate: true);
+        $targetUrl = url()->previous() ?: '/';
+        return $this->redirect($targetUrl, navigate: true);
     }
 
     public function toggleDropdown()

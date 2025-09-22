@@ -38,6 +38,9 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6 space-x-4">
+                <!-- Locale Selector -->
+                <livewire:locale-selector />
+                
                 <!-- Dark Mode Toggle -->
                 <livewire:dark-mode-toggle />
                 <x-dropdown align="right" width="48">
@@ -118,6 +121,11 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                <!-- Locale Selector for Mobile -->
+                <div class="px-4 py-2">
+                    <livewire:locale-selector />
+                </div>
+                
                 <!-- Dark Mode Toggle for Mobile -->
                 <div class="px-4 py-2">
                     <livewire:dark-mode-toggle />

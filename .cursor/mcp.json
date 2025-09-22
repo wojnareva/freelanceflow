@@ -1,0 +1,42 @@
+{
+  "mcpServers": {
+    "browsermcp-enhanced": {
+      "command": "node",
+      "args": [
+        "/home/ejka/.mcp/browsermcp-enhanced/dist/index.js"
+      ],
+      "env": {
+        "BROWSER_MCP_ALLOWED_ORIGINS": "*"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem@latest",
+        "/home/ejka/Code/01-projects/freelanceflow"
+      ],
+      "env": {}
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest",
+        "--headless",
+        "--no-sandbox"
+      ],
+      "env": {}
+    },
+    "browsermcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@browsermcp/mcp@latest"
+      ],
+      "env": {}
+    }
+  }
+}
+
+

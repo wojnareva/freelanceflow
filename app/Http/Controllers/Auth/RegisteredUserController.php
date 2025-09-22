@@ -33,17 +33,25 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'locale' => ['nullable', 'string', 'in:cs,en,sk'],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'locale' => $request->locale ?? config('app.locale'),
+            'currency' => $request->locale === 'cs' ? 'CZK' : 'USD',
+            'timezone' => $request->locale === 'cs' ? 'Europe/Prague' : 'UTC',
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
+
+        // Set session locale for new user
+        session(['locale' => $user->locale]);
+        app()->setLocale($user->locale);
 
         return redirect(route('dashboard', absolute: false));
     }

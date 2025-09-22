@@ -47,6 +47,61 @@
             @endif
         </div>
 
+        <!-- Language & Localization Settings -->
+        <div class="space-y-4">
+            <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ __('Language & Regional Settings') }}</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Preferred Language -->
+                <div>
+                    <x-input-label for="locale" :value="__('Preferred Language')" />
+                    <select id="locale" name="locale" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                        @foreach(config('app.available_locales') as $code => $data)
+                            <option value="{{ $code }}" {{ old('locale', $user->locale ?? config('app.locale')) === $code ? 'selected' : '' }}>
+                                {{ $data['flag'] }} {{ $data['name'] }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <x-input-error class="mt-2" :messages="$errors->get('locale')" />
+                </div>
+
+                <!-- Currency -->
+                <div>
+                    <x-input-label for="currency" :value="__('Currency')" />
+                    <select id="currency" name="currency" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                        <option value="CZK" {{ old('currency', $user->currency ?? 'CZK') === 'CZK' ? 'selected' : '' }}>🇨🇿 Czech Koruna (CZK)</option>
+                        <option value="EUR" {{ old('currency', $user->currency ?? 'CZK') === 'EUR' ? 'selected' : '' }}>🇪🇺 Euro (EUR)</option>
+                        <option value="USD" {{ old('currency', $user->currency ?? 'CZK') === 'USD' ? 'selected' : '' }}>🇺🇸 US Dollar (USD)</option>
+                        <option value="GBP" {{ old('currency', $user->currency ?? 'CZK') === 'GBP' ? 'selected' : '' }}>🇬🇧 British Pound (GBP)</option>
+                    </select>
+                    <x-input-error class="mt-2" :messages="$errors->get('currency')" />
+                </div>
+
+                <!-- Timezone -->
+                <div>
+                    <x-input-label for="timezone" :value="__('Timezone')" />
+                    <select id="timezone" name="timezone" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                        <option value="Europe/Prague" {{ old('timezone', $user->timezone ?? 'Europe/Prague') === 'Europe/Prague' ? 'selected' : '' }}>Europe/Prague (Central European Time)</option>
+                        <option value="Europe/London" {{ old('timezone', $user->timezone ?? 'Europe/Prague') === 'Europe/London' ? 'selected' : '' }}>Europe/London (Greenwich Mean Time)</option>
+                        <option value="Europe/Berlin" {{ old('timezone', $user->timezone ?? 'Europe/Prague') === 'Europe/Berlin' ? 'selected' : '' }}>Europe/Berlin (Central European Time)</option>
+                        <option value="America/New_York" {{ old('timezone', $user->timezone ?? 'Europe/Prague') === 'America/New_York' ? 'selected' : '' }}>America/New_York (Eastern Time)</option>
+                        <option value="UTC" {{ old('timezone', $user->timezone ?? 'Europe/Prague') === 'UTC' ? 'selected' : '' }}>UTC (Coordinated Universal Time)</option>
+                    </select>
+                    <x-input-error class="mt-2" :messages="$errors->get('timezone')" />
+                </div>
+
+                <!-- Number Format -->
+                <div>
+                    <x-input-label for="number_format" :value="__('Number Format')" />
+                    <select id="number_format" name="number_format" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                        <option value="czech" {{ old('number_format', $user->number_format ?? 'czech') === 'czech' ? 'selected' : '' }}>1 234,56 (Czech)</option>
+                        <option value="us" {{ old('number_format', $user->number_format ?? 'czech') === 'us' ? 'selected' : '' }}>1,234.56 (US/International)</option>
+                    </select>
+                    <x-input-error class="mt-2" :messages="$errors->get('number_format')" />
+                </div>
+            </div>
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

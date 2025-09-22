@@ -25,12 +25,18 @@ class Client extends Model
         'hourly_rate',
         'notes',
         'settings',
+        'ico',
+        'dic',
+        'company_registry_data',
+        'registry_updated_at',
     ];
 
     protected $casts = [
         'currency' => Currency::class,
         'settings' => 'array',
         'hourly_rate' => 'decimal:2',
+        'company_registry_data' => 'array',
+        'registry_updated_at' => 'datetime',
     ];
 
     public function projects(): HasMany
