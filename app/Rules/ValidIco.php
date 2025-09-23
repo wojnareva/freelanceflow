@@ -40,9 +40,12 @@ class ValidIco implements ValidationRule
             $sum += (int)$ico[$i] * $weights[$i];
         }
         
-        // Calculate check digit
+        // Calculate check digit according to Czech IČO rules
         $remainder = $sum % 11;
-        $checkDigit = $remainder < 2 ? $remainder : 11 - $remainder;
+        // If the remainder is 0 or 1, the control digit is 0, otherwise 11 - remainder
+        $checkDigit = ($remainder === 0 || $remainder === 1)
+            ? 0
+            : 11 - $remainder;
         
         // Compare with the 8th digit
         return (int)$ico[7] === $checkDigit;

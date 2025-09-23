@@ -423,7 +423,10 @@ class AresService
         }
         
         $remainder = $sum % 11;
-        $checkDigit = $remainder < 2 ? $remainder : 11 - $remainder;
+        // If the remainder is 0 or 1, the check digit should be 0 according to Czech IČO specification
+        $checkDigit = ($remainder === 0 || $remainder === 1)
+            ? 0
+            : 11 - $remainder;
         
         return (int)$ico[7] === $checkDigit;
     }
