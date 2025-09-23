@@ -177,9 +177,9 @@ class AresService
         // New REST returns { icoId, zaznamy: [ { ... } ] }
         if (isset($json['zaznamy']) && is_array($json['zaznamy']) && count($json['zaznamy']) > 0) {
             $subject = $json['zaznamy'][0];
-        }
+        } // NOTE: use "elseif" to avoid overwriting $subject once we already found a match.
         // Some older endpoints return { ekonomickySubjekt: {...} }
-        if (isset($json['ekonomickySubjekt'])) {
+        elseif (isset($json['ekonomickySubjekt'])) {
             $subject = $json['ekonomickySubjekt'];
         } elseif (isset($json['ekonomickeSubjekty']) && is_array($json['ekonomickeSubjekty']) && count($json['ekonomickeSubjekty']) > 0) {
             $subject = $json['ekonomickeSubjekty'][0];
