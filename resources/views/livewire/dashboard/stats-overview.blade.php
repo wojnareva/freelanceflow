@@ -1,7 +1,26 @@
 <div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <!-- Loading Skeleton -->
+    <div wire:loading wire:target="refreshStats" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        @for($i = 0; $i < 6; $i++)
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700 animate-pulse">
+                <div class="p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24 mb-2"></div>
+                            <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded w-16"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endfor
+    </div>
+
+    <div wire:loading.remove wire:target="refreshStats" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
     <!-- Monthly Revenue -->
-    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700">
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200">
         <div class="p-6">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
@@ -15,7 +34,7 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                            Monthly Revenue ({{ $userCurrency->value }})
+                            {{ __('dashboard.stats.monthly_revenue') }} ({{ $userCurrency->value }})
                         </dt>
                         <dd class="text-lg font-semibold text-gray-900 dark:text-white">
                             {{ $this->formattedMonthlyRevenue }}
@@ -27,7 +46,7 @@
     </div>
 
     <!-- Active Projects -->
-    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700">
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200">
         <div class="p-6">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
@@ -40,7 +59,7 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                            Active Projects
+                            {{ __('dashboard.stats.active_projects') }}
                         </dt>
                         <dd class="text-lg font-semibold text-gray-900 dark:text-white">
                             {{ $activeProjects }}
@@ -52,7 +71,7 @@
     </div>
 
     <!-- Hours This Week -->
-    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700">
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200">
         <div class="p-6">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
@@ -65,7 +84,7 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                            Hours This Week
+                            {{ __('dashboard.stats.hours_this_week') }}
                         </dt>
                         <dd class="text-lg font-semibold text-gray-900 dark:text-white">
                             {{ number_format($hoursThisWeek, 1) }}h
@@ -77,7 +96,7 @@
     </div>
 
     <!-- Unpaid Invoices -->
-    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700">
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200">
         <div class="p-6">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
@@ -90,7 +109,7 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                            Unpaid Invoices
+                            {{ __('dashboard.stats.unpaid_invoices') }}
                         </dt>
                         <dd class="text-lg font-semibold text-gray-900 dark:text-white">
                             {{ $this->formattedUnpaidInvoices }}
@@ -102,7 +121,7 @@
     </div>
 
     <!-- Total Clients -->
-    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700">
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200">
         <div class="p-6">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
@@ -115,7 +134,7 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                            Total Clients
+                            {{ __('dashboard.stats.total_clients') }}
                         </dt>
                         <dd class="text-lg font-semibold text-gray-900 dark:text-white">
                             {{ $totalClients }}
@@ -127,7 +146,7 @@
     </div>
 
     <!-- Overdue Invoices -->
-    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700">
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow duration-200">
         <div class="p-6">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
@@ -140,7 +159,7 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                            Overdue Invoices
+                            {{ __('dashboard.stats.overdue_invoices') }}
                         </dt>
                         <dd class="text-lg font-semibold text-gray-900 dark:text-white">
                             {{ $this->formattedOverdueInvoices }}
@@ -150,7 +169,7 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
 
 <!-- Refresh Button -->
 <div class="mb-6">
@@ -163,8 +182,8 @@
         <svg wire:loading class="animate-spin w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
         </svg>
-        <span wire:loading.remove>Refresh Stats</span>
-        <span wire:loading>Refreshing...</span>
+        <span wire:loading.remove>{{ __('app.refresh') }}</span>
+        <span wire:loading>{{ __('app.loading') }}</span>
     </button>
 </div>
 </div>

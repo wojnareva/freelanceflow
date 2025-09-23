@@ -4,6 +4,7 @@ namespace App\Livewire\TimeTracking;
 
 use App\Models\Project;
 use App\Models\TimeEntry;
+use App\Services\PerformanceService;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -85,6 +86,12 @@ class TimeEntriesList extends Component
     public function deleteEntry($entryId)
     {
         TimeEntry::findOrFail($entryId)->delete();
+        
+        // Clear performance caches after time entry changes
+        $performanceService = app(PerformanceService::class);
+        $performanceService->clearTimeEntriesStatsCache(auth()->id());
+        $performanceService->clearDashboardStatsCache(auth()->id());
+        
         session()->flash('success', 'Time entry deleted successfully!');
     }
 
@@ -129,23 +136,42 @@ class TimeEntriesList extends Component
 
     public function getTotalHoursProperty()
     {
-        return TimeEntry::where('user_id', auth()->id())
-            ->when($this->search, function ($query) {
-                $query->where('description', 'like', '%'.$this->search.'%');
-            })
-            ->when($this->projectFilter, function ($query) {
-                $query->where('project_id', $this->projectFilter);
-            })
-            ->when($this->dateFrom, function ($query) {
-                $query->where('date', '>=', $this->dateFrom);
-            })
-            ->when($this->dateTo, function ($query) {
-                $query->where('date', '<=', $this->dateTo);
-            })
-            ->when($this->showOnlyBillable, function ($query) {
-                $query->where('billable', true);
-            })
-            ->sum('duration') / 60; // Convert minutes to hours
+        $performanceService = app(PerformanceService::class);
+        $userId = auth()->id();
+        
+        // Create filters array for cache key
+        $filters = [
+            'search' => $this->search,
+            'project_filter' => $this->projectFilter,
+            'date_from' => $this->dateFrom,
+            'date_to' => $this->dateTo,
+            'billable_only' => $this->showOnlyBillable,
+            'type' => 'hours',
+        ];
+
+        $stats = $performanceService->getTimeEntriesStats($userId, $filters, function () use ($userId) {
+            return [
+                'total_hours' => TimeEntry::where('user_id', $userId)
+                    ->when($this->search, function ($query) {
+                        $query->where('description', 'like', '%'.$this->search.'%');
+                    })
+                    ->when($this->projectFilter, function ($query) {
+                        $query->where('project_id', $this->projectFilter);
+                    })
+                    ->when($this->dateFrom, function ($query) {
+                        $query->where('date', '>=', $this->dateFrom);
+                    })
+                    ->when($this->dateTo, function ($query) {
+                        $query->where('date', '<=', $this->dateTo);
+                    })
+                    ->when($this->showOnlyBillable, function ($query) {
+                        $query->where('billable', true);
+                    })
+                    ->sum('duration') / 60, // Convert minutes to hours
+            ];
+        });
+
+        return $stats['total_hours'];
     }
 
     public function getTotalEarningsProperty()

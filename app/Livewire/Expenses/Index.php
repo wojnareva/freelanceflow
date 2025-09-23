@@ -15,6 +15,7 @@ class Index extends Component
     public $categoryFilter = 'all';
     public $projectFilter = 'all';
     public $billableFilter = 'all';
+    public $statusFilter = 'all';
     public $dateRange = '30days';
 
     protected $queryString = [
@@ -22,6 +23,7 @@ class Index extends Component
         'categoryFilter' => ['except' => 'all'],
         'projectFilter' => ['except' => 'all'],
         'billableFilter' => ['except' => 'all'],
+        'statusFilter' => ['except' => 'all'],
         'dateRange' => ['except' => '30days'],
     ];
 
@@ -41,6 +43,11 @@ class Index extends Component
     }
 
     public function updatingBillableFilter()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingStatusFilter()
     {
         $this->resetPage();
     }
@@ -71,10 +78,21 @@ class Index extends Component
     {
         $expense = Expense::findOrFail($expenseId);
         $expense->update(['billable' => !$expense->billable]);
-        
+
         $this->dispatch('expense-updated', [
             'expense' => $expense->title,
             'status' => $expense->billable ? 'marked as billable' : 'marked as non-billable'
+        ]);
+    }
+
+    public function updateStatus($expenseId, $status)
+    {
+        $expense = Expense::findOrFail($expenseId);
+        $expense->update(['status' => $status]);
+
+        $this->dispatch('expense-updated', [
+            'expense' => $expense->title,
+            'status' => 'status changed to ' . $status
         ]);
     }
 
@@ -124,6 +142,11 @@ class Index extends Component
             } elseif ($this->billableFilter === 'billed') {
                 $query->where('billed', true);
             }
+        }
+
+        // Status filter
+        if ($this->statusFilter !== 'all') {
+            $query->where('status', $this->statusFilter);
         }
 
         // Date range filter
@@ -191,6 +214,10 @@ class Index extends Component
             } elseif ($this->billableFilter === 'billed') {
                 $baseQuery->where('billed', true);
             }
+        }
+
+        if ($this->statusFilter !== 'all') {
+            $baseQuery->where('status', $this->statusFilter);
         }
 
         if ($this->dateRange !== 'all') {

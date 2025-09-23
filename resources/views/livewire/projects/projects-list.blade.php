@@ -2,12 +2,22 @@
     <!-- Stats Overview -->
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-4">
-            <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['total'] }}</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">Total Projects</div>
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['total'] }}</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">Total Projects</div>
+                </div>
+                <x-help-icon text="Total number of projects across all statuses" position="bottom" />
+            </div>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-4">
-            <div class="text-2xl font-bold text-green-600 dark:text-green-400">{{ $stats['active'] }}</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">Active</div>
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="text-2xl font-bold text-green-600 dark:text-green-400">{{ $stats['active'] }}</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">Active</div>
+                </div>
+                <x-help-icon text="Projects currently in progress and accepting work" position="bottom" />
+            </div>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-4">
             <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ $stats['completed'] }}</div>
@@ -288,21 +298,30 @@
                                         <!-- Budget and Rates -->
                                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                             <div>
-                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Budget ($)</label>
+                                                <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                    Budget ($)
+                                                    <x-help-icon text="Total project budget. Leave empty for hourly projects without fixed budget." position="right" />
+                                                </label>
                                                 <input type="number" step="0.01" wire:model="budget" 
                                                        class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                                 @error('budget') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                             </div>
                                             
                                             <div>
-                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Hourly Rate ($)</label>
+                                                <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                    Hourly Rate ($)
+                                                    <x-help-icon text="Your billing rate per hour for this project. Used for time tracking calculations." position="right" />
+                                                </label>
                                                 <input type="number" step="0.01" wire:model="hourlyRate" 
                                                        class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                                 @error('hourlyRate') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                             </div>
                                             
                                             <div>
-                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estimated Hours</label>
+                                                <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                    Estimated Hours
+                                                    <x-help-icon text="Expected time to complete this project. Helps with progress tracking and budget planning." position="right" />
+                                                </label>
                                                 <input type="number" step="0.5" wire:model="estimatedHours" 
                                                        class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                                 @error('estimatedHours') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror

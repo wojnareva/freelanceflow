@@ -4,12 +4,14 @@ namespace App\Livewire\Projects;
 
 use App\Models\Client;
 use App\Models\Project;
+use App\Services\PerformanceService;
+use App\Traits\HandlesErrors;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ProjectsList extends Component
 {
-    use WithPagination;
+    use WithPagination, HandlesErrors;
 
     public $search = '';
 
@@ -105,37 +107,59 @@ class ProjectsList extends Component
 
     public function saveProject()
     {
-        $this->validate();
+        $this->tryOperation(function () {
+            // Standard Livewire validation - will show errors in UI
+            $this->validate($this->rules);
 
-        $data = [
-            'name' => $this->name,
-            'description' => $this->description,
-            'client_id' => $this->clientId,
-            'status' => $this->status,
-            'start_date' => $this->startDate,
-            'end_date' => $this->endDate,
-            'budget' => $this->budget,
-            'hourly_rate' => $this->hourlyRate,
-            'estimated_hours' => $this->estimatedHours,
-        ];
+            $data = [
+                'name' => $this->name,
+                'description' => $this->description,
+                'client_id' => $this->clientId,
+                'status' => $this->status,
+                'start_date' => $this->startDate,
+                'end_date' => $this->endDate,
+                'budget' => $this->budget,
+                'hourly_rate' => $this->hourlyRate,
+                'estimated_hours' => $this->estimatedHours,
+            ];
 
-        if ($this->editingProject) {
-            $this->editingProject->update($data);
-            session()->flash('success', 'Project updated successfully!');
-        } else {
-            $data['user_id'] = auth()->id();
-            Project::create($data);
-            session()->flash('success', 'Project created successfully!');
-        }
+            if ($this->editingProject) {
+                $this->editingProject->update($data);
+                $this->showSuccess('Project updated successfully!');
+            } else {
+                $data['user_id'] = auth()->id();
+                Project::create($data);
+                $this->showSuccess('Project created successfully!');
+            }
 
-        $this->closeModal();
+            // Clear performance caches after project changes
+            $performanceService = app(PerformanceService::class);
+            $performanceService->clearProjectsListCache(auth()->id());
+            $performanceService->clearDashboardStatsCache(auth()->id());
+
+            $this->closeModal();
+        }, 'save project');
     }
 
     public function deleteProject($projectId)
     {
-        $project = Project::findOrFail($projectId);
-        $project->delete();
-        session()->flash('success', 'Project deleted successfully!');
+        $this->tryOperation(function () use ($projectId) {
+            $project = Project::findOrFail($projectId);
+            
+            // Check if project belongs to current user
+            if ($project->user_id !== auth()->id()) {
+                throw new \Illuminate\Auth\Access\AuthorizationException('You are not authorized to delete this project.');
+            }
+            
+            $project->delete();
+            
+            // Clear performance caches after project deletion
+            $performanceService = app(PerformanceService::class);
+            $performanceService->clearProjectsListCache(auth()->id());
+            $performanceService->clearDashboardStatsCache(auth()->id());
+            
+            $this->showSuccess('Project deleted successfully!');
+        }, 'delete project');
     }
 
     public function closeModal()
@@ -153,31 +177,51 @@ class ProjectsList extends Component
 
     public function getProjectsProperty()
     {
-        return Project::with(['client', 'tasks'])
-            ->withCount(['tasks', 'timeEntries'])
-            ->withSum('timeEntries', 'duration')
-            ->when($this->search, function ($query) {
-                $query->where(function ($q) {
-                    $q->where('name', 'like', '%'.$this->search.'%')
-                        ->orWhere('description', 'like', '%'.$this->search.'%')
-                        ->orWhereHas('client', function ($clientQuery) {
-                            $clientQuery->where('name', 'like', '%'.$this->search.'%');
-                        });
-                });
-            })
-            ->when($this->statusFilter, function ($query) {
-                $query->where('status', $this->statusFilter);
-            })
-            ->when($this->clientFilter, function ($query) {
-                $query->where('client_id', $this->clientFilter);
-            })
-            ->orderBy($this->sortBy, $this->sortDirection)
-            ->paginate(12);
+        $performanceService = app(PerformanceService::class);
+        $userId = auth()->id();
+        
+        // Create filters array for cache key
+        $filters = [
+            'search' => $this->search,
+            'status_filter' => $this->statusFilter,
+            'client_filter' => $this->clientFilter,
+            'sort_by' => $this->sortBy,
+            'sort_direction' => $this->sortDirection,
+            'page' => $this->getPage(),
+        ];
+
+        return $performanceService->getProjectsList($userId, $filters, function () {
+            return Project::with(['client', 'tasks'])
+                ->withCount(['tasks', 'timeEntries'])
+                ->withSum('timeEntries', 'duration')
+                ->where('user_id', auth()->id())
+                ->when($this->search, function ($query) {
+                    $query->where(function ($q) {
+                        $q->where('name', 'like', '%'.$this->search.'%')
+                            ->orWhere('description', 'like', '%'.$this->search.'%')
+                            ->orWhereHas('client', function ($clientQuery) {
+                                $clientQuery->where('name', 'like', '%'.$this->search.'%');
+                            });
+                    });
+                })
+                ->when($this->statusFilter, function ($query) {
+                    $query->where('status', $this->statusFilter);
+                })
+                ->when($this->clientFilter, function ($query) {
+                    $query->where('client_id', $this->clientFilter);
+                })
+                ->orderBy($this->sortBy, $this->sortDirection)
+                ->paginate(12);
+        });
     }
 
     public function getClientsProperty()
     {
-        return Client::orderBy('name')->get();
+        // Use get() with select for Livewire compatibility
+        return Client::where('user_id', auth()->id())
+            ->select('id', 'name')
+            ->orderBy('name')
+            ->get();
     }
 
     public function getStatsProperty()
@@ -198,13 +242,23 @@ class ProjectsList extends Component
             $baseQuery->where('client_id', $this->clientFilter);
         }
 
+        // Use a single query with DB aggregation for better performance
+        $stats = $baseQuery->selectRaw('
+            COUNT(*) as total,
+            COUNT(CASE WHEN status = "active" THEN 1 END) as active,
+            COUNT(CASE WHEN status = "completed" THEN 1 END) as completed,
+            COUNT(CASE WHEN status = "on_hold" THEN 1 END) as on_hold,
+            COUNT(CASE WHEN status = "draft" THEN 1 END) as draft,
+            COUNT(CASE WHEN status = "archived" THEN 1 END) as archived
+        ')->first();
+
         return [
-            'total' => (clone $baseQuery)->count(),
-            'active' => (clone $baseQuery)->where('status', 'active')->count(),
-            'completed' => (clone $baseQuery)->where('status', 'completed')->count(),
-            'on_hold' => (clone $baseQuery)->where('status', 'on_hold')->count(),
-            'draft' => (clone $baseQuery)->where('status', 'draft')->count(),
-            'archived' => (clone $baseQuery)->where('status', 'archived')->count(),
+            'total' => $stats->total,
+            'active' => $stats->active,
+            'completed' => $stats->completed,
+            'on_hold' => $stats->on_hold,
+            'draft' => $stats->draft,
+            'archived' => $stats->archived,
         ];
     }
 

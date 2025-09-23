@@ -12,15 +12,15 @@
             <div class="flex space-x-2">
                 <a href="{{ route('projects.index') }}" 
                    class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    ← Back to Projects
+                    ← {{ __('projects.back_to_projects') }}
                 </a>
                 <a href="{{ route('projects.kanban', $project) }}" 
                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    Kanban Board
+                    {{ __('projects.kanban_board') }}
                 </a>
                 <a href="{{ route('projects.timeline', $project) }}" 
                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    Timeline
+                    {{ __('projects.timeline') }}
                 </a>
             </div>
         </div>

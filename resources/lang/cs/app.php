@@ -35,6 +35,7 @@ return [
     'clear' => 'Vymazat',
     'reset' => 'Resetovat',
     'refresh' => 'Obnovit',
+    'get_started' => 'Začínáme',
     'reload' => 'Znovu načíst',
     'export' => 'Exportovat',
     'import' => 'Importovat',

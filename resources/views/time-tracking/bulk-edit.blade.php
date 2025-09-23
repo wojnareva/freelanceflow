@@ -2,16 +2,16 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Bulk Edit Time Entries') }}
+                {{ __('time.bulk_edit_time_entries') }}
             </h2>
             <div class="flex space-x-2">
                 <a href="{{ route('time-tracking.index') }}" 
                    class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    List View
+                    {{ __('time.list_view_button') }}
                 </a>
                 <a href="{{ route('time-tracking.calendar') }}" 
                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    Calendar View
+                    {{ __('time.calendar_view_button') }}
                 </a>
             </div>
         </div>

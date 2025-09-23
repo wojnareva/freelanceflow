@@ -110,7 +110,79 @@
 
     <!-- Time Entries Table -->
     <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 overflow-hidden">
-        <div class="overflow-x-auto">
+        <!-- Mobile Card Layout -->
+        <div class="sm:hidden">
+            @forelse($timeEntries as $entry)
+                <div class="p-4 border-b border-gray-200 dark:border-gray-600 last:border-b-0">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex-1">
+                            <div class="font-medium text-gray-900 dark:text-white">{{ $entry->project->name }}</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">{{ $entry->project->client->name }}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm text-gray-900 dark:text-gray-300">{{ $entry->date->format('M j') }}</div>
+                            @if($entry->billable)
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                                    Billable
+                                </span>
+                            @else
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                                    Non-billable
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                    
+                    <div class="text-sm text-gray-700 dark:text-gray-300 mb-2">{{ $entry->description }}</div>
+                    
+                    <div class="flex justify-between items-center">
+                        <div class="flex space-x-4 text-sm">
+                            <span class="text-gray-900 dark:text-gray-300">
+                                @php
+                                    $hours = floor($entry->duration / 60);
+                                    $minutes = $entry->duration % 60;
+                                    $formatted = $hours > 0 ? ($minutes > 0 ? "{$hours}h {$minutes}m" : "{$hours}h") : "{$minutes}m";
+                                @endphp
+                                {{ $formatted }}
+                            </span>
+                            <span class="font-medium text-gray-900 dark:text-gray-300">
+                                ${{ number_format($entry->amount ?? 0, 2) }}
+                            </span>
+                        </div>
+                        
+                        <div class="flex space-x-2">
+                            <button wire:click="editEntry({{ $entry->id }})" 
+                                    class="p-1 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                </svg>
+                            </button>
+                            <button wire:click="deleteEntry({{ $entry->id }})" 
+                                    wire:confirm="Are you sure you want to delete this time entry?"
+                                    class="p-1 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" clip-rule="evenodd"></path>
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414L9 10.586l-2.293 2.293a1 1 0 101.414 1.414L10 11.414l2.293 2.293a1 1 0 001.414-1.414L11.414 10l2.293-2.293z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="p-12 text-center">
+                    <div class="text-gray-500 dark:text-gray-400">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No time entries found</h3>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Start the timer to create your first time entry.</p>
+                    </div>
+                </div>
+            @endforelse
+        </div>
+
+        <!-- Desktop Table Layout -->
+        <div class="hidden sm:block overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>

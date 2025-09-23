@@ -1,0 +1,43 @@
+/* Debug Bar UI Improvements */
+.phpdebugbar {
+    z-index: 9990 !important; /* Lower than modals (z-50 = 50, but below overlay) */
+}
+
+.phpdebugbar-minimized {
+    z-index: 9990 !important;
+}
+
+.phpdebugbar-header {
+    pointer-events: auto !important;
+    z-index: 9991 !important;
+}
+
+/* Ensure debug bar doesn't interfere with main UI elements */
+.phpdebugbar-openhandler {
+    z-index: 9992 !important;
+    pointer-events: auto !important;
+}
+
+/* Make debug bar less intrusive when minimized */
+.phpdebugbar-minimized .phpdebugbar-header {
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.phpdebugbar-minimized:hover .phpdebugbar-header {
+    opacity: 1;
+}
+
+/* Prevent debug bar from blocking modal overlays */
+.phpdebugbar-maximized {
+    z-index: 9989 !important; /* Lower than minimized state */
+}
+
+/* Style improvements for better development experience */
+.phpdebugbar-tab {
+    font-size: 11px;
+}
+
+.phpdebugbar .phpdebugbar-panel {
+    font-size: 12px;
+}

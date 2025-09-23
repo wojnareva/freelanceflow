@@ -2,12 +2,12 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Time Tracking Calendar') }}
+                {{ __('time.time_tracking_calendar') }}
             </h2>
             <div class="flex space-x-2">
                 <a href="{{ route('time-tracking.index') }}" 
                    class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    List View
+                    {{ __('time.list_view_button') }}
                 </a>
                 <a href="{{ route('time-tracking.bulk-edit') }}" 
                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">

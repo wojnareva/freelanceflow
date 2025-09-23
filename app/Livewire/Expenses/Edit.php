@@ -20,6 +20,7 @@ class Edit extends Component
     public $category;
     public $project_id;
     public $billable;
+    public $status;
     public $expense_date;
     public $receipt;
     public $removeReceipt = false;
@@ -32,7 +33,8 @@ class Edit extends Component
         'category' => 'required|string',
         'project_id' => 'nullable|exists:projects,id',
         'billable' => 'boolean',
-        'expense_date' => 'required|date',
+        'status' => 'required|string|in:pending,approved,rejected,reimbursed',
+        'expense_date' => 'required|date|before_or_equal:today',
         'receipt' => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:10240',
     ];
 
@@ -56,6 +58,7 @@ class Edit extends Component
         $this->category = $this->expense->category;
         $this->project_id = $this->expense->project_id;
         $this->billable = $this->expense->billable;
+        $this->status = $this->expense->status;
         $this->expense_date = $this->expense->expense_date->format('Y-m-d');
     }
 
@@ -71,6 +74,7 @@ class Edit extends Component
             'category' => $this->category,
             'project_id' => $this->project_id ?: null,
             'billable' => $this->billable,
+            'status' => $this->status,
             'expense_date' => $this->expense_date,
         ];
 

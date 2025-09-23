@@ -28,6 +28,9 @@ return [
         'average_hourly_rate' => 'Průměrná hodinová sazba',
         'conversion_rate' => 'Míra konverze',
         'client_satisfaction' => 'Spokojenost klientů',
+        'monthly_average' => 'Měsíční průměr',
+        'no_revenue_data' => 'Žádná data o příjmech',
+        'no_revenue_data_description' => 'Vytvořte a označte faktury jako zaplacené, abyste viděli příjmy.',
     ],
     
     // Quick Actions
@@ -43,6 +46,7 @@ return [
         'add_task' => 'Přidat úkol',
         'schedule_meeting' => 'Naplánovat schůzku',
         'generate_report' => 'Generovat sestavu',
+        'get_started_text' => 'Vytvořte svůj první projekt nebo klienta, abyste zde viděli rychlé akce.',
     ],
     
     // Activity Feed
@@ -195,6 +199,7 @@ return [
         'last_year' => 'Minulý rok',
         'custom_range' => 'Vlastní rozsah',
         'all_time' => 'Za celou dobu',
+        'last_6_months' => 'Posledních 6 měsíců',
     ],
     
     // Export options

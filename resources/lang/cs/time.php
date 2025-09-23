@@ -242,4 +242,11 @@ return [
         'timesheet_exported' => 'Výkaz byl exportován',
         'settings_saved' => 'Nastavení bylo uloženo',
     ],
+
+    // Navigation & UI
+    'calendar_view_button' => 'Kalendářní zobrazení',
+    'bulk_edit_button' => 'Hromadná úprava',
+    'time_tracking_calendar' => 'Kalendář sledování času',
+    'list_view_button' => 'Seznamové zobrazení',
+    'bulk_edit_time_entries' => 'Hromadná úprava časových záznamů',
 ];

@@ -18,6 +18,7 @@ class Create extends Component
     public $category = '';
     public $project_id = '';
     public $billable = false;
+    public $status = 'pending';
     public $expense_date;
     public $receipt;
 
@@ -29,7 +30,8 @@ class Create extends Component
         'category' => 'required|string',
         'project_id' => 'nullable|exists:projects,id',
         'billable' => 'boolean',
-        'expense_date' => 'required|date',
+        'status' => 'required|string|in:pending,approved,rejected,reimbursed',
+        'expense_date' => 'required|date|before_or_equal:today',
         'receipt' => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:10240',
     ];
 
@@ -69,6 +71,7 @@ class Create extends Component
             'project_id' => $this->project_id ?: null,
             'billable' => $this->billable,
             'billed' => false,
+            'status' => $this->status,
             'expense_date' => $this->expense_date,
             'receipt_path' => $receiptPath,
         ]);

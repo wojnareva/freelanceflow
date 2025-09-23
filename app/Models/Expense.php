@@ -23,6 +23,7 @@ class Expense extends Model
         'billed',
         'receipt_path',
         'expense_date',
+        'status',
     ];
 
     protected $casts = [
@@ -30,6 +31,7 @@ class Expense extends Model
         'billable' => 'boolean',
         'billed' => 'boolean',
         'expense_date' => 'date',
+        'status' => \App\Enums\ExpenseStatus::class,
     ];
 
     public function user(): BelongsTo

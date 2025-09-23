@@ -298,4 +298,19 @@ return [
         'team_member_added' => 'Člen týmu byl přidán',
         'file_uploaded' => 'Soubor byl nahrán',
     ],
+
+    // Navigation & Buttons
+    'all_projects_timeline' => 'Časová osa všech projektů',
+    'timeline_short' => 'Časová osa',
+    'sample_kanban' => 'Ukázkový Kanban',
+    'kanban_short' => 'Kanban',
+    'sample_timeline' => 'Ukázková časová osa',
+    'back_to_projects' => 'Zpět na projekty',
+    'kanban_board' => 'Kanban tabule',
+    'timeline' => 'Časová osa',
+    'project_details' => 'Detaily projektu',
+    'all_projects' => 'Všechny projekty',
+    'all_projects_timeline_title' => 'Časová osa všech projektů',
+    'all_projects_timeline_description' => 'Přehled všech aktivit a milníků projektů',
+    'projects_list' => 'Seznam projektů',
 ];

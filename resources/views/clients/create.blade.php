@@ -3,16 +3,16 @@
         <div class="flex justify-between items-center">
             <div>
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Add New Client') }}
+                    {{ __('clients.new_client') }}
                 </h2>
                 <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    Create a new client profile for your business
+                    {{ __('clients.new_client_description') }}
                 </p>
             </div>
             <div class="flex space-x-2">
                 <a href="{{ route('clients.index') }}" 
                    class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-                    ← Back to Clients
+                    ← {{ __('clients.back_to_clients') }}
                 </a>
             </div>
         </div>

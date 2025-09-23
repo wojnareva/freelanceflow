@@ -13,6 +13,12 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <!-- Debug Bar UI Fixes -->
+        @if(app()->environment('local') && config('debugbar.enabled'))
+            <link href="{{ asset('css/debugbar-fixes.css') }}" rel="stylesheet">
+        @endif
+        
         @livewireStyles
     </head>
     <body class="font-sans antialiased">

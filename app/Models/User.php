@@ -32,6 +32,8 @@ class User extends Authenticatable
         'two_factor_confirmed_at',
         'two_factor_recovery_codes',
         'two_factor_enabled',
+        'onboarded_at',
+        'sample_data_created',
     ];
 
     /**
@@ -59,6 +61,8 @@ class User extends Authenticatable
             'two_factor_confirmed_at' => 'datetime',
             'two_factor_recovery_codes' => 'array',
             'two_factor_enabled' => 'boolean',
+            'onboarded_at' => 'datetime',
+            'sample_data_created' => 'boolean',
         ];
     }
 
@@ -167,5 +171,37 @@ class User extends Authenticatable
     public function hasTwoFactorEnabled(): bool
     {
         return $this->two_factor_enabled && $this->two_factor_secret;
+    }
+
+    /**
+     * Get all clients for this user
+     */
+    public function clients()
+    {
+        return $this->hasMany(\App\Models\Client::class);
+    }
+
+    /**
+     * Get all projects for this user
+     */
+    public function projects()
+    {
+        return $this->hasMany(\App\Models\Project::class);
+    }
+
+    /**
+     * Get all time entries for this user
+     */
+    public function timeEntries()
+    {
+        return $this->hasMany(\App\Models\TimeEntry::class);
+    }
+
+    /**
+     * Get all invoices for this user
+     */
+    public function invoices()
+    {
+        return $this->hasMany(\App\Models\Invoice::class);
     }
 }

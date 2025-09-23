@@ -1,7 +1,7 @@
 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-lg border border-gray-200 dark:border-gray-700">
     <div class="p-6">
         <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Recent Activity</h3>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ __('dashboard.activity_feed') }}</h3>
             <button wire:click="refreshFeed" 
                     wire:loading.attr="disabled"
                     class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors duration-200">
@@ -90,8 +90,8 @@
                 <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                 </svg>
-                <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No recent activity</h3>
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Start by creating projects or logging time entries.</p>
+                <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('dashboard.activity_feed') }}</h3>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('dashboard.no_recent_activity') }}</p>
             </div>
         @endif
     </div>

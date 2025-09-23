@@ -2,8 +2,8 @@
     <div class="p-6">
         <div class="flex items-center justify-between mb-6">
             <div>
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Revenue Overview</h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400">Last 6 months</p>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ __('dashboard.revenue_chart') }}</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('dashboard.periods.last_6_months') }}</p>
             </div>
             <button wire:click="refreshChart" 
                     wire:loading.attr="disabled"
@@ -22,7 +22,7 @@
             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Revenue</p>
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('dashboard.stats.total_revenue') }}</p>
                         <p class="text-2xl font-bold text-gray-900 dark:text-white">${{ number_format($totalRevenue, 2) }}</p>
                     </div>
                     <div class="flex items-center space-x-1 text-sm">
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Monthly Average</p>
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('dashboard.stats.monthly_average') }}</p>
                 <p class="text-2xl font-bold text-gray-900 dark:text-white">${{ number_format($totalRevenue / 6, 2) }}</p>
             </div>
         </div>
@@ -80,8 +80,8 @@
                         <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                         </svg>
-                        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No revenue data</h3>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Create and mark invoices as paid to see revenue.</p>
+                        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('dashboard.no_revenue_data') }}</h3>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('dashboard.no_revenue_data_description') }}</p>
                     </div>
                 @endif
             </div>
