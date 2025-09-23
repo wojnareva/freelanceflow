@@ -5,6 +5,7 @@ namespace App\Livewire\Clients;
 use App\Models\Client;
 use App\Services\AresService;
 use App\Rules\ValidIco;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -59,7 +60,7 @@ class ClientForm extends Component
                 'required',
                 'email',
                 'max:255',
-                Rule::unique('clients', 'email')->ignore($this->client?->id),
+                Rule::unique('clients', 'email')->ignore($this->client?->getKey()),
             ],
             'phone' => 'nullable|string|max:255',
             'company' => 'nullable|string|max:255',
@@ -71,7 +72,7 @@ class ClientForm extends Component
                 'size:8',
                 'regex:/^[0-9]{8}$/',
                 new ValidIco(),
-                Rule::unique('clients', 'ico')->ignore($this->client?->id),
+                Rule::unique('clients', 'ico')->ignore($this->client?->getKey()),
             ],
             'dic' => 'nullable|string|max:15',
         ];
@@ -90,7 +91,7 @@ class ClientForm extends Component
             'notes' => $this->notes,
             'ico' => $this->ico ?: null,
             'dic' => $this->dic ?: null,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
         ];
 
         if ($this->client) {
@@ -136,6 +137,9 @@ class ClientForm extends Component
             return;
         }
         
+        // Clear previous validation/error state for IČO
+        $this->resetErrorBag('ico');
+
         $this->aresLookupLoading = true;
         $this->companyDataFound = false;
         
@@ -149,6 +153,11 @@ class ClientForm extends Component
             }
             
             $companyData = $aresService->getCompanyData($this->ico);
+            // If cache contains stale miss from previous version, clear and re-fetch once
+            if ((!$companyData || empty($companyData['company_name'])) && method_exists($aresService, 'clearCompanyCache')) {
+                $aresService->clearCompanyCache($this->ico);
+                $companyData = $aresService->getCompanyData($this->ico);
+            }
             
             if ($companyData && !empty($companyData['company_name'])) {
                 $this->fillCompanyData($companyData);

@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->timestamps();
 
-            $table->index(['attachable_type', 'attachable_id']);
+            // Index for morphs is already created by morphs() call above
             $table->index('user_id');
         });
     }

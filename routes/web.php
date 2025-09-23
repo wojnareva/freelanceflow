@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClientController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -59,6 +60,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/clients/create', function () {
         return view('clients.create');
     })->name('clients.create');
+
+    Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
 
     Route::get('/clients/{client}', function (App\Models\Client $client) {
         return view('clients.show', compact('client'));
