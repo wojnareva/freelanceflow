@@ -44,7 +44,8 @@ class AresService
                     ->withHeaders([
                         'Accept' => 'application/json',
                         'Accept-Language' => 'cs',
-                        'User-Agent' => 'FreelanceFlow/1.0 (+https://github.com/)'
+                        // Some government endpoints are strict about User-Agent formatting – keep it simple.
+                        'User-Agent' => 'FreelanceFlow/1.0'
                     ])
                     ->get($url);
 
