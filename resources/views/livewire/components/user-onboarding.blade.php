@@ -1,3 +1,4 @@
+<div>
 @if($showOnboarding)
 <!-- Onboarding Modal Overlay -->
 <div class="fixed inset-0 z-50 overflow-y-auto" x-data="{ show: @entangle('showOnboarding') }">
@@ -24,7 +25,7 @@
                          style="width: {{ ($step / $totalSteps) * 100 }}%"></div>
                 </div>
             </div>
-
+            
             <!-- Content -->
             <div class="text-center mb-8">
                 <!-- Icon -->
@@ -40,7 +41,7 @@
                     {{ $stepData['content'] }}
                 </p>
             </div>
-
+            
             <!-- Actions -->
             <div class="flex justify-between items-center">
                 <button wire:click="previousStep" 
@@ -81,3 +82,4 @@
     </div>
 </div>
 @endif
+</div>
