@@ -94,11 +94,31 @@ class CurrencyService
     {
         $user = auth()->user();
 
-        if ($user && isset($user->settings['preferred_currency'])) {
-            return Currency::from($user->settings['preferred_currency']);
+        // First check if user has currency field set
+        if ($user && !empty($user->currency)) {
+            try {
+                return Currency::from($user->currency);
+            } catch (\Exception $e) {
+                // If invalid currency, fall through to defaults
+            }
         }
 
-        return Currency::USD; // Default currency
+        // Then check user settings
+        if ($user && isset($user->settings['preferred_currency'])) {
+            try {
+                return Currency::from($user->settings['preferred_currency']);
+            } catch (\Exception $e) {
+                // If invalid currency, fall through to defaults
+            }
+        }
+
+        // Default based on locale
+        $locale = app()->getLocale();
+        if ($locale === 'cs') {
+            return Currency::CZK;
+        }
+
+        return Currency::USD; // Default currency for other locales
     }
 
     /**

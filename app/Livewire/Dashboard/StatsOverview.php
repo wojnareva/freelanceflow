@@ -47,15 +47,20 @@ class StatsOverview extends Component
                 ->whereMonth('paid_at', Carbon::now()->month)
                 ->whereYear('paid_at', Carbon::now()->year);
 
-            // If user currency is the default, we can use direct DB aggregation
-            if ($userCurrency->value === 'USD') {
-                $monthlyRevenue = $monthlyRevenueQuery->sum('total');
-            } else {
-                // For currency conversion, we still need to loop but with minimal data
-                $monthlyRevenue = 0;
-                $monthlyInvoices = $monthlyRevenueQuery->select('total', 'currency')->get();
-                foreach ($monthlyInvoices as $invoice) {
-                    $monthlyRevenue += $currencyService->convert($invoice->total, $invoice->currency, $userCurrency);
+            // Always convert to user's currency if there are mixed currencies
+            // Get all invoices with their currency
+            $monthlyInvoices = $monthlyRevenueQuery->select('total', 'currency')->get();
+            
+            $monthlyRevenue = 0;
+            foreach ($monthlyInvoices as $invoice) {
+                // Get invoice currency or default to user's currency if not set
+                $invoiceCurrency = \App\Enums\Currency::tryFrom($invoice->currency) ?? $userCurrency;
+                if ($invoiceCurrency === $userCurrency) {
+                    // Same currency, no conversion needed
+                    $monthlyRevenue += $invoice->total;
+                } else {
+                    // Convert to user's currency
+                    $monthlyRevenue += $currencyService->convert($invoice->total, $invoiceCurrency, $userCurrency);
                 }
             }
 
@@ -63,26 +68,31 @@ class StatsOverview extends Component
             $unpaidQuery = Invoice::where('user_id', $userId)->whereIn('status', ['sent', 'overdue']);
             $overdueQuery = Invoice::where('user_id', $userId)->where('status', 'overdue');
 
-            if ($userCurrency->value === 'USD') {
-                $unpaidInvoices = $unpaidQuery->sum('total');
-                $overdueInvoices = $overdueQuery->sum('total');
-            } else {
-                // Handle currency conversion for unpaid invoices
-                $unpaidTotal = 0;
-                $unpaidInvoices = $unpaidQuery->select('total', 'currency')->get();
-                foreach ($unpaidInvoices as $invoice) {
-                    $unpaidTotal += $currencyService->convert($invoice->total, $invoice->currency, $userCurrency);
+            // Handle currency conversion for unpaid invoices
+            $unpaidTotal = 0;
+            $unpaidInvoiceList = $unpaidQuery->select('total', 'currency')->get();
+            foreach ($unpaidInvoiceList as $invoice) {
+                $invoiceCurrency = \App\Enums\Currency::tryFrom($invoice->currency) ?? $userCurrency;
+                if ($invoiceCurrency === $userCurrency) {
+                    $unpaidTotal += $invoice->total;
+                } else {
+                    $unpaidTotal += $currencyService->convert($invoice->total, $invoiceCurrency, $userCurrency);
                 }
-                $unpaidInvoices = $unpaidTotal;
-
-                // Handle currency conversion for overdue invoices
-                $overdueTotal = 0;
-                $overdueInvoices = $overdueQuery->select('total', 'currency')->get();
-                foreach ($overdueInvoices as $invoice) {
-                    $overdueTotal += $currencyService->convert($invoice->total, $invoice->currency, $userCurrency);
-                }
-                $overdueInvoices = $overdueTotal;
             }
+            $unpaidInvoices = $unpaidTotal;
+
+            // Handle currency conversion for overdue invoices
+            $overdueTotal = 0;
+            $overdueInvoiceList = $overdueQuery->select('total', 'currency')->get();
+            foreach ($overdueInvoiceList as $invoice) {
+                $invoiceCurrency = \App\Enums\Currency::tryFrom($invoice->currency) ?? $userCurrency;
+                if ($invoiceCurrency === $userCurrency) {
+                    $overdueTotal += $invoice->total;
+                } else {
+                    $overdueTotal += $currencyService->convert($invoice->total, $invoiceCurrency, $userCurrency);
+                }
+            }
+            $overdueInvoices = $overdueTotal;
 
             // Optimize other stats with user scoping
             $activeProjects = Project::where('user_id', $userId)->where('status', 'active')->count();

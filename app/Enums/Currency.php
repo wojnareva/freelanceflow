@@ -79,15 +79,8 @@ enum Currency: string
 
     public function formatAmount(float $amount): string
     {
-        $decimalPlaces = $this->getDecimalPlaces();
-        $formattedAmount = number_format($amount, $decimalPlaces);
-
-        return match ($this) {
-            self::USD, self::CAD, self::AUD => $this->getSymbol().$formattedAmount,
-            self::EUR => $formattedAmount.' '.$this->getSymbol(),
-            self::GBP => $this->getSymbol().$formattedAmount,
-            self::JPY => $this->getSymbol().$formattedAmount,
-            default => $formattedAmount.' '.$this->value,
-        };
+        // Use LocalizationService for proper formatting based on locale
+        $localizationService = app(\App\Services\LocalizationService::class);
+        return $localizationService->formatMoney($amount, $this->value);
     }
 }

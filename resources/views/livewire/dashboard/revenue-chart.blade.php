@@ -23,7 +23,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('dashboard.stats.total_revenue') }}</p>
-                        <p class="text-2xl font-bold text-gray-900 dark:text-white">${{ number_format($totalRevenue, 2) }}</p>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $formattedTotal }}</p>
                     </div>
                     <div class="flex items-center space-x-1 text-sm">
                         @if($growthPercentage > 0)
@@ -44,7 +44,7 @@
             </div>
             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('dashboard.stats.monthly_average') }}</p>
-                <p class="text-2xl font-bold text-gray-900 dark:text-white">${{ number_format($totalRevenue / 6, 2) }}</p>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $formattedAverage }}</p>
             </div>
         </div>
 
@@ -64,11 +64,11 @@
                             <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-t relative overflow-hidden flex-1 flex items-end">
                                 <div class="w-full bg-blue-500 hover:bg-blue-600 transition-colors duration-200 rounded-t relative group-hover:bg-blue-600" 
                                      style="height: {{ $height }}%"
-                                     title="${{ number_format($value, 2) }}">
+                                     title="{{ \App\Services\LocalizationService::formatMoney($value, $userCurrency->value) }}">
                                 </div>
                                 <!-- Tooltip -->
                                 <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
-                                    ${{ number_format($value, 2) }}
+                                    {{ \App\Services\LocalizationService::formatMoney($value, $userCurrency->value) }}
                                     <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-800 dark:border-t-gray-700"></div>
                                 </div>
                             </div>

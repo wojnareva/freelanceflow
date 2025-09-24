@@ -3,6 +3,7 @@
 namespace App\Livewire\Dashboard;
 
 use App\Models\Invoice;
+use App\Services\CurrencyService;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -23,6 +24,9 @@ class RevenueChart extends Component
 
     public function loadChartData()
     {
+        $currencyService = app(CurrencyService::class);
+        $userCurrency = $currencyService->getUserCurrency();
+        
         $months = collect();
         $revenueData = collect();
 
@@ -31,10 +35,18 @@ class RevenueChart extends Component
             $month = Carbon::now()->subMonths($i);
             $monthName = $month->format('M Y');
 
-            $revenue = Invoice::where('status', 'paid')
+            // Get invoices for the month and convert to user currency
+            $monthInvoices = Invoice::where('user_id', auth()->id())
+                ->where('status', 'paid')
                 ->whereYear('paid_at', $month->year)
                 ->whereMonth('paid_at', $month->month)
-                ->sum('total');
+                ->get();
+            
+            $revenue = 0;
+            foreach ($monthInvoices as $invoice) {
+                $invoiceCurrency = \App\Enums\Currency::tryFrom($invoice->currency) ?? \App\Enums\Currency::USD;
+                $revenue += $currencyService->convert($invoice->total, $invoiceCurrency, $userCurrency);
+            }
 
             $months->push($monthName);
             $revenueData->push($revenue);
@@ -52,10 +64,16 @@ class RevenueChart extends Component
         $previousPeriodRevenue = 0;
         for ($i = 11; $i >= 6; $i--) {
             $month = Carbon::now()->subMonths($i);
-            $previousPeriodRevenue += Invoice::where('status', 'paid')
+            $monthInvoices = Invoice::where('user_id', auth()->id())
+                ->where('status', 'paid')
                 ->whereYear('paid_at', $month->year)
                 ->whereMonth('paid_at', $month->month)
-                ->sum('total');
+                ->get();
+            
+            foreach ($monthInvoices as $invoice) {
+                $invoiceCurrency = \App\Enums\Currency::tryFrom($invoice->currency) ?? \App\Enums\Currency::USD;
+                $previousPeriodRevenue += $currencyService->convert($invoice->total, $invoiceCurrency, $userCurrency);
+            }
         }
 
         $this->previousPeriodRevenue = $previousPeriodRevenue;
@@ -74,6 +92,16 @@ class RevenueChart extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.revenue-chart');
+        $currencyService = app(CurrencyService::class);
+        $userCurrency = $currencyService->getUserCurrency();
+        
+        return view('livewire.dashboard.revenue-chart', [
+            'userCurrency' => $userCurrency,
+            'formattedTotal' => $currencyService->format($this->totalRevenue, $userCurrency),
+            'formattedAverage' => $currencyService->format(
+                count($this->chartData['data']) > 0 ? $this->totalRevenue / count($this->chartData['data']) : 0,
+                $userCurrency
+            ),
+        ]);
     }
 }
