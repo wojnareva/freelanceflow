@@ -13,25 +13,25 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('app.Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('time-tracking.index')" :active="request()->routeIs('time-tracking.*')">
-                        {{ __('Time Tracking') }}
+                        {{ __('app.Time Tracking') }}
                     </x-nav-link>
                     <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">
-                        {{ __('Projects') }}
+                        {{ __('app.Projects') }}
                     </x-nav-link>
                     <x-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">
-                        {{ __('Clients') }}
+                        {{ __('app.Clients') }}
                     </x-nav-link>
                     <x-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.*') && !request()->routeIs('invoice-templates.*')">
-                        {{ __('Invoices') }}
+                        {{ __('app.Invoices') }}
                     </x-nav-link>
                     <x-nav-link :href="route('invoice-templates.index')" :active="request()->routeIs('invoice-templates.*')">
-                        {{ __('Recurring') }}
+                        {{ __('app.Recurring') }}
                     </x-nav-link>
                     <x-nav-link :href="route('expenses.index')" :active="request()->routeIs('expenses.*')">
-                        {{ __('Expenses') }}
+                        {{ __('app.Expenses') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -65,7 +65,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('app.Profile') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -75,7 +75,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('app.Log Out') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -98,25 +98,25 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('app.Dashboard') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('time-tracking.index')" :active="request()->routeIs('time-tracking.*')">
-                {{ __('Time Tracking') }}
+                {{ __('app.Time Tracking') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">
-                {{ __('Projects') }}
+                {{ __('app.Projects') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">
-                {{ __('Clients') }}
+                {{ __('app.Clients') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.*') && !request()->routeIs('invoice-templates.*')">
-                {{ __('Invoices') }}
+                {{ __('app.Invoices') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('invoice-templates.index')" :active="request()->routeIs('invoice-templates.*')">
-                {{ __('Recurring') }}
+                {{ __('app.Recurring') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('expenses.index')" :active="request()->routeIs('expenses.*')">
-                {{ __('Expenses') }}
+                {{ __('app.Expenses') }}
             </x-responsive-nav-link>
         </div>
 
@@ -146,7 +146,7 @@
                 </div>
                 
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                    {{ __('app.Profile') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
@@ -156,7 +156,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('app.Log Out') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
