@@ -41,14 +41,12 @@
                 <!-- Keyboard Shortcuts Help -->
                 <button onclick="window.KeyboardShortcuts?.showShortcuts()" 
                         class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-colors duration-200"
-                        title="Keyboard shortcuts (?)">
+                        title="{{ __('app.keyboard_shortcuts') }} (?)">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </button>
                 
-                <!-- Locale Selector -->
-                <livewire:locale-selector />
                 
                 <!-- Dark Mode Toggle -->
                 <livewire:dark-mode-toggle />
@@ -130,10 +128,6 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <!-- Locale Selector for Mobile -->
-                <div class="px-4 py-2">
-                    <livewire:locale-selector />
-                </div>
                 
                 <!-- Dark Mode Toggle for Mobile -->
                 <div class="px-4 py-2">
@@ -147,7 +141,7 @@
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        Keyboard Shortcuts
+                        {{ __('app.keyboard_shortcuts') }}
                     </button>
                 </div>
                 

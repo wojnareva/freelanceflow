@@ -7,6 +7,7 @@ use App\Services\LocalizationService;
 use App\Services\AresService;
 use App\Rules\ValidIco;
 use Carbon\Carbon;
+use App\Models\User;
 
 class LocalizationTest extends TestCase
 {
@@ -15,9 +16,16 @@ class LocalizationTest extends TestCase
     {
         app()->setLocale('cs');
         
+        // Default format with space
         $formatted = LocalizationService::formatMoney(2700.50, 'CZK');
-        
         $this->assertEquals('2 700,50 Kč', $formatted);
+        
+        // Test with user preference for dot format
+        $user = User::factory()->create(['number_format' => 'czech_dot']);
+        $this->actingAs($user);
+        
+        $formatted = LocalizationService::formatMoney(2700.50, 'CZK');
+        $this->assertEquals('2.700,50 Kč', $formatted);
     }
     
     /** @test */
@@ -25,9 +33,16 @@ class LocalizationTest extends TestCase
     {
         app()->setLocale('cs');
         
+        // Default format with space
         $formatted = LocalizationService::formatNumber(2700.50);
-        
         $this->assertEquals('2 700,50', $formatted);
+        
+        // Test with user preference for dot format
+        $user = User::factory()->create(['number_format' => 'czech_dot']);
+        $this->actingAs($user);
+        
+        $formatted = LocalizationService::formatNumber(2700.50);
+        $this->assertEquals('2.700,50', $formatted);
     }
     
     /** @test */
@@ -90,7 +105,6 @@ class LocalizationTest extends TestCase
         
         $this->assertArrayHasKey('cs', $locales);
         $this->assertArrayHasKey('en', $locales);
-        $this->assertArrayHasKey('sk', $locales);
         
         $this->assertEquals('Čeština', $locales['cs']['name']);
         $this->assertEquals('🇨🇿', $locales['cs']['flag']);
@@ -101,7 +115,6 @@ class LocalizationTest extends TestCase
     {
         $this->assertTrue(LocalizationService::isValidLocale('cs'));
         $this->assertTrue(LocalizationService::isValidLocale('en'));
-        $this->assertTrue(LocalizationService::isValidLocale('sk'));
         
         $this->assertFalse(LocalizationService::isValidLocale('de'));
         $this->assertFalse(LocalizationService::isValidLocale('invalid'));
@@ -112,11 +125,18 @@ class LocalizationTest extends TestCase
     {
         app()->setLocale('cs');
         
-        $this->assertEquals('2 700,50 Kč', format_money(2700.50, 'CZK'));
+        $this->assertEquals('2 700,50 Kč', format_money(2700.50)); // Uses CZK default for Czech
+        $this->assertEquals('2 700,50 Kč', format_money(2700.50, 'CZK')); // Explicit CZK
         $this->assertEquals('2 700,50', format_number(2700.50));
         $this->assertTrue(is_czech_locale());
         
         $localeInfo = get_locale_info();
         $this->assertEquals('Čeština', $localeInfo['name']);
+        
+        // Test English locale defaults to USD
+        app()->setLocale('en');
+        $formatted = format_money(2700.50); // Should use USD default for English
+        $this->assertStringContainsString('2,700.50', $formatted); // Should contain proper US formatting
+        $this->assertFalse(is_czech_locale());
     }
 }

@@ -17,6 +17,11 @@ return [
     'throttle' => 'Příliš mnoho pokusů o přihlášení. Zkuste to prosím znovu za :seconds sekund.',
 
     // Login & Registration
+    'Log in' => 'Přihlásit se',
+    'Email' => 'E-mail',
+    'Password' => 'Heslo',
+    'Remember me' => 'Zapamatovat si mě',
+    'Forgot your password?' => 'Zapomněli jste heslo?',
     'login' => 'Přihlášení',
     'register' => 'Registrace',
     'logout' => 'Odhlášení',

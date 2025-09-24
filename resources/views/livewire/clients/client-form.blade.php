@@ -4,7 +4,7 @@
             <!-- Header -->
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                    {{ $client ? 'Edit Client' : 'Create New Client' }}
+                    {{ $client ? __('clients.edit_client') : __('clients.create_new_client') }}
                 </h3>
                 @if($client)
                     <button type="button" wire:click="$dispatch('closeModal')" class="text-gray-400 hover:text-gray-600">
@@ -20,14 +20,14 @@
                 <!-- Name -->
                 <div class="md:col-span-2">
                     <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Name <span class="text-red-500">*</span>
+                        {{ __('app.name') }} <span class="text-red-500">*</span>
                     </label>
                     <input 
                         type="text" 
                         wire:model="name" 
                         id="name"
                         class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('name') border-red-500 @enderror"
-                        placeholder="Enter client name"
+                        placeholder="{{ __('clients.placeholders.enter_client_name') }}"
                     >
                     @error('name')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -37,14 +37,14 @@
                 <!-- Email -->
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Email <span class="text-red-500">*</span>
+                        {{ __('app.email') }} <span class="text-red-500">*</span>
                     </label>
                     <input 
                         type="email" 
                         wire:model="email" 
                         id="email"
                         class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('email') border-red-500 @enderror"
-                        placeholder="Enter email address"
+                        placeholder="{{ __('clients.placeholders.enter_email') }}"
                     >
                     @error('email')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -54,14 +54,14 @@
                 <!-- Phone -->
                 <div>
                     <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Phone
+                        {{ __('clients.phone') }}
                     </label>
                     <input 
                         type="tel" 
                         wire:model="phone" 
                         id="phone"
                         class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('phone') border-red-500 @enderror"
-                        placeholder="Enter phone number"
+                        placeholder="{{ __('clients.placeholders.enter_phone') }}"
                     >
                     @error('phone')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -179,14 +179,14 @@
                 <!-- Company -->
                 <div class="md:col-span-2">
                     <label for="company" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Company
+                        {{ __('clients.company') }}
                     </label>
                     <input 
                         type="text" 
                         wire:model="company" 
                         id="company"
                         class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('company') border-red-500 @enderror"
-                        placeholder="Enter company name"
+                        placeholder="{{ __('clients.placeholders.enter_company_name') }}"
                     >
                     @error('company')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -196,7 +196,7 @@
                 <!-- Address -->
                 <div class="md:col-span-2">
                     <label for="address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Address
+                        {{ __('clients.address') }}
                     </label>
                     <textarea 
                         wire:model="address" 

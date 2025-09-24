@@ -142,13 +142,13 @@
                             @if($project->budget)
                                 <div>
                                     <span class="text-gray-500 dark:text-gray-400">Budget:</span>
-                                    <span class="font-medium text-gray-900 dark:text-white ml-1">${{ number_format($project->budget ?? 0, 0) }}</span>
+                                    <span class=\"font-medium text-gray-900 dark:text-white ml-1\">{{ auth()->user()->currency_symbol }}{{ number_format($project->budget ?? 0, 0) }}</span>
                                 </div>
                             @endif
                             @if($project->hourly_rate)
                                 <div>
                                     <span class="text-gray-500 dark:text-gray-400">Rate:</span>
-                                    <span class="font-medium text-gray-900 dark:text-white ml-1">${{ number_format($project->hourly_rate ?? 0, 0) }}/hr</span>
+                                    <span class=\"font-medium text-gray-900 dark:text-white ml-1\">{{ auth()->user()->currency_symbol }}{{ number_format($project->hourly_rate ?? 0, 0) }}/hr</span>
                                 </div>
                             @endif
                         </div>
@@ -299,7 +299,7 @@
                                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                             <div>
                                                 <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                                                    Budget ($)
+                                                    Budget ({{ auth()->user()->currency_symbol }})
                                                     <x-help-icon text="Total project budget. Leave empty for hourly projects without fixed budget." position="right" />
                                                 </label>
                                                 <input type="number" step="0.01" wire:model="budget" 
@@ -309,7 +309,7 @@
                                             
                                             <div>
                                                 <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                                                    Hourly Rate ($)
+                                                    Hourly Rate ({{ auth()->user()->currency_symbol }})
                                                     <x-help-icon text="Your billing rate per hour for this project. Used for time tracking calculations." position="right" />
                                                 </label>
                                                 <input type="number" step="0.01" wire:model="hourlyRate" 

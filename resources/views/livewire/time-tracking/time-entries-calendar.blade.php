@@ -6,11 +6,11 @@
             <div class="flex items-center space-x-2">
                 <button wire:click="setViewType('month')"
                         class="px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 {{ $viewType === 'month' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600' }}">
-                    Month
+                        {{ __('time.month_view') }}
                 </button>
                 <button wire:click="setViewType('week')"
                         class="px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 {{ $viewType === 'week' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600' }}">
-                    Week
+                        {{ __('time.week_view') }}
                 </button>
             </div>
             
@@ -36,7 +36,7 @@
                 
                 <button wire:click="today" 
                         class="ml-2 px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md transition-colors duration-200">
-                    Today
+                    {{ __('app.today') }}
                 </button>
             </div>
             
@@ -44,7 +44,7 @@
             <div class="flex items-center space-x-3">
                 <select wire:model.live="selectedProjectId" 
                         class="text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">All Projects</option>
+                    <option value="">{{ __('app.all') }} {{ __('projects.projects') }}</option>
                     @foreach($projects as $project)
                         <option value="{{ $project->id }}">{{ $project->name }}</option>
                     @endforeach
@@ -53,7 +53,7 @@
                 <label class="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300">
                     <input type="checkbox" wire:model.live="showOnlyBillable"
                            class="rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-blue-600 focus:ring-blue-500">
-                    <span>Billable only</span>
+                    <span>{{ __('time.show_billable_only') }}</span>
                 </label>
             </div>
         </div>
@@ -64,7 +64,7 @@
         <!-- Calendar Header -->
         @if($viewType === 'month')
             <div class="grid grid-cols-7 bg-gray-50 dark:bg-gray-700">
-                @foreach(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $day)
+                @foreach($dayNamesShort as $day)
                     <div class="p-3 text-xs font-medium text-gray-500 dark:text-gray-400 text-center border-r border-gray-200 dark:border-gray-600 last:border-r-0">
                         {{ $day }}
                     </div>
@@ -141,17 +141,17 @@
         
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-4">
             <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ number_format($totalHours, 1) }}h</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">Total Hours</div>
+            <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('time.total_hours') }}</div>
         </div>
         
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-4">
-            <div class="text-2xl font-bold text-green-600 dark:text-green-400">${{ number_format($totalEarnings, 0) }}</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">Total Earnings</div>
+            <div class="text-2xl font-bold text-green-600 dark:text-green-400">{{ format_money($totalEarnings) }}</div>
+            <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('time.total_amount') }}</div>
         </div>
         
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-4">
             <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ number_format($billableHours, 1) }}h</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">Billable Hours</div>
+            <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('time.billable_hours') }}</div>
         </div>
     </div>
 </div>

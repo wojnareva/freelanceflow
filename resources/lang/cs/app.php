@@ -126,6 +126,7 @@ return [
     'help' => 'Nápověda',
     'support' => 'Podpora',
     'documentation' => 'Dokumentace',
+    'keyboard_shortcuts' => 'Klávesové zkratky',
     'tutorial' => 'Návod',
     'guide' => 'Průvodce',
     'faq' => 'Často kladené otázky',
@@ -213,6 +214,17 @@ return [
     'results' => 'výsledky',
     'showing' => 'Zobrazuje se',
     'entries' => 'záznamy',
+
+    // Main Navigation
+    'Dashboard' => 'Přehled',
+    'Time Tracking' => 'Sledování času',
+    'Projects' => 'Projekty',
+    'Clients' => 'Klienti',
+    'Invoices' => 'Faktury',
+    'Recurring' => 'Opakované',
+    'Expenses' => 'Výdaje',
+    'Profile' => 'Profil',
+    'Log Out' => 'Odhlásit se',
     
     // Messages
     'welcome' => 'Vítejte',

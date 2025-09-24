@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Helpers\LocaleHelper;
 use Symfony\Component\HttpFoundation\Response;
 
 class SetLocale
@@ -19,8 +20,8 @@ class SetLocale
         // Set application locale
         app()->setLocale($locale);
         
-        // Set Carbon locale for date formatting
-        Carbon::setLocale($locale);
+        // Configure Carbon and other locale-specific settings
+        LocaleHelper::configureCarbon();
         
         return $next($request);
     }
@@ -58,7 +59,7 @@ class SetLocale
      */
     private function detectBrowserLocale(Request $request): ?string
     {
-        $availableLocales = array_keys(config('app.available_locales', ['cs', 'en', 'sk']));
+        $availableLocales = array_keys(config('app.available_locales', ['cs' => [], 'en' => []]));
         
         // Get preferred language from browser
         $preferred = $request->getPreferredLanguage($availableLocales);

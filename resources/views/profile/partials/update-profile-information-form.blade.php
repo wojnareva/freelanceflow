@@ -94,8 +94,9 @@
                 <div>
                     <x-input-label for="number_format" :value="__('Number Format')" />
                     <select id="number_format" name="number_format" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                        <option value="czech" {{ old('number_format', $user->number_format ?? 'czech') === 'czech' ? 'selected' : '' }}>1 234,56 (Czech)</option>
-                        <option value="us" {{ old('number_format', $user->number_format ?? 'czech') === 'us' ? 'selected' : '' }}>1,234.56 (US/International)</option>
+                        <option value="czech_space" {{ old('number_format', $user->number_format ?? 'czech_space') === 'czech_space' ? 'selected' : '' }}>1 234,56 Kč (Česky s mezerou)</option>
+                        <option value="czech_dot" {{ old('number_format', $user->number_format ?? 'czech_space') === 'czech_dot' ? 'selected' : '' }}>1.234,56 Kč (Česky s tečkou)</option>
+                        <option value="us" {{ old('number_format', $user->number_format ?? 'czech_space') === 'us' ? 'selected' : '' }}>$1,234.56 (US/International)</option>
                     </select>
                     <x-input-error class="mt-2" :messages="$errors->get('number_format')" />
                 </div>

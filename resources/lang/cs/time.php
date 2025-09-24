@@ -33,6 +33,7 @@ return [
     'end_time' => 'Čas ukončení',
     'duration' => 'Trvání',
     'total_time' => 'Celkový čas',
+    'total_hours' => 'Celkem hodin',
     'hours' => 'hodiny',
     'minutes' => 'minuty',
     'seconds' => 'sekundy',

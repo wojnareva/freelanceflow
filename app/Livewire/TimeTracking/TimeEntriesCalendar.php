@@ -4,6 +4,7 @@ namespace App\Livewire\TimeTracking;
 
 use App\Models\Project;
 use App\Models\TimeEntry;
+use App\Services\CalendarService;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -49,7 +50,7 @@ class TimeEntriesCalendar extends Component
     {
         $this->viewType = $type;
         if ($type === 'week') {
-            $this->currentDate = $this->currentDate->copy()->startOfWeek();
+            $this->currentDate = CalendarService::getWeekStart($this->currentDate);
         } else {
             $this->currentDate = $this->currentDate->copy()->startOfMonth();
         }
@@ -69,10 +70,10 @@ class TimeEntriesCalendar extends Component
         $startOfMonth = $this->currentDate->copy()->startOfMonth();
         $endOfMonth = $this->currentDate->copy()->endOfMonth();
 
-        // Start from Sunday of the week containing the first day
-        $startDate = $startOfMonth->copy()->startOfWeek(Carbon::SUNDAY);
-        // End on Saturday of the week containing the last day
-        $endDate = $endOfMonth->copy()->endOfWeek(Carbon::SATURDAY);
+        // Start from the first day of week for current locale containing the first day
+        $startDate = CalendarService::getWeekStart($startOfMonth);
+        // End on last day of week for current locale containing the last day  
+        $endDate = CalendarService::getWeekEnd($endOfMonth);
 
         $days = [];
         $currentDate = $startDate->copy();
@@ -87,7 +88,7 @@ class TimeEntriesCalendar extends Component
 
     private function getWeekDays()
     {
-        $startOfWeek = $this->currentDate->copy()->startOfWeek(Carbon::SUNDAY);
+        $startOfWeek = CalendarService::getWeekStart($this->currentDate);
         $days = [];
 
         for ($i = 0; $i < 7; $i++) {
@@ -100,12 +101,12 @@ class TimeEntriesCalendar extends Component
     public function getTimeEntriesProperty()
     {
         $startDate = $this->viewType === 'month'
-            ? $this->currentDate->copy()->startOfMonth()->startOfWeek(Carbon::SUNDAY)
-            : $this->currentDate->copy()->startOfWeek(Carbon::SUNDAY);
+            ? CalendarService::getWeekStart($this->currentDate->copy()->startOfMonth())
+            : CalendarService::getWeekStart($this->currentDate);
 
         $endDate = $this->viewType === 'month'
-            ? $this->currentDate->copy()->endOfMonth()->endOfWeek(Carbon::SATURDAY)
-            : $this->currentDate->copy()->endOfWeek(Carbon::SATURDAY);
+            ? CalendarService::getWeekEnd($this->currentDate->copy()->endOfMonth())
+            : CalendarService::getWeekEnd($this->currentDate);
 
         return TimeEntry::with(['project.client', 'task'])
             ->where('user_id', auth()->id())
@@ -164,10 +165,14 @@ class TimeEntriesCalendar extends Component
 
     public function render()
     {
+        $this->currentDate->locale(app()->getLocale());
+
         return view('livewire.time-tracking.time-entries-calendar', [
             'calendarDays' => $this->calendarDays,
             'timeEntries' => $this->timeEntries,
             'projects' => $this->projects,
+            'dayNamesShort' => CalendarService::getDayNamesShort(),
+            'monthName' => $this->currentDate->locale(app()->getLocale())->translatedFormat('F Y'),
         ]);
     }
 }

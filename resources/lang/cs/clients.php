@@ -25,6 +25,7 @@ return [
     'add_first_client' => 'Přidat prvního klienta',
     'add_client' => 'Přidat klienta',
     'create_client' => 'Vytvořit klienta',
+    'create_new_client' => 'Vytvořit nového klienta',
     'edit_client' => 'Upravit klienta',
     'edit_client_button' => 'Upravit klienta',
     'client_details' => 'Detaily klienta',
@@ -262,5 +263,13 @@ return [
         'merge_clients' => 'Opravdu chcete sloučit tyto klienty?',
         'this_will_affect_projects' => 'Toto ovlivní související projekty a faktury.',
         'action_cannot_be_undone' => 'Tuto akci nelze vrátit zpět.',
+    ],
+    
+    // Placeholders
+    'placeholders' => [
+        'enter_client_name' => 'Zadejte jméno klienta',
+        'enter_email' => 'Zadejte emailovou adresu',
+        'enter_phone' => 'Zadejte telefonní číslo',
+        'enter_company_name' => 'Zadejte název společnosti',
     ],
 ];

@@ -95,9 +95,8 @@ return [
     */
 
     'available_locales' => [
-        'cs' => ['name' => 'Čeština', 'flag' => '🇨🇿', 'code' => 'cs'],
-        'en' => ['name' => 'English', 'flag' => '🇺🇸', 'code' => 'en'],
-        'sk' => ['name' => 'Slovenčina', 'flag' => '🇸🇰', 'code' => 'sk'],
+        'cs' => ['name' => 'Čeština', 'flag' => '🇨🇿', 'code' => 'cs', 'currency' => 'CZK'],
+        'en' => ['name' => 'English', 'flag' => '🇺🇸', 'code' => 'en', 'currency' => 'USD'],
     ],
 
     /*

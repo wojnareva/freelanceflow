@@ -13,15 +13,28 @@ class LocalizationService
     public static function formatMoney($amount, $currency = null): string
     {
         $locale = app()->getLocale();
-        $currency = $currency ?? auth()->user()?->currency ?? 'CZK';
+        $user = auth()->user();
+        $currency = $currency ?? $user?->currency ?? ($locale === 'cs' ? 'CZK' : 'USD');
+        $numberFormat = $user?->number_format ?? 'czech_space';
         
         if ($locale === 'cs') {
-            // Czech formatting: 2 700,50 Kč
+            // Czech formatting with two options
             if ($currency === 'CZK') {
-                return number_format($amount, 2, ',', ' ') . ' Kč';
+                if ($numberFormat === 'czech_space') {
+                    // Format: 1 234,50 Kč (with thin space)
+                    return number_format($amount, 2, ',', ' ') . ' Kč';
+                } else {
+                    // Format: 1.234,50 Kč (with dot)
+                    return number_format($amount, 2, ',', '.') . ' Kč';
+                }
             }
             
+            // For other currencies, use NumberFormatter with custom pattern
             $formatter = new NumberFormatter('cs_CZ', NumberFormatter::CURRENCY);
+            if ($numberFormat === 'czech_space') {
+                $formatter->setPattern('#,##0.00 ¤');
+                $formatter->setSymbol(NumberFormatter::GROUPING_SEPARATOR_SYMBOL, ' ');
+            }
             return $formatter->formatCurrency($amount, $currency);
         }
         
@@ -36,10 +49,17 @@ class LocalizationService
     public static function formatNumber($number, $decimals = 2): string 
     {
         $locale = app()->getLocale();
+        $user = auth()->user();
+        $numberFormat = $user?->number_format ?? 'czech_space';
         
         if ($locale === 'cs') {
-            // Czech: 2 700,50
-            return number_format($number, $decimals, ',', ' ');
+            if ($numberFormat === 'czech_space') {
+                // Czech with space: 1 234,50
+                return number_format($number, $decimals, ',', ' ');
+            } else {
+                // Czech with dot: 1.234,50
+                return number_format($number, $decimals, ',', '.');
+            }
         }
         
         // English: 2,700.50  
@@ -87,7 +107,6 @@ class LocalizationService
         return config('app.available_locales', [
             'cs' => ['name' => 'Čeština', 'flag' => '🇨🇿', 'code' => 'cs'],
             'en' => ['name' => 'English', 'flag' => '🇺🇸', 'code' => 'en'],
-            'sk' => ['name' => 'Slovenčina', 'flag' => '🇸🇰', 'code' => 'sk'],
         ]);
     }
     
@@ -141,5 +160,16 @@ class LocalizationService
     {
         $carbon = Carbon::parse($datetime)->setTimezone(self::getUserTimezone());
         return self::formatDateTime($carbon, $format);
+    }
+
+    /**
+     * Get the first day of the week for the current locale.
+     * (0 for Sunday, 1 for Monday)
+     */
+    public static function getWeekStartsOn(): int
+    {
+        $locale = app()->getLocale();
+
+        return $locale === 'cs' ? 1 : 0;
     }
 }

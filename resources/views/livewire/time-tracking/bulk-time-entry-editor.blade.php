@@ -1,20 +1,20 @@
 <div class="space-y-6">
     <!-- Filters -->
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6">
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Filter Time Entries</h3>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ __('time.filter') }} {{ __('time.time_entries') }}</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Search</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('app.search') }}</label>
                 <input type="text" wire:model.live.debounce.300ms="search" 
-                       placeholder="Search descriptions..."
+                       placeholder="{{ __('time.search_entries') }}..."
                        class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
             </div>
             
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Project</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('time.project') }}</label>
                 <select wire:model.live="projectFilter" 
                         class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">All Projects</option>
+                    <option value="">{{ __('app.all') }} {{ __('projects.projects') }}</option>
                     @foreach($projects as $project)
                         <option value="{{ $project->id }}">{{ $project->name }} ({{ $project->client->name }})</option>
                     @endforeach
@@ -38,7 +38,7 @@
             <label class="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300">
                 <input type="checkbox" wire:model.live="showOnlyBillable"
                        class="rounded border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-blue-600 focus:ring-blue-500">
-                <span>Show only billable entries</span>
+                <span>{{ __('time.show_billable_only') }}</span>
             </label>
         </div>
     </div>
@@ -83,7 +83,7 @@
                             <option value="0">Non-billable</option>
                         </select>
                     @elseif($bulkAction === 'update_rate')
-                        <label class="block text-sm font-medium text-blue-900 dark:text-blue-100 mb-2">Hourly Rate ($)</label>
+                        <label class="block text-sm font-medium text-blue-900 dark:text-blue-100 mb-2">{{ __('time.hourly_rate') }}</label>
                         <input type="number" wire:model="bulkHourlyRate" step="0.01" min="0"
                                placeholder="0.00"
                                class="w-full border-blue-300 dark:border-blue-600 dark:bg-blue-900/30 dark:text-blue-100 rounded-md focus:ring-blue-500 focus:border-blue-500">
@@ -177,7 +177,7 @@
                                     {{ $this->formatDuration($entry->duration) }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                                    ${{ number_format($entry->hourly_rate, 0) }}/hr
+                                    {{ format_money($entry->hourly_rate, 0) }}/{{ __('time.hours') }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @if($entry->billable)
@@ -192,7 +192,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                                     @if($entry->billable)
-                                        ${{ number_format(($entry->duration * $entry->hourly_rate) / 60, 0) }}
+                                        {{ format_money(($entry->duration * $entry->hourly_rate) / 60, 0) }}
                                     @else
                                         <span class="text-gray-400 dark:text-gray-500">-</span>
                                     @endif

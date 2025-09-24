@@ -3,8 +3,11 @@
 namespace App\Providers;
 
 use App\Services\LocalizationService;
+use App\Helpers\LocaleHelper;
+use App\Services\CalendarService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +26,16 @@ class AppServiceProvider extends ServiceProvider
     {
         // Register Czech formatting Blade directives
         $this->registerBladeDirectives();
+        
+        // Share locale and calendar configuration with all views
+        View::composer('*', function ($view) {
+            $view->with([
+                'calendarConfig' => CalendarService::getConfig(),
+                'firstDayOfWeek' => LocaleHelper::getFirstDayOfWeek(),
+                'dayNames' => LocaleHelper::getDayNamesOrdered(),
+                'dayNamesShort' => LocaleHelper::getDayNamesShortOrdered(),
+            ]);
+        });
     }
     
     /**

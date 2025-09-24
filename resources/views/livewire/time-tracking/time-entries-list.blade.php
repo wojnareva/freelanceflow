@@ -1,8 +1,8 @@
 <div>
     <!-- Header Section -->
     <div class="mb-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Time Tracking</h2>
-        <p class="text-gray-600 dark:text-gray-400">Track and manage your time entries</p>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('time.time_tracking') }}</h2>
+        <p class="text-gray-600 dark:text-gray-400">{{ __('time.time_tracking') }}</p>
     </div>
 
     <!-- Summary Cards -->
@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="ml-5">
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Hours</p>
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('time.total_hours') }}</p>
                     <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ number_format($totalHours, 1) }}h</p>
                 </div>
             </div>
@@ -34,8 +34,8 @@
                     </div>
                 </div>
                 <div class="ml-5">
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Earnings</p>
-                    <p class="text-2xl font-semibold text-gray-900 dark:text-white">${{ number_format($totalEarnings, 2) }}</p>
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('time.total_amount') }}</p>
+                    <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ format_money($totalEarnings) }}</p>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="ml-5">
-                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Entries</p>
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('app.entries') }}</p>
                     <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $timeEntries->total() }}</p>
                 </div>
             </div>
@@ -146,7 +146,7 @@
                                 {{ $formatted }}
                             </span>
                             <span class="font-medium text-gray-900 dark:text-gray-300">
-                                ${{ number_format($entry->amount ?? 0, 2) }}
+                                {{ format_money($entry->amount ?? 0) }}
                             </span>
                         </div>
                         
@@ -220,7 +220,7 @@
                                 {{ $formatted }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
-                                ${{ number_format($entry->amount ?? 0, 2) }}
+                                {{ format_money($entry->amount ?? 0) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($entry->billable)

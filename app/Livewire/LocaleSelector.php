@@ -23,6 +23,7 @@ class LocaleSelector extends Component
     {
         // Validate locale
         if (!LocalizationService::isValidLocale($locale)) {
+            session()->flash('error', 'Invalid locale selected.');
             return;
         }
 
@@ -30,24 +31,19 @@ class LocaleSelector extends Component
         session(['locale' => $locale]);
         
         // Update user preference if authenticated
-        if (Auth::check()) {
-            /** @var User|null $user */
-            $user = Auth::user();
-            if ($user) {
-                $user->update(['locale' => $locale]);
-            }
+        if (auth()->check()) {
+            auth()->user()->update(['locale' => $locale]);
         }
         
-        // Apply locale immediately within this request
+        // Set application locale immediately (triggers middleware logic)
         app()->setLocale($locale);
         
-        // Update component state for immediate UI feedback
+        // Update component state for UI
         $this->currentLocale = $locale;
         $this->showDropdown = false;
         
-        // Force a full navigation so middleware re-runs with updated session
-        $targetUrl = url()->previous() ?: '/';
-        return $this->redirect($targetUrl, navigate: true);
+        // Force full navigation to current URL (re-triggers middleware and full reload)
+        return $this->redirect(request()->url());
     }
 
     public function toggleDropdown()
