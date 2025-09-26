@@ -258,6 +258,17 @@ return [
     'server_error' => 'Server error',
     'maintenance_mode' => 'Maintenance mode',
     
+    // Main Navigation
+    'Dashboard' => 'Dashboard',
+    'Time Tracking' => 'Time Tracking',
+    'Projects' => 'Projects',
+    'Clients' => 'Clients',
+    'Invoices' => 'Invoices',
+    'Recurring' => 'Recurring',
+    'Expenses' => 'Expenses',
+    'Profile' => 'Profile',
+    'Log Out' => 'Log Out',
+
     // Confirmation messages
     'are_you_sure' => 'Are you sure?',
     'confirm_delete' => 'Confirm deletion',
