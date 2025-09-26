@@ -313,4 +313,12 @@ return [
     'all_projects_timeline_title' => 'Časová osa všech projektů',
     'all_projects_timeline_description' => 'Přehled všech aktivit a milníků projektů',
     'projects_list' => 'Seznam projektů',
+
+    // Missing translations for Projects List
+    'total_projects' => 'Celkem projektů',
+    'all_statuses' => 'Všechny stavy',
+    'all_clients' => 'Všichni klienti',
+    'get_started_by_creating' => 'Začněte vytvořením svého prvního projektu.',
+    'update_project' => 'Aktualizovat projekt',
+    'search_projects_clients' => 'Hledat projekty, klienty...',
 ];

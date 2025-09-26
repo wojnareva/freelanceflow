@@ -313,4 +313,12 @@ return [
     'all_projects_timeline_title' => 'All Projects Timeline',
     'all_projects_timeline_description' => 'Overview of all project activities and milestones',
     'projects_list' => 'Projects List',
+
+    // Missing translations for Projects List
+    'total_projects' => 'Total Projects',
+    'all_statuses' => 'All Statuses',
+    'all_clients' => 'All Clients',
+    'get_started_by_creating' => 'Get started by creating your first project.',
+    'update_project' => 'Update Project',
+    'search_projects_clients' => 'Search projects, clients...',
 ];

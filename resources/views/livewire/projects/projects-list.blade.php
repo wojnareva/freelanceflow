@@ -5,7 +5,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <div class="text-2xl font-bold text-gray-900 dark:text-white">{{ $stats['total'] }}</div>
-                    <div class="text-sm text-gray-500 dark:text-gray-400">Total Projects</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('projects.total_projects') }}</div>
                 </div>
                 <x-help-icon text="Total number of projects across all statuses" position="bottom" />
             </div>
@@ -14,26 +14,26 @@
             <div class="flex items-center justify-between">
                 <div>
                     <div class="text-2xl font-bold text-green-600 dark:text-green-400">{{ $stats['active'] }}</div>
-                    <div class="text-sm text-gray-500 dark:text-gray-400">Active</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('projects.active') }}</div>
                 </div>
                 <x-help-icon text="Projects currently in progress and accepting work" position="bottom" />
             </div>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-4">
             <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ $stats['completed'] }}</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">Completed</div>
+            <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('projects.completed') }}</div>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-4">
             <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{{ $stats['on_hold'] }}</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">On Hold</div>
+            <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('projects.on_hold') }}</div>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-4">
             <div class="text-2xl font-bold text-gray-600 dark:text-gray-400">{{ $stats['draft'] }}</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">Draft</div>
+            <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('projects.draft') }}</div>
         </div>
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-4">
             <div class="text-2xl font-bold text-slate-600 dark:text-slate-400">{{ $stats['archived'] }}</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">Archived</div>
+            <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('projects.archived') }}</div>
         </div>
     </div>
 
@@ -46,20 +46,20 @@
                 <div class="flex-1">
                     <input type="text" 
                            wire:model.live.debounce.300ms="search" 
-                           placeholder="Search projects, clients..."
+                           placeholder="{{ __('projects.search_projects_clients') }}"
                            class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
                 </div>
                 
                 <!-- Status Filter -->
                 <div class="sm:w-48">
-                    <select wire:model.live="statusFilter" 
+                    <select wire:model.live="statusFilter"
                             class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">All Statuses</option>
-                        <option value="draft">Draft</option>
-                        <option value="active">Active</option>
-                        <option value="on_hold">On Hold</option>
-                        <option value="completed">Completed</option>
-                        <option value="archived">Archived</option>
+                        <option value="">{{ __('projects.all_statuses') }}</option>
+                        <option value="draft">{{ __('projects.draft') }}</option>
+                        <option value="active">{{ __('projects.active') }}</option>
+                        <option value="on_hold">{{ __('projects.on_hold') }}</option>
+                        <option value="completed">{{ __('projects.completed') }}</option>
+                        <option value="archived">{{ __('projects.archived') }}</option>
                     </select>
                 </div>
                 
@@ -67,7 +67,7 @@
                 <div class="sm:w-48">
                     <select wire:model.live="clientFilter" 
                             class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">All Clients</option>
+                        <option value="">{{ __('projects.all_clients') }}</option>
                         @foreach($clients as $client)
                             <option value="{{ $client->id }}">{{ $client->name }}</option>
                         @endforeach
@@ -82,7 +82,7 @@
                     <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
                     </svg>
-                    New Project
+                    {{ __('projects.new_project') }}
                 </button>
             </div>
         </div>
@@ -198,12 +198,12 @@
                     <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                     </svg>
-                    <h3 class="mt-2 text-lg font-medium text-gray-900 dark:text-white">No projects found</h3>
-                    <p class="mt-1 text-gray-500 dark:text-gray-400">Get started by creating your first project.</p>
+                    <h3 class="mt-2 text-lg font-medium text-gray-900 dark:text-white">{{ __('projects.no_projects_found') }}</h3>
+                    <p class="mt-1 text-gray-500 dark:text-gray-400">{{ __('projects.get_started_by_creating') }}</p>
                     <div class="mt-6">
                         <button wire:click="createProject" 
                                 class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
-                            Create Project
+                            {{ __('projects.create_project') }}
                         </button>
                     </div>
                 </div>
@@ -335,7 +335,7 @@
                         <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                             <button type="submit" 
                                     class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
-                                {{ $editingProject ? 'Update Project' : 'Create Project' }}
+                                {{ $editingProject ? __('projects.update_project') : __('projects.create_project') }}
                             </button>
                             <button type="button" wire:click="closeModal" 
                                     class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700">
