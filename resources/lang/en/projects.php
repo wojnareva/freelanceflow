@@ -321,4 +321,11 @@ return [
     'get_started_by_creating' => 'Get started by creating your first project.',
     'update_project' => 'Update Project',
     'search_projects_clients' => 'Search projects, clients...',
+
+    // Status translations (main level for direct access)
+    'active' => 'Active',
+    'completed' => 'Completed',
+    'on_hold' => 'On Hold',
+    'draft' => 'Draft',
+    'archived' => 'Archived',
 ];

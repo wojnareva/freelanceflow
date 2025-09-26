@@ -321,4 +321,11 @@ return [
     'get_started_by_creating' => 'Začněte vytvořením svého prvního projektu.',
     'update_project' => 'Aktualizovat projekt',
     'search_projects_clients' => 'Hledat projekty, klienty...',
+
+    // Status translations (main level for direct access)
+    'active' => 'Aktivní',
+    'completed' => 'Dokončeno',
+    'on_hold' => 'Pozastaveno',
+    'draft' => 'Koncept',
+    'archived' => 'Archivováno',
 ];
