@@ -29,7 +29,7 @@
                 </div>
                 <div class="ml-4">
                     <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Expenses</dt>
-                    <dd class="text-lg font-semibold text-gray-900 dark:text-white">${{ number_format($stats['total'], 2) }}</dd>
+                    <dd class="text-lg font-semibold text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatMoney($stats['total']) }}</dd>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="ml-4">
                     <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Billable Expenses</dt>
-                    <dd class="text-lg font-semibold text-gray-900 dark:text-white">${{ number_format($stats['billable'], 2) }}</dd>
+                    <dd class="text-lg font-semibold text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatMoney($stats['billable']) }}</dd>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="ml-4">
                     <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Unbilled Expenses</dt>
-                    <dd class="text-lg font-semibold text-gray-900 dark:text-white">${{ number_format($stats['unbilled'], 2) }}</dd>
+                    <dd class="text-lg font-semibold text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatMoney($stats['unbilled']) }}</dd>
                 </div>
             </div>
         </div>

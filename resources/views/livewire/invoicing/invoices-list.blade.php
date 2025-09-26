@@ -27,7 +27,7 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{{ __('invoices.total_revenue') }}</dt>
-                        <dd class="text-lg font-medium text-gray-900 dark:text-white">${{ number_format($stats['total_revenue'], 2) }}</dd>
+                        <dd class="text-lg font-medium text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatMoney($stats['total_revenue']) }}</dd>
                     </dl>
                 </div>
             </div>
@@ -215,7 +215,7 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900 dark:text-white">
-                                ${{ number_format($invoice->total, 2) }}
+                                {{ \App\Services\LocalizationService::formatMoney($invoice->total) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
