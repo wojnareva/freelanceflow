@@ -296,4 +296,12 @@ return [
     'payment_history' => 'Payment History',
     'payment_via' => 'Payment via',
     'remaining_balance' => 'Remaining Balance:',
+
+    // Missing translations for Invoices List
+    'total_invoices' => 'Total Invoices',
+    'total_revenue' => 'Total Revenue',
+    'all_statuses' => 'All Statuses',
+    'all_clients' => 'All Clients',
+    'no_invoices_found' => 'No invoices found',
+    'get_started_by_creating' => 'Get started by creating your first invoice.',
 ];

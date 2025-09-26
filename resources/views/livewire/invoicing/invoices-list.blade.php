@@ -10,7 +10,7 @@
                 </div>
                 <div class="ml-5 w-0 flex-1">
                     <dl>
-                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Invoices</dt>
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{{ __('invoices.total_invoices') }}</dt>
                         <dd class="text-lg font-medium text-gray-900 dark:text-white">{{ $stats['total_invoices'] }}</dd>
                     </dl>
                 </div>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="ml-5 w-0 flex-1">
                     <dl>
-                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Revenue</dt>
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{{ __('invoices.total_revenue') }}</dt>
                         <dd class="text-lg font-medium text-gray-900 dark:text-white">${{ number_format($stats['total_revenue'], 2) }}</dd>
                     </dl>
                 </div>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="ml-5 w-0 flex-1">
                     <dl>
-                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Pending</dt>
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{{ __('invoices.pending') }}</dt>
                         <dd class="text-lg font-medium text-gray-900 dark:text-white">{{ $stats['pending_invoices'] }}</dd>
                     </dl>
                 </div>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="ml-5 w-0 flex-1">
                     <dl>
-                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Overdue</dt>
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{{ __('invoices.overdue') }}</dt>
                         <dd class="text-lg font-medium text-gray-900 dark:text-white">{{ $stats['overdue_invoices'] }}</dd>
                     </dl>
                 </div>
@@ -81,19 +81,19 @@
                 <div class="sm:w-48">
                     <select wire:model.live="statusFilter" 
                             class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">All Statuses</option>
-                        <option value="draft">Draft</option>
-                        <option value="sent">Sent</option>
-                        <option value="paid">Paid</option>
-                        <option value="overdue">Overdue</option>
-                        <option value="cancelled">Cancelled</option>
+                        <option value="">{{ __('invoices.all_statuses') }}</option>
+                        <option value="draft">{{ __('invoices.draft') }}</option>
+                        <option value="sent">{{ __('invoices.sent') }}</option>
+                        <option value="paid">{{ __('invoices.paid') }}</option>
+                        <option value="overdue">{{ __('invoices.overdue') }}</option>
+                        <option value="cancelled">{{ __('invoices.cancelled') }}</option>
                     </select>
                 </div>
                 
                 <div class="sm:w-48">
                     <select wire:model.live="clientFilter" 
                             class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">All Clients</option>
+                        <option value="">{{ __('invoices.all_clients') }}</option>
                         @foreach($clients as $client)
                             <option value="{{ $client->id }}">{{ $client->name }}</option>
                         @endforeach
@@ -211,7 +211,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                                 {{ $invoice->due_date->format('M j, Y') }}
                                 @if($invoice->due_date->isPast() && $invoice->status !== 'paid')
-                                    <span class="ml-1 text-red-500 dark:text-red-400">(Overdue)</span>
+                                    <span class="ml-1 text-red-500 dark:text-red-400">({{ __('invoices.overdue') }})</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900 dark:text-white">
@@ -261,12 +261,12 @@
                                 <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
-                                <h3 class="mt-2 text-lg font-medium text-gray-900 dark:text-white">No invoices found</h3>
-                                <p class="mt-1 text-gray-500 dark:text-gray-400">Get started by creating your first invoice.</p>
+                                <h3 class="mt-2 text-lg font-medium text-gray-900 dark:text-white">{{ __('invoices.no_invoices_found') }}</h3>
+                                <p class="mt-1 text-gray-500 dark:text-gray-400">{{ __('invoices.get_started_by_creating') }}</p>
                                 <div class="mt-6">
                                     <a href="{{ route('invoices.create') }}" 
                                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">
-                                        Create Invoice
+                                        {{ __('invoices.create_invoice') }}
                                     </a>
                                 </div>
                             </td>

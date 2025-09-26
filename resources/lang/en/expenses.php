@@ -184,4 +184,9 @@ return [
 
     // Navigation & UI
     'back_to_expenses' => 'Back to Expenses',
+
+    // Missing translations for Expenses Index
+    'billable_expenses' => 'Billable Expenses',
+    'unbilled_expenses' => 'Unbilled Expenses',
+    'track_project_expenses' => 'Track project expenses, receipts, and billable items',
 ];

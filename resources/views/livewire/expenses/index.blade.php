@@ -2,9 +2,9 @@
     <!-- Header -->
     <div class="sm:flex sm:items-center sm:justify-between">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Expenses</h1>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('expenses.expenses') }}</h1>
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Track project expenses, receipts, and billable items
+                {{ __('expenses.track_project_expenses') }}
             </p>
         </div>
         <div class="mt-4 sm:mt-0">

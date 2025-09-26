@@ -296,4 +296,12 @@ return [
     'payment_history' => 'Historie plateb',
     'payment_via' => 'Platba přes',
     'remaining_balance' => 'Zbývající zůstatek:',
+
+    // Missing translations for Invoices List
+    'total_invoices' => 'Celkem faktur',
+    'total_revenue' => 'Celkové příjmy',
+    'all_statuses' => 'Všechny stavy',
+    'all_clients' => 'Všichni klienti',
+    'no_invoices_found' => 'Žádné faktury nenalezeny',
+    'get_started_by_creating' => 'Začněte vytvořením své první faktury.',
 ];

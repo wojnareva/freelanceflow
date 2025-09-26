@@ -184,4 +184,9 @@ return [
 
     // Navigation & UI
     'back_to_expenses' => 'Zpět na výdaje',
+
+    // Missing translations for Expenses Index
+    'billable_expenses' => 'Fakturovatelné výdaje',
+    'unbilled_expenses' => 'Nefakturované výdaje',
+    'track_project_expenses' => 'Sledujte projektové výdaje, účtenky a fakturovatelné položky',
 ];
