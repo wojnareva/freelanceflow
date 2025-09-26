@@ -304,4 +304,23 @@ return [
     'all_clients' => 'All Clients',
     'no_invoices_found' => 'No invoices found',
     'get_started_by_creating' => 'Get started by creating your first invoice.',
+
+    // Status translations (main level for direct access)
+    'pending' => 'Pending',
+    'overdue' => 'Overdue',
+    'draft' => 'Draft',
+    'sent' => 'Sent',
+    'paid' => 'Paid',
+    'cancelled' => 'Cancelled',
+
+    // Table headers and search
+    'search_invoices_clients' => 'Search invoices, clients...',
+    'invoice_number' => 'Invoice #',
+    'client' => 'Client',
+    'project' => 'Project',
+    'issue_date' => 'Issue Date',
+    'due_date' => 'Due Date',
+    'amount' => 'Amount',
+    'status' => 'Status',
+    'actions' => 'Actions',
 ];

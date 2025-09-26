@@ -74,7 +74,7 @@
                 <div class="flex-1">
                     <input type="text" 
                            wire:model.live.debounce.300ms="search" 
-                           placeholder="Search invoices, clients..."
+                           placeholder="{{ __('invoices.search_invoices_clients') }}"
                            class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
                 </div>
                 
@@ -120,7 +120,7 @@
                         <th class="px-6 py-3 text-left">
                             <button wire:click="sortBy('invoice_number')" 
                                     class="flex items-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider hover:text-gray-700 dark:hover:text-gray-300">
-                                Invoice #
+                                {{ __('invoices.invoice_number') }}
                                 @if($sortBy === 'invoice_number')
                                     <svg class="ml-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                                         @if($sortDirection === 'asc')
@@ -132,12 +132,12 @@
                                 @endif
                             </button>
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Client</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Project</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('invoices.client') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('invoices.project') }}</th>
                         <th class="px-6 py-3 text-left">
                             <button wire:click="sortBy('issue_date')" 
                                     class="flex items-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider hover:text-gray-700 dark:hover:text-gray-300">
-                                Issue Date
+                                {{ __('invoices.issue_date') }}
                                 @if($sortBy === 'issue_date')
                                     <svg class="ml-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                                         @if($sortDirection === 'asc')
@@ -152,7 +152,7 @@
                         <th class="px-6 py-3 text-left">
                             <button wire:click="sortBy('due_date')" 
                                     class="flex items-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider hover:text-gray-700 dark:hover:text-gray-300">
-                                Due Date
+                                {{ __('invoices.due_date') }}
                                 @if($sortBy === 'due_date')
                                     <svg class="ml-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                                         @if($sortDirection === 'asc')
@@ -167,7 +167,7 @@
                         <th class="px-6 py-3 text-right">
                             <button wire:click="sortBy('total')" 
                                     class="flex items-center justify-end text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider hover:text-gray-700 dark:hover:text-gray-300">
-                                Amount
+                                {{ __('invoices.amount') }}
                                 @if($sortBy === 'total')
                                     <svg class="ml-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                                         @if($sortDirection === 'asc')
@@ -179,8 +179,8 @@
                                 @endif
                             </button>
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('invoices.status') }}</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('invoices.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-600">

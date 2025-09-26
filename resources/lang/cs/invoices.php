@@ -304,4 +304,23 @@ return [
     'all_clients' => 'Všichni klienti',
     'no_invoices_found' => 'Žádné faktury nenalezeny',
     'get_started_by_creating' => 'Začněte vytvořením své první faktury.',
+
+    // Status translations (main level for direct access)
+    'pending' => 'Čeká na vyřízení',
+    'overdue' => 'Po splatnosti',
+    'draft' => 'Koncept',
+    'sent' => 'Odesláno',
+    'paid' => 'Zaplaceno',
+    'cancelled' => 'Zrušeno',
+
+    // Table headers and search
+    'search_invoices_clients' => 'Hledat faktury, klienty...',
+    'invoice_number' => 'Číslo faktury',
+    'client' => 'Klient',
+    'project' => 'Projekt',
+    'issue_date' => 'Datum vystavení',
+    'due_date' => 'Datum splatnosti',
+    'amount' => 'Částka',
+    'status' => 'Stav',
+    'actions' => 'Akce',
 ];
