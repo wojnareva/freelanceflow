@@ -250,4 +250,16 @@ return [
     'time_tracking_calendar' => 'Kalendář sledování času',
     'list_view_button' => 'Seznamové zobrazení',
     'bulk_edit_time_entries' => 'Hromadná úprava časových záznamů',
+
+    // Floating Timer
+    'time_tracker' => 'Sledování času',
+    'running' => 'běží',
+    'stopped' => 'zastaveno',
+    'projects' => 'Projekty',
+    'select_project' => 'Vyberte projekt',
+    'what_are_you_working_on' => 'Na čem pracujete?',
+    'starting' => 'Spouštím',
+    'stopping' => 'Zastavuji',
+    'timer_started_for' => 'Časomíra spuštěna pro :project',
+    'time_entry_saved' => 'Časový záznam uložen: :duration',
 ];

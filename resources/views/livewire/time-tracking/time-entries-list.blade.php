@@ -62,19 +62,19 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- Search -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Search</label>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('time-tracking.search') }}</label>
                 <input type="text" 
                        wire:model.live.debounce.300ms="search" 
-                       placeholder="Search descriptions..."
+                       placeholder="{{ __('time-tracking.search_descriptions') }}"
                        class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
             </div>
 
             <!-- Project Filter -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Project</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('time-tracking.project') }}</label>
                 <select wire:model.live="projectFilter" 
                         class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                    <option value="">All Projects</option>
+                    <option value="">{{ __('time-tracking.all_projects') }}</option>
                     @foreach($projects as $project)
                         <option value="{{ $project->id }}">{{ $project->name }} ({{ $project->client->name }})</option>
                     @endforeach
@@ -83,7 +83,7 @@
 
             <!-- Date From -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">From Date</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('time-tracking.from_date') }}</label>
                 <input type="date" 
                        wire:model.live="dateFrom" 
                        class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
@@ -91,7 +91,7 @@
 
             <!-- Date To -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">To Date</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('time-tracking.to_date') }}</label>
                 <input type="date" 
                        wire:model.live="dateTo" 
                        class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
@@ -103,7 +103,7 @@
                 <input type="checkbox" 
                        wire:model.live="showOnlyBillable" 
                        class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Show only billable entries</span>
+                <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">{{ __('time-tracking.show_only_billable') }}</span>
             </label>
         </div>
     </div>
@@ -123,11 +123,11 @@
                             <div class="text-sm text-gray-900 dark:text-gray-300">{{ $entry->date->format('M j') }}</div>
                             @if($entry->billable)
                                 <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
-                                    Billable
+                                    {{ __('time-tracking.billable') }}
                                 </span>
                             @else
                                 <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-                                    Non-billable
+                                    {{ __('time-tracking.non_billable') }}
                                 </span>
                             @endif
                         </div>
@@ -158,7 +158,7 @@
                                 </svg>
                             </button>
                             <button wire:click="deleteEntry({{ $entry->id }})" 
-                                    wire:confirm="Are you sure you want to delete this time entry?"
+                                    wire:confirm="{{ __('time-tracking.delete_confirm') }}"
                                     class="p-1 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" clip-rule="evenodd"></path>
@@ -174,8 +174,8 @@
                         <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No time entries found</h3>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Start the timer to create your first time entry.</p>
+                        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('time-tracking.no_entries_found') }}</h3>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('time-tracking.start_timer_to_create') }}</p>
                     </div>
                 </div>
             @endforelse
@@ -186,13 +186,13 @@
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
                 <thead class="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Project</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Description</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Duration</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Amount</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ __('time-tracking.date') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ __('time-tracking.project') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ __('time-tracking.description') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ __('time-tracking.duration') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ __('time-tracking.amount') }}</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ __('time-tracking.status') }}</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{{ __('time-tracking.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-600">
@@ -208,7 +208,7 @@
                             <td class="px-6 py-4">
                                 <div class="text-sm text-gray-900 dark:text-white">{{ $entry->description }}</div>
                                 @if($entry->task)
-                                    <div class="text-sm text-gray-500 dark:text-gray-400">Task: {{ $entry->task->title }}</div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">{{ __('time-tracking.task') }}: {{ $entry->task->title }}</div>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
@@ -225,11 +225,11 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($entry->billable)
                                     <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
-                                        Billable
+                                        {{ __('time-tracking.billable') }}
                                     </span>
                                 @else
                                     <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-                                        Non-billable
+                                        {{ __('time-tracking.non_billable') }}
                                     </span>
                                 @endif
                             </td>
@@ -242,7 +242,7 @@
                                         </svg>
                                     </button>
                                     <button wire:click="deleteEntry({{ $entry->id }})" 
-                                            wire:confirm="Are you sure you want to delete this time entry?"
+                                            wire:confirm="{{ __('time-tracking.delete_confirm') }}"
                                             class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" clip-rule="evenodd"></path>
@@ -259,8 +259,8 @@
                                     <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No time entries found</h3>
-                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Start the timer to create your first time entry.</p>
+                                    <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('time-tracking.no_entries_found') }}</h3>
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('time-tracking.start_timer_to_create') }}</p>
                                 </div>
                             </td>
                         </tr>
@@ -286,11 +286,11 @@
                 <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                     <form wire:submit="updateEntry">
                         <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Edit Time Entry</h3>
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ __('time-tracking.edit_entry') }}</h3>
                             
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('time-tracking.description') }}</label>
                                     <input type="text" 
                                            wire:model="editDescription" 
                                            class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
@@ -298,7 +298,7 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Duration (minutes)</label>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('time-tracking.duration_minutes') }}</label>
                                     <input type="number" 
                                            wire:model="editDuration" 
                                            min="1"
@@ -307,7 +307,7 @@
                                 </div>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date</label>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('time-tracking.date') }}</label>
                                     <input type="date" 
                                            wire:model="editDate" 
                                            class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
@@ -319,7 +319,7 @@
                                         <input type="checkbox" 
                                                wire:model="editBillable" 
                                                class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                                        <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Billable</span>
+                                        <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">{{ __('time-tracking.billable') }}</span>
                                     </label>
                                 </div>
                             </div>
@@ -329,13 +329,13 @@
                             <button type="submit" 
                                     wire:loading.attr="disabled"
                                     class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm disabled:opacity-50">
-                                <span wire:loading.remove>Update Entry</span>
-                                <span wire:loading>Updating...</span>
+                                <span wire:loading.remove>{{ __('time-tracking.update_entry') }}</span>
+                                <span wire:loading>{{ __('time-tracking.updating') }}</span>
                             </button>
                             <button type="button" 
                                     @click="$wire.closeEditModal()"
                                     class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-gray-600 dark:text-gray-300 dark:border-gray-500 dark:hover:bg-gray-700">
-                                Cancel
+                                {{ __('time-tracking.cancel') }}
                             </button>
                         </div>
                     </form>

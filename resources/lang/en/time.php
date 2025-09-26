@@ -250,4 +250,16 @@ return [
     'time_tracking_calendar' => 'Time Tracking Calendar',
     'list_view_button' => 'List View',
     'bulk_edit_time_entries' => 'Bulk Edit Time Entries',
+
+    // Floating Timer
+    'time_tracker' => 'Time Tracker',
+    'running' => 'running',
+    'stopped' => 'stopped',
+    'projects' => 'Projects',
+    'select_project' => 'Select project',
+    'what_are_you_working_on' => 'What are you working on?',
+    'starting' => 'Starting',
+    'stopping' => 'Stopping',
+    'timer_started_for' => 'Timer started for :project',
+    'time_entry_saved' => 'Time entry saved: :duration',
 ];

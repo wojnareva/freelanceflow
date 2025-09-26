@@ -111,7 +111,7 @@ class FloatingTimer extends Component
         ]);
 
         $this->dispatch('timer-started');
-        session()->flash('success', 'Timer started for '.$project->name);
+        session()->flash('success', __('time.timer_started_for', ['project' => $project->name]));
     }
 
     public function stopTimer()
@@ -143,7 +143,7 @@ class FloatingTimer extends Component
         $this->selectedTaskId = null;
 
         $this->dispatch('timer-stopped');
-        session()->flash('success', 'Time entry saved: '.$this->formatDuration($duration));
+        session()->flash('success', __('time.time_entry_saved', ['duration' => $this->formatDuration($duration)]));
     }
 
     public function toggleMinimize()

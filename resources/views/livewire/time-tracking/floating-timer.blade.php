@@ -4,7 +4,7 @@
         <!-- Header -->
         <div class="p-4 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-600">
             <h3 class="text-sm font-medium text-blue-900 dark:text-blue-100 flex items-center">
-                🕐 Time Tracker
+                🕐 {{ __('time.time_tracker') }}
             </h3>
         </div>
         
@@ -14,13 +14,13 @@
             <div class="text-center">
                 <div class="text-2xl font-mono font-bold text-gray-900 dark:text-white">
                     @if($isRunning)
-                        <span class="text-green-600 dark:text-green-400 animate-pulse">⏱️ RUNNING</span>
+                        <span class="text-green-600 dark:text-green-400 animate-pulse">⏱️ {{ strtoupper(__('time.running')) }}</span>
                     @else
-                        <span class="text-gray-600 dark:text-gray-400">⏸️ STOPPED</span>
+                        <span class="text-gray-600 dark:text-gray-400">⏸️ {{ strtoupper(__('time.stopped')) }}</span>
                     @endif
                 </div>
                 <div class="text-sm text-gray-500 dark:text-gray-400">
-                    Projects: {{ count($projects) }}
+                    {{ __('time.projects') }}: {{ count($projects) }}
                 </div>
             </div>
             
@@ -28,11 +28,11 @@
                 <!-- Project Selection -->
                 <div>
                     <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Project
+                        {{ __('time.project') }}
                     </label>
                     <select wire:model="selectedProjectId" 
                             class="w-full text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md">
-                        <option value="">Select project...</option>
+                        <option value="">{{ __('time.select_project') }}...</option>
                         @foreach($projects as $project)
                             <option value="{{ $project->id }}">
                                 {{ $project->name }} ({{ $project->client->name }})
@@ -47,11 +47,11 @@
                 <!-- Description -->
                 <div>
                     <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Description
+                        {{ __('time.description') }}
                     </label>
                     <input type="text" 
                            wire:model="description" 
-                           placeholder="What are you working on?"
+                           placeholder="{{ __('time.what_are_you_working_on') }}"
                            class="w-full text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md">
                 </div>
                 
@@ -60,13 +60,13 @@
                         wire:loading.attr="disabled"
                         wire:target="startTimer"
                         class="w-full bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white text-sm font-medium py-2 px-4 rounded-md transition-all duration-200 transform active:scale-95 disabled:cursor-not-allowed">
-                    <span wire:loading.remove wire:target="startTimer">Start Timer</span>
+                    <span wire:loading.remove wire:target="startTimer">{{ __('time.start_timer') }}</span>
                     <span wire:loading wire:target="startTimer" class="flex items-center justify-center">
                         <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Starting...
+                        {{ __('time.starting') }}...
                     </span>
                 </button>
             @else
@@ -75,13 +75,13 @@
                         wire:loading.attr="disabled"
                         wire:target="stopTimer"
                         class="w-full bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white text-sm font-medium py-2 px-4 rounded-md transition-all duration-200 transform active:scale-95 disabled:cursor-not-allowed">
-                    <span wire:loading.remove wire:target="stopTimer">Stop Timer</span>
+                    <span wire:loading.remove wire:target="stopTimer">{{ __('time.stop_timer') }}</span>
                     <span wire:loading wire:target="stopTimer" class="flex items-center justify-center">
                         <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Stopping...
+                        {{ __('time.stopping') }}...
                     </span>
                 </button>
             @endif

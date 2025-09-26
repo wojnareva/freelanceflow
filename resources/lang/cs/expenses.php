@@ -88,6 +88,7 @@ return [
     'client' => 'Klient',
     'billable' => 'Fakturovatelné',
     'non_billable' => 'Nefakturovatelné',
+    'mark_as_billable' => 'Označit jako fakturovatelné',
     'reimbursable' => 'Proplatitelné',
     'non_reimbursable' => 'Neproplatitelné',
 

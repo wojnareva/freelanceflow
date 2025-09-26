@@ -33,7 +33,7 @@ class RevenueChart extends Component
         // Get last 6 months of revenue data
         for ($i = 5; $i >= 0; $i--) {
             $month = Carbon::now()->subMonths($i);
-            $monthName = $month->format('M Y');
+            $monthName = $month->locale(app()->getLocale())->translatedFormat('M Y');
 
             // Get invoices for the month and convert to user currency
             $monthInvoices = Invoice::where('user_id', auth()->id())

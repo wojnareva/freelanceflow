@@ -172,7 +172,7 @@ class TimeEntriesCalendar extends Component
             'timeEntries' => $this->timeEntries,
             'projects' => $this->projects,
             'dayNamesShort' => CalendarService::getDayNamesShort(),
-            'monthName' => $this->currentDate->locale(app()->getLocale())->translatedFormat('F Y'),
+            'monthName' => __('time-tracking.' . strtolower($this->currentDate->format('F'))) . ' ' . $this.currentDate->format('Y'),
         ]);
     }
 }
