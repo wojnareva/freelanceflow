@@ -328,4 +328,8 @@ return [
     'on_hold' => 'On Hold',
     'draft' => 'Draft',
     'archived' => 'Archived',
+
+    // Missing form translations
+    'create_new_project' => 'Create New Project',
+    'select_client' => 'Select a client',
 ];

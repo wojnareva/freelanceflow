@@ -328,4 +328,8 @@ return [
     'on_hold' => 'Pozastaveno',
     'draft' => 'Koncept',
     'archived' => 'Archivováno',
+
+    // Missing form translations
+    'create_new_project' => 'Vytvořit nový projekt',
+    'select_client' => 'Vyberte klienta',
 ];

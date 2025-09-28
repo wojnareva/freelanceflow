@@ -232,13 +232,13 @@
                             <div class="sm:flex sm:items-start">
                                 <div class="w-full">
                                     <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white" id="modal-title">
-                                        {{ $editingProject ? 'Edit Project' : 'Create New Project' }}
+                                        {{ $editingProject ? __('projects.edit_project') : __('projects.create_new_project') }}
                                     </h3>
                                     
                                     <div class="mt-6 grid grid-cols-1 gap-6">
                                         <!-- Project Name -->
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Project Name</label>
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('projects.project_name') }}</label>
                                             <input type="text" wire:model="name" 
                                                    class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                             @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
@@ -246,10 +246,10 @@
                                         
                                         <!-- Client -->
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Client</label>
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('projects.client') }}</label>
                                             <select wire:model="clientId" 
                                                     class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                                <option value="">Select a client...</option>
+                                                <option value="">{{ __('projects.select_client') }}...</option>
                                                 @foreach($clients as $client)
                                                     <option value="{{ $client->id }}">{{ $client->name }}</option>
                                                 @endforeach
@@ -259,7 +259,7 @@
                                         
                                         <!-- Description -->
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('projects.description') }}</label>
                                             <textarea wire:model="description" rows="3"
                                                       class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
                                             @error('description') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
@@ -268,27 +268,27 @@
                                         <!-- Status and Dates -->
                                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                             <div>
-                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('projects.status') }}</label>
                                                 <select wire:model="status" 
                                                         class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                                    <option value="draft">Draft</option>
-                                                    <option value="active">Active</option>
-                                                    <option value="on_hold">On Hold</option>
-                                                    <option value="completed">Completed</option>
-                                                    <option value="archived">Archived</option>
+                                                    <option value="draft">{{ __('projects.draft') }}</option>
+                                                    <option value="active">{{ __('projects.active') }}</option>
+                                                    <option value="on_hold">{{ __('projects.on_hold') }}</option>
+                                                    <option value="completed">{{ __('projects.completed') }}</option>
+                                                    <option value="archived">{{ __('projects.archived') }}</option>
                                                 </select>
                                                 @error('status') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                             </div>
                                             
                                             <div>
-                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Start Date</label>
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('projects.start_date') }}</label>
                                                 <input type="date" wire:model="startDate" 
                                                        class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                                 @error('startDate') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                             </div>
                                             
                                             <div>
-                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">End Date</label>
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('projects.end_date') }}</label>
                                                 <input type="date" wire:model="endDate" 
                                                        class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                                 @error('endDate') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
@@ -299,7 +299,7 @@
                                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                             <div>
                                                 <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                                                    Budget ({{ auth()->user()->currency_symbol }})
+                                                    {{ __('projects.budget') }} ({{ auth()->user()->currency_symbol }})
                                                     <x-help-icon text="Total project budget. Leave empty for hourly projects without fixed budget." position="right" />
                                                 </label>
                                                 <input type="number" step="0.01" wire:model="budget" 
@@ -309,7 +309,7 @@
                                             
                                             <div>
                                                 <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                                                    Hourly Rate ({{ auth()->user()->currency_symbol }})
+                                                    {{ __('projects.hourly_rate') }} ({{ auth()->user()->currency_symbol }})
                                                     <x-help-icon text="Your billing rate per hour for this project. Used for time tracking calculations." position="right" />
                                                 </label>
                                                 <input type="number" step="0.01" wire:model="hourlyRate" 
