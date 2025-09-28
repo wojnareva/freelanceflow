@@ -271,5 +271,9 @@ return [
         'enter_email' => 'Enter email address',
         'enter_phone' => 'Enter phone number',
         'enter_company_name' => 'Enter company name',
+        'enter_ico' => '12345678',
+        'enter_dic' => 'CZ12345678',
+        'enter_address' => 'Enter client address',
+        'enter_notes' => 'Add any additional notes about this client',
     ],
 ];

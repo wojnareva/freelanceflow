@@ -271,5 +271,9 @@ return [
         'enter_email' => 'Zadejte emailovou adresu',
         'enter_phone' => 'Zadejte telefonní číslo',
         'enter_company_name' => 'Zadejte název společnosti',
+        'enter_ico' => '12345678',
+        'enter_dic' => 'CZ12345678',
+        'enter_address' => 'Zadejte adresu klienta',
+        'enter_notes' => 'Přidejte poznámky o tomto klientovi',
     ],
 ];

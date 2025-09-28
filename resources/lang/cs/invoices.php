@@ -323,4 +323,15 @@ return [
     'amount' => 'Částka',
     'status' => 'Stav',
     'actions' => 'Akce',
+
+    // Placeholders
+    'placeholders' => [
+        'client_details' => 'Jméno klienta, adresa, email...',
+        'payment_terms_notes' => 'Platební podmínky, dodatečné poznámky...',
+    ],
+
+    // Invoice Builder
+    'select_time_entries' => 'Vybrat časové záznamy',
+    'invoice_details' => 'Detaily faktury',
+    'select_time_entries_to_invoice' => 'Vyberte časové záznamy k fakturaci',
 ];

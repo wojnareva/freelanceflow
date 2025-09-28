@@ -189,4 +189,12 @@ return [
     'billable_expenses' => 'Fakturovatelné výdaje',
     'unbilled_expenses' => 'Nefakturované výdaje',
     'track_project_expenses' => 'Sledujte projektové výdaje, účtenky a fakturovatelné položky',
+
+    // Placeholders
+    'placeholders' => [
+        'enter_title' => 'Zadejte název výdaje (např. Oběd s klientem, Předplatné software)',
+        'enter_amount' => '0,00',
+        'enter_description' => 'Volitelný podrobný popis výdaje...',
+        'search_expenses' => 'Hledat výdaje...',
+    ],
 ];

@@ -15,7 +15,7 @@
                             <span class="text-sm font-medium">1</span>
                         @endif
                     </div>
-                    <span class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">Select Time Entries</span>
+                    <span class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('invoices.select_time_entries') }}</span>
                 </div>
                 
                 <!-- Connector -->
@@ -33,7 +33,7 @@
                             <span class="text-sm font-medium">2</span>
                         @endif
                     </div>
-                    <span class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">Invoice Details</span>
+                    <span class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('invoices.invoice_details') }}</span>
                 </div>
                 
                 <!-- Connector -->
@@ -54,7 +54,7 @@
     <!-- Step 1: Select Time Entries -->
     @if($step === 1)
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6">
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Select Time Entries to Invoice</h2>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">{{ __('invoices.select_time_entries_to_invoice') }}</h2>
             
             <!-- Filters -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -175,7 +175,7 @@
     <!-- Step 2: Invoice Details -->
     @if($step === 2)
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6">
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Invoice Details</h2>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">{{ __('invoices.invoice_details') }}</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Left Column -->
@@ -220,14 +220,14 @@
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Client Details</label>
-                        <textarea wire:model="clientDetails" rows="4" placeholder="Client name, address, email..."
+                        <textarea wire:model="clientDetails" rows="4" placeholder="{{ __('invoices.placeholders.client_details') }}"
                                   class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
                         @error('clientDetails') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                     </div>
                     
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notes</label>
-                        <textarea wire:model="notes" rows="3" placeholder="Payment terms, additional notes..."
+                        <textarea wire:model="notes" rows="3" placeholder="{{ __('invoices.placeholders.payment_terms_notes') }}"
                                   class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
                         @error('notes') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                     </div>

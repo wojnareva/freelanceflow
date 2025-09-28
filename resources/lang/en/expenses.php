@@ -189,4 +189,12 @@ return [
     'billable_expenses' => 'Billable Expenses',
     'unbilled_expenses' => 'Unbilled Expenses',
     'track_project_expenses' => 'Track project expenses, receipts, and billable items',
+
+    // Placeholders
+    'placeholders' => [
+        'enter_title' => 'Enter expense title (e.g., Client lunch, Software subscription)',
+        'enter_amount' => '0.00',
+        'enter_description' => 'Optional detailed description of the expense...',
+        'search_expenses' => 'Search expenses...',
+    ],
 ];

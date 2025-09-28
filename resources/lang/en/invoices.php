@@ -323,4 +323,15 @@ return [
     'amount' => 'Amount',
     'status' => 'Status',
     'actions' => 'Actions',
+
+    // Placeholders
+    'placeholders' => [
+        'client_details' => 'Client name, address, email...',
+        'payment_terms_notes' => 'Payment terms, additional notes...',
+    ],
+
+    // Invoice Builder
+    'select_time_entries' => 'Select Time Entries',
+    'invoice_details' => 'Invoice Details',
+    'select_time_entries_to_invoice' => 'Select Time Entries to Invoice',
 ];

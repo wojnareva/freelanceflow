@@ -91,7 +91,7 @@
                                 <div class="relative">
                                     <input type="text" 
                                            wire:model.live.debounce.500ms="ico"
-                                           placeholder="12345678"
+                                           placeholder="{{ __('clients.placeholders.enter_ico') }}"
                                            maxlength="8"
                                            pattern="[0-9]{8}"
                                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('ico') border-red-500 @enderror">
@@ -169,7 +169,7 @@
                         wire:model="dic" 
                         id="dic"
                         class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('dic') border-red-500 @enderror"
-                        placeholder="CZ12345678"
+                        placeholder="{{ __('clients.placeholders.enter_dic') }}"
                     >
                     @error('dic')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -203,7 +203,7 @@
                         id="address"
                         rows="3"
                         class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('address') border-red-500 @enderror"
-                        placeholder="Enter client address"
+                        placeholder="{{ __('clients.placeholders.enter_address') }}"
                     ></textarea>
                     @error('address')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -220,7 +220,7 @@
                         id="notes"
                         rows="4"
                         class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('notes') border-red-500 @enderror"
-                        placeholder="Add any additional notes about this client"
+                        placeholder="{{ __('clients.placeholders.enter_notes') }}"
                     ></textarea>
                     @error('notes')
                         <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
