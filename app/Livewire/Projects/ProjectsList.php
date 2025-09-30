@@ -264,9 +264,13 @@ class ProjectsList extends Component
 
     private function formatDuration($minutes)
     {
-        if (! $minutes) {
+        // Handle null or empty values
+        if ($minutes === null || $minutes === '' || $minutes === 0) {
             return '0h';
         }
+
+        // Cast to numeric to avoid decimal casting issues
+        $minutes = (float) $minutes;
 
         $hours = floor($minutes / 60);
         $mins = $minutes % 60;
