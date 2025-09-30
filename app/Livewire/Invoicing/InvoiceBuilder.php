@@ -215,6 +215,7 @@ class InvoiceBuilder extends Component
 
         // Create the invoice
         $invoice = Invoice::create([
+            'user_id' => auth()->id(),
             'invoice_number' => $this->invoiceNumber,
             'client_id' => $client ? $client->id : null,
             'project_id' => $primaryProject ? $primaryProject->id : null,

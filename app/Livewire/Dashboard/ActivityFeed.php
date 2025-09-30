@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\TimeEntry;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class ActivityFeed extends Component
@@ -25,6 +26,7 @@ class ActivityFeed extends Component
 
         // Recent time entries
         $timeEntries = TimeEntry::with(['project', 'task'])
+            ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get()
@@ -36,7 +38,7 @@ class ActivityFeed extends Component
                     'title' => 'Time logged',
                     'description' => $entry->description,
                     'details' => [
-                        'project' => $entry->project->name,
+                        'project' => $entry->project?->name ?? 'N/A',
                         'duration' => $this->formatDuration($entry->duration),
                         'amount' => '$'.number_format($entry->amount, 2),
                     ],
@@ -46,6 +48,7 @@ class ActivityFeed extends Component
 
         // Recent invoices
         $invoices = Invoice::with('client')
+            ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->limit(3)
             ->get()
@@ -57,7 +60,7 @@ class ActivityFeed extends Component
                     'title' => 'Invoice '.strtolower($invoice->status->value),
                     'description' => 'Invoice #'.$invoice->invoice_number,
                     'details' => [
-                        'client' => $invoice->client->name,
+                        'client' => $invoice->client?->name ?? 'N/A',
                         'amount' => $invoice->formatted_total,
                         'status' => $invoice->status->label(),
                     ],
@@ -67,6 +70,7 @@ class ActivityFeed extends Component
 
         // Recent projects
         $projects = Project::with('client')
+            ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->limit(3)
             ->get()
@@ -78,7 +82,7 @@ class ActivityFeed extends Component
                     'title' => 'Project created',
                     'description' => $project->name,
                     'details' => [
-                        'client' => $project->client->name,
+                        'client' => $project->client?->name ?? 'N/A',
                         'status' => $project->status->label(),
                         'budget' => $project->budget && is_numeric($project->budget) ? '$'.number_format($project->budget, 2) : 'No budget set',
                     ],
@@ -88,6 +92,7 @@ class ActivityFeed extends Component
 
         // Recent tasks
         $tasks = Task::with('project')
+            ->where('user_id', Auth::id())
             ->orderBy('updated_at', 'desc')
             ->limit(3)
             ->get()
@@ -99,7 +104,7 @@ class ActivityFeed extends Component
                     'title' => 'Task '.strtolower($task->status->value),
                     'description' => $task->title,
                     'details' => [
-                        'project' => $task->project->name,
+                        'project' => $task->project?->name ?? 'N/A',
                         'priority' => ucfirst($task->priority),
                         'status' => $task->status->label(),
                     ],

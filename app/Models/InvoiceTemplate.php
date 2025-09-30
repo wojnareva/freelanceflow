@@ -69,6 +69,7 @@ class InvoiceTemplate extends Model
         $dueDate = $this->next_generation_date->addDays($this->days_until_due);
 
         $invoice = Invoice::create([
+            'user_id' => $this->user_id,
             'client_id' => $this->client_id,
             'project_id' => $this->project_id,
             'invoice_template_id' => $this->id,

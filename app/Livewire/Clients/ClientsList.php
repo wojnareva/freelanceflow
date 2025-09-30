@@ -53,6 +53,7 @@ class ClientsList extends Component
             } catch (\Throwable $e) {
                 // If FK constraint prevents deletion, show friendly message
                 session()->flash('error', __('clients.delete_failed_due_to_relations'));
+
                 return;
             }
 
