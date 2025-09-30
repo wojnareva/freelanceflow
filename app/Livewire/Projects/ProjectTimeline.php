@@ -212,7 +212,7 @@ class ProjectTimeline extends Component
                 'type' => 'task',
                 'icon' => 'exclamation',
                 'priority' => $task->priority,
-                'status' => $task->status,
+                'status' => $task->status->value,
                 'project' => $this->showAllProjects ? $task->project->name : null,
                 'client' => $this->showAllProjects ? $task->project->client->name : null,
             ];
