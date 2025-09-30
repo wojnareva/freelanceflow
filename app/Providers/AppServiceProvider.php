@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\InvoiceItem;
+use App\Observers\InvoiceItemObserver;
 use App\Services\LocalizationService;
 use App\Helpers\LocaleHelper;
 use App\Services\CalendarService;
@@ -24,9 +26,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register model observers
+        InvoiceItem::observe(InvoiceItemObserver::class);
+
         // Register Czech formatting Blade directives
         $this->registerBladeDirectives();
-        
+
         // Share locale and calendar configuration with all views
         View::composer('*', function ($view) {
             $view->with([

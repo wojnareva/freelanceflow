@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    Invoice {{ $invoice->invoice_number }}
+                    {{ __('invoices.invoice_title') }} {{ $invoice->invoice_number }}
                 </h2>
                 <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     {{ $invoice->client->name }} • 
@@ -80,11 +80,11 @@
                             <div class="space-y-3">
                                 <div class="flex justify-between">
                                     <span class="text-gray-500 dark:text-gray-400">{{ __('invoices.issue_date_label') }}</span>
-                                    <span class="text-gray-900 dark:text-white">{{ $invoice->issue_date->format('M j, Y') }}</span>
+                                    <span class="text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatDate($invoice->issue_date) }}</span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="text-gray-500 dark:text-gray-400">{{ __('invoices.due_date_label') }}</span>
-                                    <span class="text-gray-900 dark:text-white">{{ $invoice->due_date->format('M j, Y') }}</span>
+                                    <span class="text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatDate($invoice->due_date) }}</span>
                                 </div>
                                 @if($invoice->project)
                                     <div class="flex justify-between">
@@ -186,7 +186,7 @@
                                             {{ __('invoices.payment_via') }} {{ ucfirst(str_replace('_', ' ', $payment->method)) }}
                                         </p>
                                         <p class="text-xs text-gray-500 dark:text-gray-400">
-                                            {{ $payment->date->format('M j, Y') }}
+                                            {{ \App\Services\LocalizationService::formatDate($payment->date) }}
                                             @if($payment->reference)
                                                 • Ref: {{ $payment->reference }}
                                             @endif

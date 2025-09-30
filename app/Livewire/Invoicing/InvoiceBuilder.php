@@ -50,7 +50,7 @@ class InvoiceBuilder extends Component
     public $total = 0;
 
     protected $rules = [
-        'selectedTimeEntries' => 'required|array|min:1',
+        'selectedTimeEntries' => 'array',
         'invoiceNumber' => 'required|string|unique:invoices,invoice_number',
         'issueDate' => 'required|date',
         'dueDate' => 'required|date|after_or_equal:issueDate',
@@ -103,14 +103,14 @@ class InvoiceBuilder extends Component
             ->whereNull('invoice_item_id')
             ->whereBetween('date', [$this->dateFrom, $this->dateTo]);
 
-        if ($this->selectedClient) {
+        if ($this->selectedClient && $this->selectedClient !== '') {
             $query->whereHas('project.client', function ($q) {
-                $q->where('id', $this->selectedClient);
+                $q->where('id', (int)$this->selectedClient);
             });
         }
 
-        if ($this->selectedProject) {
-            $query->where('project_id', $this->selectedProject);
+        if ($this->selectedProject && $this->selectedProject !== '') {
+            $query->where('project_id', (int)$this->selectedProject);
         }
 
         $this->availableTimeEntries = $query->orderBy('date', 'desc')->get();
@@ -165,8 +165,7 @@ class InvoiceBuilder extends Component
     public function nextStep()
     {
         if ($this->step === 1) {
-            $this->validate(['selectedTimeEntries' => 'required|array|min:1']);
-
+            // Allow proceeding even without time entries for manual invoices
             // Auto-fill client details if we have selected entries
             if (! empty($this->selectedTimeEntries)) {
                 $firstEntry = $this->availableTimeEntries->firstWhere('id', $this->selectedTimeEntries[0]);
@@ -194,23 +193,31 @@ class InvoiceBuilder extends Component
     {
         $this->validate();
 
-        if (empty($this->selectedTimeEntries)) {
-            session()->flash('error', 'Please select at least one time entry.');
-
-            return;
-        }
+        // Allow creating invoices without time entries for manual invoices
 
         $selectedEntries = TimeEntry::whereIn('id', $this->selectedTimeEntries)->get();
 
-        // Group by project to get the primary project and client
-        $primaryProject = $selectedEntries->first()->project;
-        $client = $primaryProject->client;
+        // Determine client and project
+        $client = null;
+        $primaryProject = null;
+
+        if ($selectedEntries->isNotEmpty()) {
+            // Use data from selected time entries
+            $primaryProject = $selectedEntries->first()->project;
+            $client = $primaryProject->client;
+        } else {
+            // For manual invoices without time entries, we need a client
+            // Since we don't have client selection for manual invoices yet,
+            // we'll create with null client_id and rely on clientDetails
+            $client = null;
+            $primaryProject = null;
+        }
 
         // Create the invoice
         $invoice = Invoice::create([
             'invoice_number' => $this->invoiceNumber,
-            'client_id' => $client->id,
-            'project_id' => $primaryProject->id,
+            'client_id' => $client ? $client->id : null,
+            'project_id' => $primaryProject ? $primaryProject->id : null,
             'status' => 'draft',
             'issue_date' => $this->issueDate,
             'due_date' => $this->dueDate,
@@ -250,8 +257,8 @@ class InvoiceBuilder extends Component
 
     public function getProjectsProperty()
     {
-        if ($this->selectedClient) {
-            return Project::where('client_id', $this->selectedClient)->orderBy('name')->get();
+        if ($this->selectedClient && $this->selectedClient !== '') {
+            return Project::where('client_id', (int)$this->selectedClient)->orderBy('name')->get();
         }
 
         return collect();

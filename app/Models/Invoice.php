@@ -131,6 +131,14 @@ class Invoice extends Model
         return 'INV-'.date('Y').'-'.str_pad(static::count() + 1, 4, '0', STR_PAD_LEFT);
     }
 
+    public function calculateTotals(): void
+    {
+        $this->subtotal = $this->items->sum('amount');
+        $this->tax_amount = $this->subtotal * ($this->tax_rate / 100);
+        $this->total = $this->subtotal + $this->tax_amount;
+        $this->save();
+    }
+
     protected static function boot()
     {
         parent::boot();

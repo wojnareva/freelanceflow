@@ -130,8 +130,8 @@
                                     <div class="flex-1">
                                         <h4 class="text-sm font-medium text-gray-900 dark:text-white">{{ $entry->description }}</h4>
                                         <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                            {{ $entry->date->format('M j, Y') }} • 
-                                            {{ $entry->project->client->name }} • 
+                                            {{ \App\Services\LocalizationService::formatDate($entry->date) }} •
+                                            {{ $entry->project->client->name }} •
                                             {{ $entry->project->name }}
                                             @if($entry->task)
                                                 • {{ $entry->task->title }}
@@ -163,9 +163,8 @@
 
             <!-- Navigation -->
             <div class="flex justify-end pt-6 border-t border-gray-200 dark:border-gray-600 mt-6">
-                <button wire:click="nextStep" 
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200"
-                        {{ count($selectedTimeEntries) === 0 ? 'disabled' : '' }}>
+                <button wire:click="nextStep"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200">
                     {{ __('invoices.continue') }}
                 </button>
             </div>

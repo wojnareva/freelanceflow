@@ -16,4 +16,10 @@ return [
     'previous' => '&laquo; Předchozí',
     'next' => 'Další &raquo;',
 
+    // Custom pagination text
+    'showing' => 'Zobrazeno',
+    'to' => 'až',
+    'of' => 'z',
+    'results' => 'výsledků',
+
 ];
