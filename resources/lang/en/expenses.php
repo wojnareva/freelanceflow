@@ -38,4 +38,13 @@ return [
         'enter_amount' => 'e.g., 49.99',
         'enter_description' => 'Add any extra details about the expense',
     ],
+
+    // Categories
+    'category_travel' => 'Travel',
+    'category_meals' => 'Meals & Entertainment',
+    'category_office' => 'Office Supplies',
+    'category_software' => 'Software & Tools',
+    'category_marketing' => 'Marketing',
+    'category_equipment' => 'Equipment',
+    'category_other' => 'Other',
 ];

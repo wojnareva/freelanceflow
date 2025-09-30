@@ -76,4 +76,13 @@ return [
     'expense_billed' => 'označen jako vyfakturovaný',
     'expense_updated' => 'aktualizován',
     'expense_deleted' => 'byl smazán',
+
+    // Categories
+    'category_travel' => 'Cestovní výdaje',
+    'category_meals' => 'Stravování a zábava',
+    'category_office' => 'Kancelářské potřeby',
+    'category_software' => 'Software a nástroje',
+    'category_marketing' => 'Marketing',
+    'category_equipment' => 'Vybavení',
+    'category_other' => 'Ostatní',
 ];

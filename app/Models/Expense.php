@@ -76,14 +76,14 @@ class Expense extends Model
     public function getCategoryLabelAttribute(): string
     {
         return match ($this->category) {
-            'travel' => 'Travel',
-            'meals' => 'Meals & Entertainment',
-            'office' => 'Office Supplies',
-            'software' => 'Software & Tools',
-            'marketing' => 'Marketing',
-            'equipment' => 'Equipment',
-            'other' => 'Other',
-            default => ucfirst($this->category ?? 'Other'),
+            'travel' => __('expenses.category_travel'),
+            'meals' => __('expenses.category_meals'),
+            'office' => __('expenses.category_office'),
+            'software' => __('expenses.category_software'),
+            'marketing' => __('expenses.category_marketing'),
+            'equipment' => __('expenses.category_equipment'),
+            'other' => __('expenses.category_other'),
+            default => ucfirst($this->category ?? __('expenses.category_other')),
         };
     }
 
@@ -131,13 +131,13 @@ class Expense extends Model
     public static function getCategories(): array
     {
         return [
-            'travel' => 'Travel',
-            'meals' => 'Meals & Entertainment',
-            'office' => 'Office Supplies',
-            'software' => 'Software & Tools',
-            'marketing' => 'Marketing',
-            'equipment' => 'Equipment',
-            'other' => 'Other',
+            'travel' => __('expenses.category_travel'),
+            'meals' => __('expenses.category_meals'),
+            'office' => __('expenses.category_office'),
+            'software' => __('expenses.category_software'),
+            'marketing' => __('expenses.category_marketing'),
+            'equipment' => __('expenses.category_equipment'),
+            'other' => __('expenses.category_other'),
         ];
     }
 }
