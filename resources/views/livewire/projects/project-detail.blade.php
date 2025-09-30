@@ -283,80 +283,80 @@
                     <form wire:submit="saveTask">
                         <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                             <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">
-                                {{ $editingTask ? 'Edit Task' : 'Create New Task' }}
+                                {{ $editingTask ? __('projects.edit_task') : __('projects.create_task') }}
                             </h3>
-                            
+
                             <div class="space-y-4">
                                 <!-- Task Title -->
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Task Title</label>
-                                    <input type="text" wire:model="taskTitle" 
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('projects.task_title') }}</label>
+                                    <input type="text" wire:model="taskTitle"
                                            class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                     @error('taskTitle') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                 </div>
-                                
+
                                 <!-- Description -->
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('projects.description') }}</label>
                                     <textarea wire:model="taskDescription" rows="3"
                                               class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
                                     @error('taskDescription') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                 </div>
-                                
+
                                 <!-- Status and Priority -->
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Status</label>
-                                        <select wire:model="taskStatus" 
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('projects.status') }}</label>
+                                        <select wire:model="taskStatus"
                                                 class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                            <option value="todo">To Do</option>
-                                            <option value="in_progress">In Progress</option>
-                                            <option value="completed">Completed</option>
-                                            <option value="cancelled">Cancelled</option>
+                                            <option value="todo">{{ __('projects.task_status_todo') }}</option>
+                                            <option value="in_progress">{{ __('projects.task_status_in_progress') }}</option>
+                                            <option value="completed">{{ __('projects.task_status_completed') }}</option>
+                                            <option value="cancelled">{{ __('projects.task_status_cancelled') }}</option>
                                         </select>
                                         @error('taskStatus') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
-                                    
+
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Priority</label>
-                                        <select wire:model="taskPriority" 
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('projects.priority') }}</label>
+                                        <select wire:model="taskPriority"
                                                 class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                            <option value="low">Low</option>
-                                            <option value="medium">Medium</option>
-                                            <option value="high">High</option>
-                                            <option value="urgent">Urgent</option>
+                                            <option value="low">{{ __('projects.priority_low') }}</option>
+                                            <option value="medium">{{ __('projects.priority_medium') }}</option>
+                                            <option value="high">{{ __('projects.priority_high') }}</option>
+                                            <option value="urgent">{{ __('projects.priority_urgent') }}</option>
                                         </select>
                                         @error('taskPriority') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
-                                
+
                                 <!-- Due Date and Estimated Hours -->
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Due Date</label>
-                                        <input type="date" wire:model="taskDueDate" 
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('projects.due_date') }}</label>
+                                        <input type="date" wire:model="taskDueDate"
                                                class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                         @error('taskDueDate') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
-                                    
+
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estimated Hours</label>
-                                        <input type="number" step="0.5" wire:model="taskEstimatedHours" 
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('projects.estimated_hours') }}</label>
+                                        <input type="number" step="0.5" wire:model="taskEstimatedHours"
                                                class="mt-1 block w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                         @error('taskEstimatedHours') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                            <button type="submit" 
+                            <button type="submit"
                                     class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
-                                {{ $editingTask ? 'Update Task' : 'Create Task' }}
+                                {{ $editingTask ? __('projects.update_task') : __('projects.create_task') }}
                             </button>
-                            <button type="button" wire:click="closeTaskModal" 
+                            <button type="button" wire:click="closeTaskModal"
                                     class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700">
-                                Cancel
+                                {{ __('app.cancel') }}
                             </button>
                         </div>
                     </form>

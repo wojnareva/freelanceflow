@@ -104,6 +104,20 @@ return [
         'urgent' => 'Urgentní',
         'critical' => 'Kritická',
     ],
+
+    // Task Management
+    'task_title' => 'Název úkolu',
+    'edit_task' => 'Upravit úkol',
+    'create_task' => 'Vytvořit úkol',
+    'update_task' => 'Aktualizovat úkol',
+    'task_status_todo' => 'K provedení',
+    'task_status_in_progress' => 'Probíhá',
+    'task_status_completed' => 'Dokončeno',
+    'task_status_cancelled' => 'Zrušeno',
+    'priority_low' => 'Nízká',
+    'priority_medium' => 'Střední',
+    'priority_high' => 'Vysoká',
+    'priority_urgent' => 'Urgentní',
     
     // Project Types
     'types' => [
