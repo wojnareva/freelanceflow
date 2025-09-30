@@ -41,6 +41,21 @@ class Project extends Model
         'completed_at' => 'date',
     ];
 
+    public function setBudgetAttribute($value)
+    {
+        $this->attributes['budget'] = ($value === '' || $value === null) ? null : $value;
+    }
+
+    public function setHourlyRateAttribute($value)
+    {
+        $this->attributes['hourly_rate'] = ($value === '' || $value === null) ? null : $value;
+    }
+
+    public function setEstimatedHoursAttribute($value)
+    {
+        $this->attributes['estimated_hours'] = ($value === '' || $value === null) ? null : $value;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
