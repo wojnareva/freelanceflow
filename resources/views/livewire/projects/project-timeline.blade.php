@@ -4,9 +4,9 @@
         <div class="flex justify-between items-center mb-4">
             <div>
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    {{ $showAllProjects ? 'All Projects Timeline' : $project->name . ' - Timeline' }}
+                    {{ $showAllProjects ? 'All Projects Timeline' : ($project ? $project->name . ' - Timeline' : 'Timeline') }}
                 </h2>
-                @if(!$showAllProjects)
+                @if(!$showAllProjects && $project)
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                         {{ $project->client->name }} • {{ $project->status->label() }}
                     </p>
