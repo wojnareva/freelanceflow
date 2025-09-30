@@ -26,6 +26,8 @@ return [
     'issue_date' => 'Issue Date',
     'due_date' => 'Due Date',
     'payment_date' => 'Payment Date',
+    'start_date' => 'Start Date',
+    'days_until_due' => 'Days Until Due',
     'delivery_date' => 'Delivery Date',
     'created_date' => 'Created Date',
     'sent_date' => 'Sent Date',

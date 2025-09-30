@@ -26,6 +26,8 @@ return [
     'issue_date' => 'Datum vystavení',
     'due_date' => 'Datum splatnosti',
     'payment_date' => 'Datum platby',
+    'start_date' => 'Datum začátku',
+    'days_until_due' => 'Počet dnů do splatnosti',
     'delivery_date' => 'Datum dodání',
     'created_date' => 'Datum vytvoření',
     'sent_date' => 'Datum odeslání',
