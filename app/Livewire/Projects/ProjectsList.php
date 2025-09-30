@@ -193,7 +193,7 @@ class ProjectsList extends Component
         return $performanceService->getProjectsList($userId, $filters, function () {
             return Project::with(['client', 'tasks'])
                 ->withCount(['tasks', 'timeEntries'])
-                ->withSum('timeEntries', 'duration')
+                ->selectRaw('projects.*, COALESCE((SELECT SUM(duration) FROM time_entries WHERE time_entries.project_id = projects.id), 0) as time_entries_sum_duration')
                 ->where('user_id', auth()->id())
                 ->when($this->search, function ($query) {
                     $query->where(function ($q) {
