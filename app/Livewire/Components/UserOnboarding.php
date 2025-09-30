@@ -47,7 +47,8 @@ class UserOnboarding extends Component
 
     public function createSampleData()
     {
-        $this->onboardingService->createSampleData(auth()->user());
+        $onboardingService = app(UserOnboardingService::class);
+        $onboardingService->createSampleData(auth()->user());
         $this->showOnboarding = false;
         
         session()->flash('success', 'Sample data created! Explore your new projects, clients, and time entries.');

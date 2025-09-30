@@ -49,7 +49,7 @@ class Create extends Component
     public function mount()
     {
         $this->expense_date = now()->format('Y-m-d');
-        $this->currency = auth()->user()->default_currency ?? 'USD';
+        $this->currency = auth()->user()->default_currency ?? (app()->getLocale() === 'cs' ? 'CZK' : 'USD');
     }
 
     public function save()
@@ -91,28 +91,11 @@ class Create extends Component
             ->get();
     }
 
-    public function getCurrenciesProperty()
-    {
-        return [
-            'USD' => 'USD - US Dollar',
-            'EUR' => 'EUR - Euro',
-            'GBP' => 'GBP - British Pound',
-            'CAD' => 'CAD - Canadian Dollar',
-            'AUD' => 'AUD - Australian Dollar',
-            'JPY' => 'JPY - Japanese Yen',
-            'CHF' => 'CHF - Swiss Franc',
-            'CNY' => 'CNY - Chinese Yuan',
-            'INR' => 'INR - Indian Rupee',
-            'BRL' => 'BRL - Brazilian Real',
-        ];
-    }
-
     public function render()
     {
         return view('livewire.expenses.create', [
             'projects' => $this->projects,
             'categories' => Expense::getCategories(),
-            'currencies' => $this->currencies,
         ]);
     }
 }

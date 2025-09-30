@@ -42,14 +42,14 @@
                     @if($project->budget)
                         <div>
                             <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Budget</dt>
-                            <dd class="mt-1 text-sm text-gray-900 dark:text-white">${{ number_format($project->budget ?? 0, 0) }}</dd>
+                            <dd class="mt-1 text-sm text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatMoney($project->budget ?? 0) }}</dd>
                         </div>
                     @endif
                     
                     @if($project->hourly_rate)
                         <div>
                             <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Hourly Rate</dt>
-                            <dd class="mt-1 text-sm text-gray-900 dark:text-white">${{ number_format($project->hourly_rate ?? 0, 0) }}/hr</dd>
+                            <dd class="mt-1 text-sm text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatMoney($project->hourly_rate ?? 0) }}/{{ __('projects.hour') }}</dd>
                         </div>
                     @endif
                 </div>
@@ -98,7 +98,7 @@
                     <div class="flex justify-between">
                         <span class="text-sm text-gray-500 dark:text-gray-400">Earnings</span>
                         <span class="text-sm font-medium text-green-600 dark:text-green-400">
-                            ${{ number_format($projectStats['total_earnings'], 0) }}
+                            {{ \App\Services\LocalizationService::formatMoney($projectStats['total_earnings']) }}
                         </span>
                     </div>
                 </div>
@@ -261,7 +261,7 @@
                             <div class="text-right">
                                 <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $this->formatDuration($entry->duration) }}</span>
                                 @if($entry->billable)
-                                    <span class="block text-xs text-green-600 dark:text-green-400">${{ number_format(($entry->duration * $entry->hourly_rate) / 60, 0) }}</span>
+                                    <span class="block text-xs text-green-600 dark:text-green-400">{{ \App\Services\LocalizationService::formatMoney(($entry->duration * $entry->hourly_rate) / 60) }}</span>
                                 @endif
                             </div>
                         </div>

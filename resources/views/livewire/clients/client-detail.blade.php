@@ -119,7 +119,7 @@
                 <div class="ml-5 w-0 flex-1">
                     <dl>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Revenue</dt>
-                        <dd class="text-lg font-medium text-gray-900 dark:text-gray-100">${{ number_format($stats['total_revenue'], 2) }}</dd>
+                        <dd class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ \App\Services\LocalizationService::formatMoney($stats['total_revenue']) }}</dd>
                     </dl>
                 </div>
             </div>

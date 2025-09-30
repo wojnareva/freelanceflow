@@ -119,28 +119,11 @@ class Edit extends Component
             ->get();
     }
 
-    public function getCurrenciesProperty()
-    {
-        return [
-            'USD' => 'USD - US Dollar',
-            'EUR' => 'EUR - Euro',
-            'GBP' => 'GBP - British Pound',
-            'CAD' => 'CAD - Canadian Dollar',
-            'AUD' => 'AUD - Australian Dollar',
-            'JPY' => 'JPY - Japanese Yen',
-            'CHF' => 'CHF - Swiss Franc',
-            'CNY' => 'CNY - Chinese Yuan',
-            'INR' => 'INR - Indian Rupee',
-            'BRL' => 'BRL - Brazilian Real',
-        ];
-    }
-
     public function render()
     {
         return view('livewire.expenses.edit', [
             'projects' => $this->projects,
             'categories' => Expense::getCategories(),
-            'currencies' => $this->currencies,
         ]);
     }
 }

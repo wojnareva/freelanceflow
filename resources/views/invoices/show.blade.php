@@ -129,8 +129,8 @@
                                                 {{ number_format($item->quantity, 0) }}
                                             @endif
                                         </td>
-                                        <td class="px-6 py-4 text-sm text-right text-gray-900 dark:text-white">${{ number_format($item->rate, 2) }}</td>
-                                        <td class="px-6 py-4 text-sm text-right font-medium text-gray-900 dark:text-white">${{ number_format($item->amount, 2) }}</td>
+                                        <td class="px-6 py-4 text-sm text-right text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatMoney($item->rate) }}</td>
+                                        <td class="px-6 py-4 text-sm text-right font-medium text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatMoney($item->amount) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -143,18 +143,18 @@
                             <div class="space-y-2">
                                 <div class="flex justify-between text-sm">
                                     <span class="text-gray-500 dark:text-gray-400">{{ __('invoices.subtotal_label') }}</span>
-                                    <span class="text-gray-900 dark:text-white">${{ number_format($invoice->subtotal, 2) }}</span>
+                                    <span class="text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatMoney($invoice->subtotal) }}</span>
                                 </div>
                                 @if($invoice->tax_rate > 0)
                                     <div class="flex justify-between text-sm">
                                         <span class="text-gray-500 dark:text-gray-400">{{ __('invoices.tax_label') }} ({{ $invoice->tax_rate }}%):</span>
-                                        <span class="text-gray-900 dark:text-white">${{ number_format($invoice->tax_amount, 2) }}</span>
+                                        <span class="text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatMoney($invoice->tax_amount) }}</span>
                                     </div>
                                 @endif
                                 <div class="border-t border-gray-200 dark:border-gray-600 pt-2">
                                     <div class="flex justify-between">
                                         <span class="text-lg font-semibold text-gray-900 dark:text-white">{{ __('invoices.total_label') }}</span>
-                                        <span class="text-lg font-semibold text-gray-900 dark:text-white">${{ number_format($invoice->total, 2) }}</span>
+                                        <span class="text-lg font-semibold text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatMoney($invoice->total) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -193,7 +193,7 @@
                                         </p>
                                     </div>
                                     <span class="text-sm font-medium text-green-600 dark:text-green-400">
-                                        +${{ number_format($payment->amount, 2) }}
+                                        +{{ \App\Services\LocalizationService::formatMoney($payment->amount) }}
                                     </span>
                                 </div>
                             @endforeach
@@ -207,7 +207,7 @@
                                     <div class="flex justify-between items-center">
                                         <span class="text-sm font-medium text-gray-900 dark:text-white">{{ __('invoices.remaining_balance') }}</span>
                                         <span class="text-sm font-medium text-red-600 dark:text-red-400">
-                                            ${{ number_format($remainingAmount, 2) }}
+                                            {{ \App\Services\LocalizationService::formatMoney($remainingAmount) }}
                                         </span>
                                     </div>
                                 </div>

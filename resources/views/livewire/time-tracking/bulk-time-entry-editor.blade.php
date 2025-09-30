@@ -177,7 +177,7 @@
                                     {{ $this->formatDuration($entry->duration) }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                                    {{ format_money($entry->hourly_rate, 0) }}/{{ __('time.hours') }}
+                                    {{ \App\Services\LocalizationService::formatMoney($entry->hourly_rate) }}/{{ __('time.hours') }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @if($entry->billable)
@@ -192,7 +192,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                                     @if($entry->billable)
-                                        {{ format_money(($entry->duration * $entry->hourly_rate) / 60, 0) }}
+                                        {{ \App\Services\LocalizationService::formatMoney(($entry->duration * $entry->hourly_rate) / 60) }}
                                     @else
                                         <span class="text-gray-400 dark:text-gray-500">-</span>
                                     @endif

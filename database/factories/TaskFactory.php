@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Faker\Factory as Faker;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
@@ -10,22 +11,43 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class TaskFactory extends Factory
 {
     /**
+     * The Faker instance for a specific locale.
+     *
+     * @var \Faker\Generator|null
+     */
+    protected $faker;
+
+    /**
+     * Create a new factory instance for a specific locale.
+     *
+     * @param string $locale
+     * @return $this
+     */
+    public function withLocale(string $locale)
+    {
+        $this->faker = Faker::create($locale);
+        return $this;
+    }
+
+    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
+        $faker = $this->faker ?? fake();
+
         return [
             'project_id' => \App\Models\Project::factory(),
-            'title' => fake()->sentence(4),
-            'description' => fake()->optional()->paragraph(),
-            'status' => fake()->randomElement(['todo', 'in_progress', 'completed', 'blocked']),
-            'priority' => fake()->randomElement(['low', 'medium', 'high', 'urgent']),
-            'estimated_hours' => fake()->optional()->randomFloat(2, 1, 40),
-            'actual_hours' => fake()->randomFloat(2, 0, 20),
-            'due_date' => fake()->optional()->dateTimeBetween('now', '+2 months'),
-            'sort_order' => fake()->numberBetween(0, 100),
+            'title' => $faker->sentence(4),
+            'description' => $faker->optional()->paragraph(),
+            'status' => $faker->randomElement(['todo', 'in_progress', 'completed', 'blocked']),
+            'priority' => $faker->randomElement(['low', 'medium', 'high', 'urgent']),
+            'estimated_hours' => $faker->optional()->randomFloat(2, 1, 40),
+            'actual_hours' => $faker->randomFloat(2, 0, 20),
+            'due_date' => $faker->optional()->dateTimeBetween('now', '+2 months'),
+            'sort_order' => $faker->numberBetween(0, 100),
         ];
     }
 }

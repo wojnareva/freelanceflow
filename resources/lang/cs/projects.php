@@ -332,4 +332,5 @@ return [
     // Missing form translations
     'create_new_project' => 'Vytvořit nový projekt',
     'select_client' => 'Vyberte klienta',
+    'hour' => 'hod',
 ];

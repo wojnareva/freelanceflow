@@ -35,7 +35,7 @@
                 </div>
                 <div class="ml-5">
                     <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ __('time.total_amount') }}</p>
-                    <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ format_money($totalEarnings) }}</p>
+                    <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ \App\Services\LocalizationService::formatMoney($totalEarnings) }}</p>
                 </div>
             </div>
         </div>
@@ -146,7 +146,7 @@
                                 {{ $formatted }}
                             </span>
                             <span class="font-medium text-gray-900 dark:text-gray-300">
-                                {{ format_money($entry->amount ?? 0) }}
+                                {{ \App\Services\LocalizationService::formatMoney($entry->amount ?? 0) }}
                             </span>
                         </div>
                         
@@ -220,7 +220,7 @@
                                 {{ $formatted }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
-                                {{ format_money($entry->amount ?? 0) }}
+                                {{ \App\Services\LocalizationService::formatMoney($entry->amount ?? 0) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($entry->billable)

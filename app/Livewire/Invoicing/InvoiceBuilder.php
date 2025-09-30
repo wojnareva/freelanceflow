@@ -68,6 +68,10 @@ class InvoiceBuilder extends Component
         $this->dateTo = Carbon::now()->endOfMonth()->format('Y-m-d');
         $this->invoiceNumber = $this->generateInvoiceNumber();
 
+        if (app()->getLocale() === 'cs') {
+            $this->currency = 'CZK';
+        }
+
         $this->loadTimeEntries();
     }
 

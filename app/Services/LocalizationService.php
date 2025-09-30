@@ -76,7 +76,7 @@ class LocalizationService
         
         if ($locale === 'cs') {
             $carbon->locale('cs');
-            return $format ? $carbon->translatedFormat($format) : $carbon->translatedFormat('j. n. Y');
+            return $format ? $carbon->translatedFormat($format) : $carbon->translatedFormat('d. m. Y');
         }
         
         return $carbon->format($format ?? 'Y-m-d');

@@ -306,8 +306,8 @@
                             {{ number_format($item->quantity, 0) }}
                         @endif
                     </td>
-                    <td class="text-right">${{ number_format($item->rate, 2) }}</td>
-                    <td class="text-right">${{ number_format($item->amount, 2) }}</td>
+                    <td class="text-right">{{ \App\Services\LocalizationService::formatMoney($item->rate) }}</td>
+                    <td class="text-right">{{ \App\Services\LocalizationService::formatMoney($item->amount) }}</td>
                 </tr>
             @endforeach
         </tbody>
@@ -318,19 +318,19 @@
         <div class="totals-table">
             <div class="totals-row">
                 <div class="totals-label">Subtotal:</div>
-                <div class="totals-value">${{ number_format($invoice->subtotal, 2) }}</div>
+                <div class="totals-value">{{ \App\Services\LocalizationService::formatMoney($invoice->subtotal) }}</div>
             </div>
             
             @if($invoice->tax_rate > 0)
                 <div class="totals-row">
                     <div class="totals-label">Tax ({{ $invoice->tax_rate }}%):</div>
-                    <div class="totals-value">${{ number_format($invoice->tax_amount, 2) }}</div>
+                    <div class="totals-value">{{ \App\Services\LocalizationService::formatMoney($invoice->tax_amount) }}</div>
                 </div>
             @endif
             
             <div class="totals-row total-row">
                 <div class="totals-label">Total:</div>
-                <div class="totals-value">${{ number_format($invoice->total, 2) }}</div>
+                <div class="totals-value">{{ \App\Services\LocalizationService::formatMoney($invoice->total) }}</div>
             </div>
         </div>
     </div>

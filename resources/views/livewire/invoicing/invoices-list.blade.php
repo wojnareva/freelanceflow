@@ -105,7 +105,7 @@
             @if($search || $statusFilter || $clientFilter)
                 <button wire:click="clearFilters" 
                         class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 text-sm">
-                    Clear Filters
+                    {{ __('invoices.clear_filters') }}
                 </button>
             @endif
         </div>
@@ -202,14 +202,14 @@
                                 @if($invoice->project)
                                     <div class="text-sm text-gray-900 dark:text-white">{{ $invoice->project->name }}</div>
                                 @else
-                                    <span class="text-sm text-gray-500 dark:text-gray-400">No project</span>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">{{ __('invoices.no_project') }}</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                                {{ $invoice->issue_date->format('M j, Y') }}
+                                {{ \App\Services\LocalizationService::formatDate($invoice->issue_date) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                                {{ $invoice->due_date->format('M j, Y') }}
+                                {{ \App\Services\LocalizationService::formatDate($invoice->due_date) }}
                                 @if($invoice->due_date->isPast() && $invoice->status !== 'paid')
                                     <span class="ml-1 text-red-500 dark:text-red-400">({{ __('invoices.overdue') }})</span>
                                 @endif
@@ -231,26 +231,26 @@
                                 <div class="flex items-center justify-end space-x-2">
                                     <a href="{{ route('invoices.show', $invoice) }}" 
                                        class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
-                                        View
+                                        {{ __('invoices.view') }}
                                     </a>
                                     
                                     @if($invoice->status === 'draft')
                                         <button wire:click="updateInvoiceStatus({{ $invoice->id }}, 'sent')" 
                                                 class="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300">
-                                            Send
+                                            {{ __('invoices.send') }}
                                         </button>
                                     @endif
                                     
                                     @if($invoice->status !== 'paid')
                                         <button wire:click="updateInvoiceStatus({{ $invoice->id }}, 'paid')" 
                                                 class="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300">
-                                            Mark Paid
+                                            {{ __('invoices.mark_as_paid') }}
                                         </button>
                                     @endif
                                     
-                                    <button onclick="if(confirm('Are you sure you want to delete this invoice?')) { $wire.deleteInvoice({{ $invoice->id }}) }"
+                                    <button onclick="if(confirm('{{ __("invoices.confirmations.delete_invoice") }}')) { $wire.deleteInvoice({{ $invoice->id }}) }"
                                             class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300">
-                                        Delete
+                                        {{ __('invoices.delete') }}
                                     </button>
                                 </div>
                             </td>

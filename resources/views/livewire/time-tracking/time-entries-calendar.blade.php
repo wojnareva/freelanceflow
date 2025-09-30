@@ -101,7 +101,7 @@
                                     </div>
                                     @if($dailyEarnings > 0)
                                         <div class="text-green-600 dark:text-green-400 font-medium">
-                                            ${{ number_format($dailyEarnings, 0) }}
+                                            {{ \App\Services\LocalizationService::formatMoney($dailyEarnings) }}
                                         </div>
                                     @endif
                                 </div>

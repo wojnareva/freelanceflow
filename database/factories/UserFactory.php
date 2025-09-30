@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Faker\Factory as Faker;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -12,9 +13,28 @@ use Illuminate\Support\Str;
 class UserFactory extends Factory
 {
     /**
+     * The Faker instance for a specific locale.
+     *
+     * @var \Faker\Generator|null
+     */
+    protected $faker;
+
+    /**
      * The current password being used by the factory.
      */
     protected static ?string $password;
+
+    /**
+     * Create a new factory instance for a specific locale.
+     *
+     * @param string $locale
+     * @return $this
+     */
+    public function withLocale(string $locale)
+    {
+        $this->faker = Faker::create($locale);
+        return $this;
+    }
 
     /**
      * Define the model's default state.
@@ -23,9 +43,11 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = $this->faker ?? fake();
+
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => $faker->name(),
+            'email' => $faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
