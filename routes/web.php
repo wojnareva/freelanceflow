@@ -80,6 +80,10 @@ Route::middleware('auth')->group(function () {
         return view('invoices.show', compact('invoice'));
     })->name('invoices.show');
 
+    Route::get('/invoices/{invoice}/edit', function (App\Models\Invoice $invoice) {
+        return view('invoices.edit', compact('invoice'));
+    })->name('invoices.edit');
+
     Route::get('/invoices/{invoice}/pdf', function (App\Models\Invoice $invoice) {
         $pdf = PDF::loadView('invoices.pdf', compact('invoice'));
 

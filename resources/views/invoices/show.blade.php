@@ -22,10 +22,10 @@
                    class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
                     ← {{ __('invoices.back_to_invoices') }}
                 </a>
-                @if($invoice->status === 'draft')
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                @if($invoice->status->value === 'draft')
+                    <a href="{{ route('invoices.edit', $invoice) }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
                         {{ __('invoices.edit_invoice_button') }}
-                    </button>
+                    </a>
                 @endif
                 <a href="{{ route('invoices.pdf', $invoice) }}" target="_blank"
                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center">

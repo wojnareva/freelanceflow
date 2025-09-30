@@ -270,7 +270,7 @@
                 @endif
                 <div class="invoice-detail">
                     <span class="invoice-detail-label">Status:</span>
-                    <span class="invoice-detail-value">{{ ucfirst($invoice->status) }}</span>
+                    <span class="invoice-detail-value">{{ $invoice->status->label() }}</span>
                 </div>
             </div>
         </div>
