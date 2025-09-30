@@ -76,7 +76,7 @@
                         class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
                     <option value="">{{ __('time-tracking.all_projects') }}</option>
                     @foreach($projects as $project)
-                        <option value="{{ $project->id }}">{{ $project->name }} ({{ $project->client->name }})</option>
+                        <option value="{{ $project->id }}">{{ $project->name }} ({{ $project->client?->name ?? 'N/A' }})</option>
                     @endforeach
                 </select>
             </div>
@@ -116,8 +116,8 @@
                 <div class="p-4 border-b border-gray-200 dark:border-gray-600 last:border-b-0">
                     <div class="flex justify-between items-start mb-2">
                         <div class="flex-1">
-                            <div class="font-medium text-gray-900 dark:text-white">{{ $entry->project->name }}</div>
-                            <div class="text-sm text-gray-500 dark:text-gray-400">{{ $entry->project->client->name }}</div>
+                            <div class="font-medium text-gray-900 dark:text-white">{{ $entry->project?->name ?? 'N/A' }}</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400">{{ $entry->project?->client?->name ?? 'N/A' }}</div>
                         </div>
                         <div class="text-right">
                             <div class="text-sm text-gray-900 dark:text-gray-300">{{ $entry->date->format('M j') }}</div>
@@ -202,8 +202,8 @@
                                 {{ $entry->date->format('M j, Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $entry->project->name }}</div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">{{ $entry->project->client->name }}</div>
+                                <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $entry->project?->name ?? 'N/A' }}</div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">{{ $entry->project?->client?->name ?? 'N/A' }}</div>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="text-sm text-gray-900 dark:text-white">{{ $entry->description }}</div>

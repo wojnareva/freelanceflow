@@ -5,6 +5,7 @@ namespace App\Livewire\TimeTracking;
 use App\Models\Project;
 use App\Models\TimeEntry;
 use App\Services\PerformanceService;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -105,7 +106,7 @@ class TimeEntriesList extends Component
     public function getTimeEntriesProperty()
     {
         return TimeEntry::with(['project.client', 'task'])
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::id())
             ->when($this->search, function ($query) {
                 $query->where('description', 'like', '%'.$this->search.'%');
             })
@@ -128,7 +129,8 @@ class TimeEntriesList extends Component
 
     public function getProjectsProperty()
     {
-        return Project::where('status', 'active')
+        return Project::where('user_id', auth()->id())
+            ->where('status', 'active')
             ->with('client')
             ->orderBy('name')
             ->get();
@@ -137,7 +139,7 @@ class TimeEntriesList extends Component
     public function getTotalHoursProperty()
     {
         $performanceService = app(PerformanceService::class);
-        $userId = auth()->id();
+        $userId = (int) Auth::id();
 
         // Create filters array for cache key
         $filters = [
@@ -176,7 +178,7 @@ class TimeEntriesList extends Component
 
     public function getTotalEarningsProperty()
     {
-        return TimeEntry::where('user_id', auth()->id())
+        return TimeEntry::where('user_id', (int) Auth::id())
             ->when($this->search, function ($query) {
                 $query->where('description', 'like', '%'.$this->search.'%');
             })
