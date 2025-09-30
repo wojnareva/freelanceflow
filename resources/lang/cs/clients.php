@@ -36,6 +36,7 @@ return [
     'client_created' => 'Klient byl vytvořen',
     'client_updated' => 'Klient byl aktualizován',
     'client_deleted' => 'Klient byl smazán',
+    'delete_failed_due_to_relations' => 'Klienta nelze smazat, protože má navázané projekty, faktury nebo další záznamy. Zkuste je nejprve odebrat nebo klienta archivovat.',
 
     // Basic Information
     'name' => 'Jméno',

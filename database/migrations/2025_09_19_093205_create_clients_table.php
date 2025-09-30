@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('hourly_rate', 10, 2)->nullable();
             $table->json('settings')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

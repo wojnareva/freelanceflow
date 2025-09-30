@@ -4,6 +4,7 @@ namespace App\Livewire\Clients;
 
 use App\Models\Client;
 use App\Services\PerformanceService;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -47,11 +48,17 @@ class ClientsList extends Component
         $client = Client::find($clientId);
 
         if ($client) {
-            $client->delete();
+            try {
+                $client->delete();
+            } catch (\Throwable $e) {
+                // If FK constraint prevents deletion, show friendly message
+                session()->flash('error', __('clients.delete_failed_due_to_relations'));
+                return;
+            }
 
             // Clear performance caches after client deletion
             $performanceService = app(PerformanceService::class);
-            $performanceService->clearAllUserCaches(auth()->id());
+            $performanceService->clearAllUserCaches(Auth::id());
 
             session()->flash('message', 'Client deleted successfully.');
         }
