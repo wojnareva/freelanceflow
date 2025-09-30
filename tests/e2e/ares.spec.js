@@ -17,7 +17,7 @@ test('Client form autocompletes company by IČO', async ({ page, baseURL }) => {
   await page.goto(`${baseURL}/clients/create`);
 
   // 3. Type valid IČO
-  await page.fill('input[placeholder="12345678"]', '25063677');
+  await page.fill('input[placeholder="12345678"]', '25655701');
 
   // 4. Wait for success indicator text
   await expect(page.locator('text=Údaje firmy byly načteny z registru')).toBeVisible({ timeout: 10000 });

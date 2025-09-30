@@ -12,7 +12,7 @@ enum InvoiceStatus: string
 
     public function label(): string
     {
-        return __('invoices.statuses.' . $this->value);
+        return __('invoices.statuses.'.$this->value);
     }
 
     public function color(): string

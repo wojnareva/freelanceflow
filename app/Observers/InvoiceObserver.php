@@ -30,7 +30,7 @@ class InvoiceObserver
         // Check if status changed to trigger appropriate webhook
         if ($invoice->wasChanged('status')) {
             $newStatus = $invoice->status;
-            
+
             switch ($newStatus) {
                 case 'sent':
                     $this->webhookService->trigger('invoice.sent', $invoice);

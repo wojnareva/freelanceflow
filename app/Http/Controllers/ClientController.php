@@ -32,7 +32,7 @@ class ClientController extends Controller
                 'string',
                 'size:8',
                 'regex:/^[0-9]{8}$/',
-                new ValidIco(),
+                new ValidIco,
                 Rule::unique('clients', 'ico'),
             ],
             'dic' => ['nullable', 'string', 'max:15'],
@@ -46,5 +46,3 @@ class ClientController extends Controller
             ->with('message', __('clients.client_created'));
     }
 }
-
-

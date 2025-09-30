@@ -48,11 +48,11 @@ class ClientsList extends Component
 
         if ($client) {
             $client->delete();
-            
+
             // Clear performance caches after client deletion
             $performanceService = app(PerformanceService::class);
             $performanceService->clearAllUserCaches(auth()->id());
-            
+
             session()->flash('message', 'Client deleted successfully.');
         }
     }

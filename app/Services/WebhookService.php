@@ -17,13 +17,14 @@ class WebhookService
     {
         // Get user ID from model or parameter
         $userId = $userId ?? $model->user_id ?? auth()->id();
-        
-        if (!$userId) {
+
+        if (! $userId) {
             Log::warning('Cannot trigger webhook: no user ID available', [
                 'event' => $event,
                 'model' => get_class($model),
                 'model_id' => $model->id,
             ]);
+
             return;
         }
 
@@ -52,7 +53,7 @@ class WebhookService
     {
         try {
             $payload = $webhook->getEventPayload($event, $model);
-            
+
             // Use Laravel queues for reliable delivery
             Queue::push(function () use ($webhook, $payload) {
                 $this->deliverWebhook($webhook, $payload);
@@ -89,6 +90,7 @@ class WebhookService
                         'attempt' => $attempt,
                         'status' => $response->status(),
                     ]);
+
                     return true;
                 }
 
@@ -102,12 +104,13 @@ class WebhookService
                         'status' => $response->status(),
                         'error' => $error,
                     ]);
+
                     return false;
                 }
 
                 // For 5xx errors, we'll retry
                 $error = "HTTP {$response->status()}: {$response->body()}";
-                
+
                 if ($attempt >= $maxAttempts) {
                     $webhook->updateTriggerStatus('failed', $error);
                     Log::error('Webhook delivery failed after all retries', [
@@ -116,6 +119,7 @@ class WebhookService
                         'attempts' => $attempt,
                         'error' => $error,
                     ]);
+
                     return false;
                 }
 
@@ -125,7 +129,7 @@ class WebhookService
 
             } catch (\Exception $e) {
                 $error = $e->getMessage();
-                
+
                 if ($attempt >= $maxAttempts) {
                     $webhook->updateTriggerStatus('failed', $error);
                     Log::error('Webhook delivery failed after all retries (exception)', [
@@ -134,6 +138,7 @@ class WebhookService
                         'attempts' => $attempt,
                         'error' => $error,
                     ]);
+
                     return false;
                 }
 
@@ -152,7 +157,7 @@ class WebhookService
     protected function makeHttpRequest(Webhook $webhook, array $payload): \Illuminate\Http\Client\Response
     {
         $payloadJson = json_encode($payload);
-        
+
         // Prepare headers
         $headers = array_merge([
             'Content-Type' => 'application/json',
@@ -163,7 +168,7 @@ class WebhookService
 
         // Add signature if secret is configured
         if ($webhook->secret) {
-            $signature = 'sha256=' . hash_hmac('sha256', $payloadJson, $webhook->secret);
+            $signature = 'sha256='.hash_hmac('sha256', $payloadJson, $webhook->secret);
             $headers['X-Webhook-Signature'] = $signature;
         }
 
@@ -185,12 +190,12 @@ class WebhookService
             'data' => [
                 'message' => 'This is a test webhook delivery from FreelanceFlow',
                 'webhook_name' => $webhook->name,
-            ]
+            ],
         ];
 
         try {
             $response = $this->makeHttpRequest($webhook, $payload);
-            
+
             $result = [
                 'success' => $response->successful(),
                 'status' => $response->status(),
@@ -211,7 +216,7 @@ class WebhookService
         } catch (\Exception $e) {
             $error = $e->getMessage();
             $webhook->updateTriggerStatus('failed', $error);
-            
+
             return [
                 'success' => false,
                 'error' => $error,
@@ -247,13 +252,14 @@ class WebhookService
     public function validateWebhookUrl(string $url): bool
     {
         // Basic URL validation
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+        if (! filter_var($url, FILTER_VALIDATE_URL)) {
             return false;
         }
 
         // Check if URL is reachable (optional ping test)
         try {
             $response = Http::timeout(5)->head($url);
+
             return $response->status() < 500; // Accept any non-server-error status
         } catch (\Exception $e) {
             return false;

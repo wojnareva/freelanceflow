@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\TimeEntry;
 use App\Models\Project;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use App\Models\TimeEntry;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TimeEntryController extends Controller
 {
@@ -53,7 +53,7 @@ class TimeEntryController extends Controller
                 'last_page' => $timeEntries->lastPage(),
                 'per_page' => $timeEntries->perPage(),
                 'total' => $timeEntries->total(),
-            ]
+            ],
         ]);
     }
 
@@ -82,14 +82,14 @@ class TimeEntryController extends Controller
         $validated['user_id'] = auth()->id();
 
         // Calculate duration if not provided
-        if (!isset($validated['duration_seconds']) && isset($validated['end_time'])) {
+        if (! isset($validated['duration_seconds']) && isset($validated['end_time'])) {
             $start = Carbon::parse($validated['start_time']);
             $end = Carbon::parse($validated['end_time']);
             $validated['duration_seconds'] = $end->diffInSeconds($start);
         }
 
         // Set hourly rate from project if not provided
-        if (!isset($validated['hourly_rate'])) {
+        if (! isset($validated['hourly_rate'])) {
             $validated['hourly_rate'] = $project->hourly_rate ?? $project->client->hourly_rate ?? 0;
         }
 
@@ -98,7 +98,7 @@ class TimeEntryController extends Controller
 
         return response()->json([
             'data' => $timeEntry,
-            'message' => 'Time entry created successfully'
+            'message' => 'Time entry created successfully',
         ], 201);
     }
 
@@ -141,7 +141,7 @@ class TimeEntryController extends Controller
             ->firstOrFail();
 
         // Calculate duration if not provided
-        if (!isset($validated['duration_seconds']) && isset($validated['end_time'])) {
+        if (! isset($validated['duration_seconds']) && isset($validated['end_time'])) {
             $start = Carbon::parse($validated['start_time']);
             $end = Carbon::parse($validated['end_time']);
             $validated['duration_seconds'] = $end->diffInSeconds($start);
@@ -152,7 +152,7 @@ class TimeEntryController extends Controller
 
         return response()->json([
             'data' => $timeEntry,
-            'message' => 'Time entry updated successfully'
+            'message' => 'Time entry updated successfully',
         ]);
     }
 
@@ -165,14 +165,14 @@ class TimeEntryController extends Controller
 
         if ($timeEntry->billed) {
             return response()->json([
-                'error' => 'Cannot delete billed time entry'
+                'error' => 'Cannot delete billed time entry',
             ], 422);
         }
 
         $timeEntry->delete();
 
         return response()->json([
-            'message' => 'Time entry deleted successfully'
+            'message' => 'Time entry deleted successfully',
         ]);
     }
 
@@ -206,7 +206,7 @@ class TimeEntryController extends Controller
 
         return response()->json([
             'data' => $timeEntry,
-            'message' => 'Timer started successfully'
+            'message' => 'Timer started successfully',
         ], 201);
     }
 
@@ -219,7 +219,7 @@ class TimeEntryController extends Controller
 
         if ($timeEntry->end_time) {
             return response()->json([
-                'error' => 'Timer is already stopped'
+                'error' => 'Timer is already stopped',
             ], 422);
         }
 
@@ -235,7 +235,7 @@ class TimeEntryController extends Controller
 
         return response()->json([
             'data' => $timeEntry,
-            'message' => 'Timer stopped successfully'
+            'message' => 'Timer stopped successfully',
         ]);
     }
 
@@ -285,14 +285,14 @@ class TimeEntryController extends Controller
                 $entryData['user_id'] = auth()->id();
 
                 // Calculate duration if not provided
-                if (!isset($entryData['duration_seconds']) && isset($entryData['end_time'])) {
+                if (! isset($entryData['duration_seconds']) && isset($entryData['end_time'])) {
                     $start = Carbon::parse($entryData['start_time']);
                     $end = Carbon::parse($entryData['end_time']);
                     $entryData['duration_seconds'] = $end->diffInSeconds($start);
                 }
 
                 // Set hourly rate from project if not provided
-                if (!isset($entryData['hourly_rate'])) {
+                if (! isset($entryData['hourly_rate'])) {
                     $entryData['hourly_rate'] = $project->hourly_rate ?? $project->client->hourly_rate ?? 0;
                 }
 
@@ -303,7 +303,7 @@ class TimeEntryController extends Controller
             } catch (\Exception $e) {
                 $errors[] = [
                     'index' => $index,
-                    'error' => $e->getMessage()
+                    'error' => $e->getMessage(),
                 ];
             }
         }
@@ -315,7 +315,7 @@ class TimeEntryController extends Controller
                 'Created %d time entries successfully. %d errors.',
                 count($createdEntries),
                 count($errors)
-            )
+            ),
         ], count($errors) > 0 ? 207 : 201); // 207 Multi-Status if there are errors
     }
 }

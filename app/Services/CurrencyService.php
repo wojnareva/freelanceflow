@@ -95,7 +95,7 @@ class CurrencyService
         $user = auth()->user();
 
         // First check if user has currency field set
-        if ($user && !empty($user->currency)) {
+        if ($user && ! empty($user->currency)) {
             try {
                 return Currency::from($user->currency);
             } catch (\Exception $e) {

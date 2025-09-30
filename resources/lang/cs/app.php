@@ -15,7 +15,7 @@ return [
     'forgot_password' => 'Zapomenuté heslo?',
     'reset_password' => 'Resetovat heslo',
     'send_reset_link' => 'Poslat odkaz pro reset',
-    
+
     // CRUD Actions
     'create' => 'Vytvořit',
     'edit' => 'Upravit',
@@ -54,7 +54,7 @@ return [
     'archive' => 'Archivovat',
     'restore' => 'Obnovit',
     'print' => 'Tisknout',
-    
+
     // Status & States
     'active' => 'Aktivní',
     'inactive' => 'Neaktivní',
@@ -80,7 +80,7 @@ return [
     'error' => 'Chyba',
     'warning' => 'Upozornění',
     'info' => 'Informace',
-    
+
     // Common Terms
     'yes' => 'Ano',
     'no' => 'Ne',
@@ -136,7 +136,7 @@ return [
     'terms' => 'Podmínky',
     'license' => 'Licence',
     'version' => 'Verze',
-    
+
     // Time & Dates
     'today' => 'Dnes',
     'yesterday' => 'Včera',
@@ -169,7 +169,7 @@ return [
     'weeks' => 'týdnů',
     'months' => 'měsíců',
     'years' => 'let',
-    
+
     // Numbers & Currency
     'amount' => 'Částka',
     'price' => 'Cena',
@@ -186,7 +186,7 @@ return [
     'currency' => 'Měna',
     'free' => 'Zdarma',
     'paid' => 'Placené',
-    
+
     // File & Media
     'file' => 'Soubor',
     'image' => 'Obrázek',
@@ -198,7 +198,7 @@ return [
     'format' => 'Formát',
     'quality' => 'Kvalita',
     'resolution' => 'Rozlišení',
-    
+
     // Navigation
     'menu' => 'Menu',
     'navigation' => 'Navigace',
@@ -225,7 +225,7 @@ return [
     'Expenses' => 'Výdaje',
     'Profile' => 'Profil',
     'Log Out' => 'Odhlásit se',
-    
+
     // Messages
     'welcome' => 'Vítejte',
     'goodbye' => 'Na shledanou',
@@ -236,7 +236,7 @@ return [
     'good_luck' => 'Hodně štěstí',
     'have_a_nice_day' => 'Hezký den',
     'see_you_later' => 'Uvidíme se později',
-    
+
     // Actions completed
     'created_successfully' => 'Úspěšně vytvořeno',
     'updated_successfully' => 'Úspěšně aktualizováno',
@@ -248,7 +248,7 @@ return [
     'copied_successfully' => 'Úspěšně zkopírováno',
     'operation_successful' => 'Operace byla úspěšná',
     'changes_saved' => 'Změny byly uloženy',
-    
+
     // Error messages
     'error_occurred' => 'Došlo k chybě',
     'something_went_wrong' => 'Něco se pokazilo',
@@ -268,7 +268,7 @@ return [
     'timeout' => 'Vypršel časový limit',
     'server_error' => 'Chyba serveru',
     'maintenance_mode' => 'Režim údržby',
-    
+
     // Confirmation messages
     'are_you_sure' => 'Jste si jistí?',
     'confirm_delete' => 'Potvrdit smazání',

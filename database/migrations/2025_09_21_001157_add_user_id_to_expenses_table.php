@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('expenses', function (Blueprint $table) {
             $table->foreignId('user_id')->nullable()->after('id')->constrained()->onDelete('cascade');
         });
-        
+
         // Update existing expenses to belong to the first user
         if (\DB::table('users')->exists()) {
             $firstUserId = \DB::table('users')->first()->id;

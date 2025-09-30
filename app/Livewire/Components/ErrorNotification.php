@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Components;
 
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class ErrorNotification extends Component
 {

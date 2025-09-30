@@ -86,12 +86,12 @@ class TimeEntriesList extends Component
     public function deleteEntry($entryId)
     {
         TimeEntry::findOrFail($entryId)->delete();
-        
+
         // Clear performance caches after time entry changes
         $performanceService = app(PerformanceService::class);
         $performanceService->clearTimeEntriesStatsCache(auth()->id());
         $performanceService->clearDashboardStatsCache(auth()->id());
-        
+
         session()->flash('success', 'Time entry deleted successfully!');
     }
 
@@ -138,7 +138,7 @@ class TimeEntriesList extends Component
     {
         $performanceService = app(PerformanceService::class);
         $userId = auth()->id();
-        
+
         // Create filters array for cache key
         $filters = [
             'search' => $this->search,

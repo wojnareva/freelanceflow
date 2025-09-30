@@ -8,7 +8,7 @@ You are building **FreelanceFlow** - a comprehensive freelance business manageme
 - `sudo` privileges
 - Password input
 - Interactive authentication
-- Database passwords
+- Database passwords$$
 - API keys or tokens
 
 **When you encounter such commands:**
@@ -152,12 +152,12 @@ freelanceflow/
 - [x] Add locale preferences to users table migration
 - [x] Implement LocalizationService helper class
 - [x] Create complete Czech translation files (app, dashboard, clients, projects, invoices, time, auth, validation)
-- [x] Implement ARES API service for company data lookup
+- [x] Implement ARES API$$ service for company data lookup
 - [x] Add IČO/DIČ fields to clients table
 - [x] Create ValidIco validation rule with Czech IČO algorithm
 - [x] Build LocaleSelector Livewire component
-- [x] Extend ClientForm with ARES integration and auto-fill
-- [x] Implement Czech number/currency/date formatting
+- [x] Extend ClientForm wit$$h ARES integration and auto-fill
+- [x] Implement Czech number/currency/$$date formatting
 - [x] Add locale selector to registration and user settings
 - [x] Create comprehensive tests for localization and ARES API
 - [x] Mobile responsive testing for Czech UI

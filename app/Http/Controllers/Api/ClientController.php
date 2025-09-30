@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
@@ -20,8 +20,8 @@ class ClientController extends Controller
             $search = $request->get('search');
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('company', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('company', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
             });
         }
 
@@ -39,7 +39,7 @@ class ClientController extends Controller
                 'last_page' => $clients->lastPage(),
                 'per_page' => $clients->perPage(),
                 'total' => $clients->total(),
-            ]
+            ],
         ]);
     }
 
@@ -67,7 +67,7 @@ class ClientController extends Controller
 
         return response()->json([
             'data' => $client,
-            'message' => 'Client created successfully'
+            'message' => 'Client created successfully',
         ], 201);
     }
 
@@ -95,7 +95,7 @@ class ClientController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'company' => 'nullable|string|max:255',
-            'email' => 'required|email|unique:clients,email,' . $client->id,
+            'email' => 'required|email|unique:clients,email,'.$client->id,
             'phone' => 'nullable|string|max:50',
             'address' => 'nullable|string',
             'vat_number' => 'nullable|string|max:50',
@@ -109,7 +109,7 @@ class ClientController extends Controller
 
         return response()->json([
             'data' => $client,
-            'message' => 'Client updated successfully'
+            'message' => 'Client updated successfully',
         ]);
     }
 
@@ -123,14 +123,14 @@ class ClientController extends Controller
         // Check if client has projects or invoices
         if ($client->projects()->count() > 0 || $client->invoices()->count() > 0) {
             return response()->json([
-                'error' => 'Cannot delete client with existing projects or invoices'
+                'error' => 'Cannot delete client with existing projects or invoices',
             ], 422);
         }
 
         $client->delete();
 
         return response()->json([
-            'message' => 'Client deleted successfully'
+            'message' => 'Client deleted successfully',
         ]);
     }
 

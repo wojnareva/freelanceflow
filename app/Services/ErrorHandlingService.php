@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Log;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ErrorHandlingService
@@ -45,7 +45,7 @@ class ErrorHandlingService
     public function handleLivewireError(Throwable $exception, string $operation = 'operation'): array
     {
         $this->handleException($exception, ['operation' => $operation]);
-        
+
         return [
             'success' => false,
             'message' => $this->getUserFriendlyMessage($exception),
@@ -59,9 +59,9 @@ class ErrorHandlingService
     public function handleApiError(Throwable $exception): array
     {
         $this->handleException($exception);
-        
+
         $statusCode = $this->getStatusCode($exception);
-        
+
         return [
             'error' => true,
             'message' => $this->getUserFriendlyMessage($exception),
@@ -106,11 +106,11 @@ class ErrorHandlingService
     public function formatValidationErrors(array $errors): array
     {
         $formatted = [];
-        
+
         foreach ($errors as $field => $messages) {
             $formatted[$field] = is_array($messages) ? implode(', ', $messages) : $messages;
         }
-        
+
         return $formatted;
     }
 
@@ -123,12 +123,12 @@ class ErrorHandlingService
         if ($exception instanceof \Illuminate\Database\QueryException) {
             return false;
         }
-        
+
         // Don't show internal server errors to users
         if ($exception instanceof \ErrorException) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -140,8 +140,8 @@ class ErrorHandlingService
         return [
             'type' => $type,
             'title' => 'Error',
-            'message' => $this->shouldShowToUser($exception) 
-                ? $exception->getMessage() 
+            'message' => $this->shouldShowToUser($exception)
+                ? $exception->getMessage()
                 : $this->getUserFriendlyMessage($exception),
             'timeout' => 5000,
         ];

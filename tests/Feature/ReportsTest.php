@@ -2,14 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\Client;
-use App\Models\Project;
-use App\Models\Invoice;
-use App\Models\TimeEntry;
-use App\Models\Expense;
-use App\Enums\InvoiceStatus;
 use App\Enums\ExpenseStatus;
+use App\Enums\InvoiceStatus;
+use App\Models\Client;
+use App\Models\Expense;
+use App\Models\Invoice;
+use App\Models\Project;
+use App\Models\TimeEntry;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -19,7 +19,9 @@ class ReportsTest extends TestCase
     use RefreshDatabase;
 
     protected User $user;
+
     protected Client $client;
+
     protected Project $project;
 
     protected function setUp(): void
@@ -106,7 +108,7 @@ class ReportsTest extends TestCase
             'paid_at' => now()->subMonths(3),
             'issue_date' => now()->subMonths(3),
         ]);
-        
+
         $recentInvoice = Invoice::factory()->for($this->user)->for($this->client)->create([
             'status' => InvoiceStatus::Paid,
             'total' => 10000,
@@ -126,13 +128,13 @@ class ReportsTest extends TestCase
     public function test_reports_show_client_breakdown(): void
     {
         $client2 = Client::factory()->for($this->user)->create(['name' => 'Client Two']);
-        
+
         Invoice::factory()->for($this->user)->for($this->client)->create([
             'status' => InvoiceStatus::Paid,
             'total' => 8000,
             'paid_at' => now(),
         ]);
-        
+
         Invoice::factory()->for($this->user)->for($client2)->create([
             'status' => InvoiceStatus::Paid,
             'total' => 12000,
@@ -201,7 +203,7 @@ class ReportsTest extends TestCase
             'status' => InvoiceStatus::Draft,
             'total' => 5000,
         ]);
-        
+
         $sentInvoice = Invoice::factory()->for($this->user)->for($this->client)->create([
             'status' => InvoiceStatus::Sent,
             'total' => 7500,
@@ -251,7 +253,7 @@ class ReportsTest extends TestCase
     public function test_reports_show_hourly_rate_analysis(): void
     {
         $project2 = Project::factory()->for($this->user)->for($this->client)->create([
-            'hourly_rate' => 100
+            'hourly_rate' => 100,
         ]);
 
         TimeEntry::factory()->for($this->user)->for($this->project)->create([
@@ -276,7 +278,7 @@ class ReportsTest extends TestCase
     {
         $otherUser = User::factory()->create();
         $otherClient = Client::factory()->for($otherUser)->create();
-        
+
         Invoice::factory()->for($otherUser)->for($otherClient)->create([
             'status' => InvoiceStatus::Paid,
             'total' => 10000,

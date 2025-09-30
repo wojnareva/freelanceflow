@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Faker\Factory as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client>
@@ -20,12 +20,12 @@ class ClientFactory extends Factory
     /**
      * Create a new factory instance for a specific locale.
      *
-     * @param string $locale
      * @return $this
      */
     public function withLocale(string $locale)
     {
         $this->faker = Faker::create($locale);
+
         return $this;
     }
 

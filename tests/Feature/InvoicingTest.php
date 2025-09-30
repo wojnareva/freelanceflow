@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Enums\InvoiceStatus;
 use App\Models\Client;
-use App\Models\Project;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\Project;
 use App\Models\TimeEntry;
-use App\Enums\InvoiceStatus;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -18,7 +18,9 @@ class InvoicingTest extends TestCase
     use RefreshDatabase;
 
     protected User $user;
+
     protected Client $client;
+
     protected Project $project;
 
     protected function setUp(): void
@@ -155,7 +157,7 @@ class InvoicingTest extends TestCase
     {
         $client2 = Client::factory()->for($this->user)->create();
         $project2 = Project::factory()->for($this->user)->for($client2)->create();
-        
+
         $timeEntry1 = TimeEntry::factory()->for($this->user)->for($this->project)->create(['billable' => true]);
         $timeEntry2 = TimeEntry::factory()->for($this->user)->for($project2)->create(['billable' => true]);
 
@@ -169,7 +171,7 @@ class InvoicingTest extends TestCase
     public function test_invoice_status_can_be_updated(): void
     {
         $invoice = Invoice::factory()->for($this->user)->for($this->client)->create([
-            'status' => InvoiceStatus::Draft
+            'status' => InvoiceStatus::Draft,
         ]);
 
         Livewire::actingAs($this->user)
@@ -185,7 +187,7 @@ class InvoicingTest extends TestCase
     public function test_invoice_can_be_marked_as_paid(): void
     {
         $invoice = Invoice::factory()->for($this->user)->for($this->client)->create([
-            'status' => InvoiceStatus::Sent
+            'status' => InvoiceStatus::Sent,
         ]);
 
         Livewire::actingAs($this->user)
@@ -204,10 +206,10 @@ class InvoicingTest extends TestCase
     public function test_invoices_can_be_filtered_by_status(): void
     {
         $draftInvoice = Invoice::factory()->for($this->user)->for($this->client)->create([
-            'status' => InvoiceStatus::Draft
+            'status' => InvoiceStatus::Draft,
         ]);
         $sentInvoice = Invoice::factory()->for($this->user)->for($this->client)->create([
-            'status' => InvoiceStatus::Sent
+            'status' => InvoiceStatus::Sent,
         ]);
 
         Livewire::actingAs($this->user)
@@ -268,7 +270,7 @@ class InvoicingTest extends TestCase
         Invoice::factory()->for($this->user)->for($this->client)->create(['number' => 'INV-001']);
 
         $this->expectException(\Illuminate\Database\QueryException::class);
-        
+
         Invoice::factory()->for($this->user)->for($this->client)->create(['number' => 'INV-001']);
     }
 

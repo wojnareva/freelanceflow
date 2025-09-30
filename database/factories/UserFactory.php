@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Faker\Factory as Faker;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -27,12 +27,12 @@ class UserFactory extends Factory
     /**
      * Create a new factory instance for a specific locale.
      *
-     * @param string $locale
      * @return $this
      */
     public function withLocale(string $locale)
     {
         $this->faker = Faker::create($locale);
+
         return $this;
     }
 

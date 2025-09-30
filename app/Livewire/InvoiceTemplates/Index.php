@@ -11,6 +11,7 @@ class Index extends Component
     use WithPagination;
 
     public $search = '';
+
     public $filter = 'all';
 
     protected $queryString = [
@@ -31,20 +32,21 @@ class Index extends Component
     public function toggleTemplate($templateId)
     {
         $template = InvoiceTemplate::findOrFail($templateId);
-        $template->update(['is_active' => !$template->is_active]);
-        
+        $template->update(['is_active' => ! $template->is_active]);
+
         $this->dispatch('template-toggled', [
             'template' => $template->name,
-            'status' => $template->is_active ? 'activated' : 'deactivated'
+            'status' => $template->is_active ? 'activated' : 'deactivated',
         ]);
     }
 
     public function generateInvoice($templateId)
     {
         $template = InvoiceTemplate::findOrFail($templateId);
-        
-        if (!$template->is_active) {
+
+        if (! $template->is_active) {
             $this->dispatch('error', 'Cannot generate invoice from inactive template');
+
             return;
         }
 
@@ -52,10 +54,10 @@ class Index extends Component
             $invoice = $template->generateInvoice();
             $this->dispatch('invoice-generated', [
                 'invoice' => $invoice->invoice_number,
-                'client' => $invoice->client->name
+                'client' => $invoice->client->name,
             ]);
         } catch (\Exception $e) {
-            $this->dispatch('error', 'Failed to generate invoice: ' . $e->getMessage());
+            $this->dispatch('error', 'Failed to generate invoice: '.$e->getMessage());
         }
     }
 
@@ -66,10 +68,10 @@ class Index extends Component
 
         if ($this->search) {
             $query->where(function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                  ->orWhereHas('client', function ($clientQuery) {
-                      $clientQuery->where('name', 'like', '%' . $this->search . '%');
-                  });
+                $q->where('name', 'like', '%'.$this->search.'%')
+                    ->orWhereHas('client', function ($clientQuery) {
+                        $clientQuery->where('name', 'like', '%'.$this->search.'%');
+                    });
             });
         }
 

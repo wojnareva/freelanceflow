@@ -9,7 +9,9 @@ use Illuminate\View\Component;
 class HelpIcon extends Component
 {
     public string $text;
+
     public string $position;
+
     public string $size;
 
     /**

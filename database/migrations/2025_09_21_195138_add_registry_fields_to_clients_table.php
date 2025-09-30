@@ -27,9 +27,9 @@ return new class extends Migration
         Schema::table('clients', function (Blueprint $table) {
             $table->dropColumn([
                 'ico',
-                'dic', 
+                'dic',
                 'company_registry_data',
-                'registry_updated_at'
+                'registry_updated_at',
             ]);
         });
     }

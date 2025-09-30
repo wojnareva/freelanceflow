@@ -60,12 +60,12 @@ class Attachment extends Model
     {
         $bytes = $this->size;
         $units = ['B', 'KB', 'MB', 'GB'];
-        
+
         for ($i = 0; $bytes > 1024 && $i < count($units) - 1; $i++) {
             $bytes /= 1024;
         }
-        
-        return round($bytes, 2) . ' ' . $units[$i];
+
+        return round($bytes, 2).' '.$units[$i];
     }
 
     /**
@@ -143,7 +143,7 @@ class Attachment extends Model
      */
     public static function createFromUpload($file, Model $attachable, ?string $description = null): self
     {
-        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+        $filename = uniqid().'.'.$file->getClientOriginalExtension();
         $path = $file->storeAs('attachments', $filename, 'public');
 
         return self::create([
@@ -181,7 +181,7 @@ class Attachment extends Model
      */
     public function scopeByMimeType($query, string $mimeType)
     {
-        return $query->where('mime_type', 'like', $mimeType . '%');
+        return $query->where('mime_type', 'like', $mimeType.'%');
     }
 
     /**
@@ -195,7 +195,7 @@ class Attachment extends Model
             'image/png',
             'image/gif',
             'image/webp',
-            
+
             // Documents
             'application/pdf',
             'application/msword',
@@ -204,11 +204,11 @@ class Attachment extends Model
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'text/plain',
             'text/csv',
-            
+
             // Archives
             'application/zip',
             'application/x-rar-compressed',
-            
+
             // Other
             'text/plain',
         ];

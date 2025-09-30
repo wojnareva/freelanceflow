@@ -27,15 +27,16 @@ class GenerateRecurringInvoices extends Command
     public function handle()
     {
         $dryRun = $this->option('dry-run');
-        
+
         $this->info('Checking for recurring invoice templates due for generation...');
-        
+
         $dueTemplates = InvoiceTemplate::dueForGeneration()
             ->with(['client', 'project'])
             ->get();
 
         if ($dueTemplates->isEmpty()) {
             $this->info('No invoice templates are due for generation.');
+
             return Command::SUCCESS;
         }
 
@@ -46,16 +47,16 @@ class GenerateRecurringInvoices extends Command
 
         foreach ($dueTemplates as $template) {
             $templateInfo = "- {$template->name} (Client: {$template->client->name})";
-            
+
             if ($template->project) {
                 $templateInfo .= " [Project: {$template->project->name}]";
             }
-            
+
             $templateInfo .= " - Next due: {$template->next_generation_date->format('Y-m-d')}";
-            
+
             $this->line($templateInfo);
 
-            if (!$dryRun) {
+            if (! $dryRun) {
                 try {
                     $invoice = $template->generateInvoice();
                     $this->info("  ✓ Generated invoice: {$invoice->invoice_number}");
@@ -65,7 +66,7 @@ class GenerateRecurringInvoices extends Command
                     $this->error($error);
                     $errors[] = [
                         'template' => $template->name,
-                        'error' => $e->getMessage()
+                        'error' => $e->getMessage(),
                     ];
                 }
             } else {
@@ -75,13 +76,13 @@ class GenerateRecurringInvoices extends Command
 
         if ($dryRun) {
             $this->info("\nDry run completed. No invoices were actually generated.");
-            $this->info("Run without --dry-run to generate invoices.");
+            $this->info('Run without --dry-run to generate invoices.');
         } else {
             $this->info("\nGeneration completed!");
             $this->info("Successfully generated: {$generatedCount} invoice(s)");
-            
-            if (!empty($errors)) {
-                $this->error("Errors encountered: " . count($errors));
+
+            if (! empty($errors)) {
+                $this->error('Errors encountered: '.count($errors));
                 foreach ($errors as $error) {
                     $this->error("- {$error['template']}: {$error['error']}");
                 }

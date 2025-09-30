@@ -20,7 +20,7 @@ return [
     'project_deleted' => 'Projekt byl smazán',
     'project_completed' => 'Projekt byl dokončen',
     'project_archived' => 'Projekt byl archivován',
-    
+
     // Basic Information
     'name' => 'Název',
     'project_name' => 'Název projektu',
@@ -35,7 +35,7 @@ return [
     'tags' => 'Štítky',
     'notes' => 'Poznámky',
     'internal_notes' => 'Interní poznámky',
-    
+
     // Dates & Timeline
     'dates' => 'Data',
     'start_date' => 'Datum zahájení',
@@ -50,7 +50,7 @@ return [
     'timeline' => 'Časová osa',
     'milestones' => 'Milníky',
     'phases' => 'Fáze',
-    
+
     // Budget & Financial
     'budget' => 'Rozpočet',
     'estimated_budget' => 'Odhadovaný rozpočet',
@@ -69,7 +69,7 @@ return [
     'invoiced_amount' => 'Fakturovaná částka',
     'paid_amount' => 'Zaplacená částka',
     'outstanding_amount' => 'Nesplacená částka',
-    
+
     // Progress & Completion
     'progress' => 'Pokrok',
     'completion_percentage' => 'Procento dokončení',
@@ -81,7 +81,7 @@ return [
     'blocked' => 'Blokováno',
     'health_status' => 'Stav projektu',
     'overall_health' => 'Celkový stav',
-    
+
     // Project Status
     'statuses' => [
         'draft' => 'Koncept',
@@ -95,7 +95,7 @@ return [
         'pending_approval' => 'Čeká na schválení',
         'under_review' => 'V hodnocení',
     ],
-    
+
     // Priority Levels
     'priorities' => [
         'low' => 'Nízká',
@@ -118,7 +118,7 @@ return [
     'priority_medium' => 'Střední',
     'priority_high' => 'Vysoká',
     'priority_urgent' => 'Urgentní',
-    
+
     // Project Types
     'types' => [
         'website' => 'Webová stránka',
@@ -133,7 +133,7 @@ return [
         'training' => 'Školení',
         'other' => 'Ostatní',
     ],
-    
+
     // Categories
     'categories' => [
         'web_development' => 'Webový vývoj',
@@ -147,7 +147,7 @@ return [
         'system_administration' => 'Správa systémů',
         'project_management' => 'Projektové řízení',
     ],
-    
+
     // Team & Resources
     'team' => 'Tým',
     'team_members' => 'Členové týmu',
@@ -159,7 +159,7 @@ return [
     'required_skills' => 'Požadované dovednosti',
     'tools_used' => 'Použité nástroje',
     'technologies' => 'Technologie',
-    
+
     // Tasks & Activities
     'tasks' => 'Úkoly',
     'total_tasks' => 'Celkem úkolů',
@@ -171,7 +171,7 @@ return [
     'recent_activities' => 'Nedávné aktivity',
     'project_log' => 'Log projektu',
     'work_log' => 'Pracovní log',
-    
+
     // Communication & Collaboration
     'communication' => 'Komunikace',
     'messages' => 'Zprávy',
@@ -183,7 +183,7 @@ return [
     'notifications' => 'Upozornění',
     'updates' => 'Aktualizace',
     'announcements' => 'Oznámení',
-    
+
     // Files & Documents
     'files' => 'Soubory',
     'documents' => 'Dokumenty',
@@ -195,7 +195,7 @@ return [
     'assets' => 'Aktiva',
     'media' => 'Média',
     'downloads' => 'Stažení',
-    
+
     // Quality & Review
     'quality' => 'Kvalita',
     'quality_score' => 'Skóre kvality',
@@ -208,7 +208,7 @@ return [
     'change_requests' => 'Požadavky na změny',
     'issues' => 'Problémy',
     'bugs' => 'Chyby',
-    
+
     // Reporting & Analytics
     'reports' => 'Sestavy',
     'analytics' => 'Analytika',
@@ -220,7 +220,7 @@ return [
     'kpis' => 'KPI',
     'benchmarks' => 'Benchmarky',
     'trends' => 'Trendy',
-    
+
     // Actions
     'start_project' => 'Spustit projekt',
     'pause_project' => 'Pozastavit projekt',
@@ -239,7 +239,7 @@ return [
     'generate_report' => 'Generovat sestavu',
     'schedule_meeting' => 'Naplánovat schůzku',
     'send_update' => 'Odeslat aktualizaci',
-    
+
     // Views & Layout
     'views' => 'Zobrazení',
     'list_view' => 'Seznam',
@@ -251,7 +251,7 @@ return [
     'gantt_view' => 'Ganttův diagram',
     'detailed_view' => 'Detailní zobrazení',
     'compact_view' => 'Kompaktní zobrazení',
-    
+
     // Filters & Search
     'search_projects' => 'Hledat projekty',
     'filter_by_status' => 'Filtrovat podle stavu',
@@ -266,7 +266,7 @@ return [
     'show_active_only' => 'Zobrazit pouze aktivní',
     'show_my_projects' => 'Zobrazit moje projekty',
     'show_all' => 'Zobrazit vše',
-    
+
     // Time Tracking
     'time_tracking' => 'Sledování času',
     'start_timer' => 'Spustit časomíru',
@@ -279,7 +279,7 @@ return [
     'monthly_time' => 'Měsíční čas',
     'overtime' => 'Přesčasy',
     'break_time' => 'Pauzy',
-    
+
     // Validation Messages
     'validation' => [
         'name_required' => 'Název projektu je povinný',
@@ -290,7 +290,7 @@ return [
         'hourly_rate_positive' => 'Hodinová sazba musí být kladná',
         'estimated_hours_positive' => 'Odhadované hodiny musí být kladné',
     ],
-    
+
     // Confirmation Messages
     'confirmations' => [
         'delete_project' => 'Opravdu chcete smazat tento projekt?',
@@ -300,7 +300,7 @@ return [
         'this_will_affect_tasks' => 'Toto ovlivní všechny související úkoly a záznamy času.',
         'action_cannot_be_undone' => 'Tuto akci nelze vrátit zpět.',
     ],
-    
+
     // Success Messages
     'success' => [
         'project_created' => 'Projekt byl úspěšně vytvořen',

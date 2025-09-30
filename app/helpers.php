@@ -2,7 +2,7 @@
 
 use App\Services\LocalizationService;
 
-if (!function_exists('format_money')) {
+if (! function_exists('format_money')) {
     /**
      * Format money according to user's locale and currency.
      */
@@ -12,7 +12,7 @@ if (!function_exists('format_money')) {
     }
 }
 
-if (!function_exists('format_number')) {
+if (! function_exists('format_number')) {
     /**
      * Format number according to user's locale.
      */
@@ -22,7 +22,7 @@ if (!function_exists('format_number')) {
     }
 }
 
-if (!function_exists('format_date')) {
+if (! function_exists('format_date')) {
     /**
      * Format date according to user's locale.
      */
@@ -32,7 +32,7 @@ if (!function_exists('format_date')) {
     }
 }
 
-if (!function_exists('format_datetime')) {
+if (! function_exists('format_datetime')) {
     /**
      * Format datetime according to user's locale.
      */
@@ -42,7 +42,7 @@ if (!function_exists('format_datetime')) {
     }
 }
 
-if (!function_exists('format_time')) {
+if (! function_exists('format_time')) {
     /**
      * Format time according to user's locale.
      */
@@ -52,7 +52,7 @@ if (!function_exists('format_time')) {
     }
 }
 
-if (!function_exists('is_czech_locale')) {
+if (! function_exists('is_czech_locale')) {
     /**
      * Check if current locale is Czech.
      */
@@ -62,7 +62,7 @@ if (!function_exists('is_czech_locale')) {
     }
 }
 
-if (!function_exists('get_locale_info')) {
+if (! function_exists('get_locale_info')) {
     /**
      * Get current locale information.
      */

@@ -8,17 +8,19 @@ use Livewire\Component;
 class UserOnboarding extends Component
 {
     public $showOnboarding = false;
+
     public $step = 1;
+
     public $totalSteps = 3;
 
     public function mount()
     {
         $onboardingService = app(UserOnboardingService::class);
         $user = auth()->user();
-        
+
         // Show onboarding if user is new and has no data
-        if ($onboardingService->shouldShowOnboarding($user) && 
-            !$onboardingService->hasMinimalData($user)) {
+        if ($onboardingService->shouldShowOnboarding($user) &&
+            ! $onboardingService->hasMinimalData($user)) {
             $this->showOnboarding = true;
         }
     }
@@ -50,9 +52,9 @@ class UserOnboarding extends Component
         $onboardingService = app(UserOnboardingService::class);
         $onboardingService->createSampleData(auth()->user());
         $this->showOnboarding = false;
-        
+
         session()->flash('success', 'Sample data created! Explore your new projects, clients, and time entries.');
-        
+
         // Redirect to dashboard to see the new data
         return redirect()->route('dashboard');
     }
@@ -61,7 +63,7 @@ class UserOnboarding extends Component
     {
         $this->showOnboarding = false;
         auth()->user()->update(['onboarded_at' => now()]);
-        
+
         session()->flash('success', 'Welcome to FreelanceFlow! You can always access help from the ? icon in the navigation.');
     }
 
@@ -72,20 +74,20 @@ class UserOnboarding extends Component
                 'title' => 'Welcome to FreelanceFlow!',
                 'content' => 'FreelanceFlow helps you manage your freelance business with time tracking, project management, invoicing, and financial reporting. Let\'s get you set up!',
                 'action' => 'Get Started',
-                'icon' => '🎉'
+                'icon' => '🎉',
             ],
             2 => [
                 'title' => 'Would you like sample data?',
                 'content' => 'We can create sample clients, projects, time entries, and invoices to help you explore the features. You can always delete this data later.',
                 'action' => 'Create Sample Data',
                 'action_alt' => 'Start Fresh',
-                'icon' => '📊'
+                'icon' => '📊',
             ],
             3 => [
                 'title' => 'You\'re all set!',
                 'content' => 'You can now start creating clients, tracking time, managing projects, and generating invoices. Check out the dashboard for an overview of your business.',
                 'action' => 'Go to Dashboard',
-                'icon' => '🚀'
+                'icon' => '🚀',
             ],
         ];
 

@@ -105,12 +105,12 @@ class InvoiceBuilder extends Component
 
         if ($this->selectedClient && $this->selectedClient !== '') {
             $query->whereHas('project.client', function ($q) {
-                $q->where('id', (int)$this->selectedClient);
+                $q->where('id', (int) $this->selectedClient);
             });
         }
 
         if ($this->selectedProject && $this->selectedProject !== '') {
-            $query->where('project_id', (int)$this->selectedProject);
+            $query->where('project_id', (int) $this->selectedProject);
         }
 
         $this->availableTimeEntries = $query->orderBy('date', 'desc')->get();
@@ -258,7 +258,7 @@ class InvoiceBuilder extends Component
     public function getProjectsProperty()
     {
         if ($this->selectedClient && $this->selectedClient !== '') {
-            return Project::where('client_id', (int)$this->selectedClient)->orderBy('name')->get();
+            return Project::where('client_id', (int) $this->selectedClient)->orderBy('name')->get();
         }
 
         return collect();

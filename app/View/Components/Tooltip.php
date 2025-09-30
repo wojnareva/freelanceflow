@@ -9,7 +9,9 @@ use Illuminate\View\Component;
 class Tooltip extends Component
 {
     public string $text;
+
     public string $position;
+
     public string $size;
 
     /**

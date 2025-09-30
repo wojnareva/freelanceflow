@@ -6,7 +6,7 @@ return [
     'good_morning' => 'Dobré ráno',
     'good_afternoon' => 'Dobré odpoledne',
     'good_evening' => 'Dobrý večer',
-    
+
     // Stats Overview
     'stats' => [
         'monthly_revenue' => 'Měsíční příjem',
@@ -32,7 +32,7 @@ return [
         'no_revenue_data' => 'Žádná data o příjmech',
         'no_revenue_data_description' => 'Vytvořte a označte faktury jako zaplacené, abyste viděli příjmy.',
     ],
-    
+
     // Quick Actions
     'quick_actions' => [
         'title' => 'Rychlé akce',
@@ -48,7 +48,7 @@ return [
         'generate_report' => 'Generovat sestavu',
         'get_started_text' => 'Vytvořte svůj první projekt nebo klienta, abyste zde viděli rychlé akce.',
     ],
-    
+
     // Activity Feed
     'activity_feed' => 'Poslední aktivita',
     'recent_activity' => 'Nedávná aktivita',
@@ -67,7 +67,7 @@ return [
         'meeting_scheduled' => 'Schůzka naplánována',
         'report_generated' => 'Sestava vygenerována',
     ],
-    
+
     // Revenue Chart
     'revenue_chart' => 'Příjmy za posledních 6 měsíců',
     'revenue_trends' => 'Trendy příjmů',
@@ -75,7 +75,7 @@ return [
     'yearly_comparison' => 'Roční srovnání',
     'growth_rate' => 'Míra růstu',
     'forecast' => 'Prognóza',
-    
+
     // Time Tracking Summary
     'time_summary' => [
         'title' => 'Souhrn času',
@@ -89,7 +89,7 @@ return [
         'productive_time' => 'Produktivní čas',
         'time_utilization' => 'Využití času',
     ],
-    
+
     // Project Overview
     'project_overview' => [
         'title' => 'Přehled projektů',
@@ -103,7 +103,7 @@ return [
         'budget_utilization' => 'Využití rozpočtu',
         'timeline_status' => 'Stav harmonogramu',
     ],
-    
+
     // Client Overview
     'client_overview' => [
         'title' => 'Přehled klientů',
@@ -116,7 +116,7 @@ return [
         'payment_history' => 'Historie plateb',
         'communication_frequency' => 'Frekvence komunikace',
     ],
-    
+
     // Financial Overview
     'financial_overview' => [
         'title' => 'Finanční přehled',
@@ -130,7 +130,7 @@ return [
         'tax_liability' => 'Daňové závazky',
         'financial_health' => 'Finanční zdraví',
     ],
-    
+
     // Notifications
     'notifications' => [
         'title' => 'Upozornění',
@@ -145,7 +145,7 @@ return [
         'meeting_reminder' => 'Připomínka schůzky',
         'system_update' => 'Aktualizace systému',
     ],
-    
+
     // Performance Metrics
     'performance' => [
         'title' => 'Výkonnostní metriky',
@@ -158,7 +158,7 @@ return [
         'budget_accuracy' => 'Přesnost rozpočtu',
         'resource_utilization' => 'Využití zdrojů',
     ],
-    
+
     // Goals & Targets
     'goals' => [
         'title' => 'Cíle a plány',
@@ -172,7 +172,7 @@ return [
         'days_remaining' => 'Zbývající dny',
         'achievement_rate' => 'Míra dosažení',
     ],
-    
+
     // Widgets
     'widgets' => [
         'customize_dashboard' => 'Přizpůsobit dashboard',
@@ -184,7 +184,7 @@ return [
         'save_layout' => 'Uložit rozložení',
         'reset_layout' => 'Resetovat rozložení',
     ],
-    
+
     // Time periods
     'periods' => [
         'today' => 'Dnes',
@@ -201,7 +201,7 @@ return [
         'all_time' => 'Za celou dobu',
         'last_6_months' => 'Posledních 6 měsíců',
     ],
-    
+
     // Export options
     'export' => [
         'title' => 'Export dat',

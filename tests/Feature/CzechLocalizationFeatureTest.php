@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Livewire\LocaleSelector;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Livewire\Livewire;
-use App\Livewire\LocaleSelector;
+use Tests\TestCase;
 
 class CzechLocalizationFeatureTest extends TestCase
 {
@@ -24,7 +24,7 @@ class CzechLocalizationFeatureTest extends TestCase
         ]);
 
         $response->assertRedirect('/dashboard');
-        
+
         $user = User::where('email', 'jan@example.com')->first();
         $this->assertEquals('cs', $user->locale);
         $this->assertEquals('CZK', $user->currency);
@@ -72,7 +72,7 @@ class CzechLocalizationFeatureTest extends TestCase
         ]);
 
         $response->assertRedirect('/profile');
-        
+
         $user->refresh();
         $this->assertEquals('cs', $user->locale);
         $this->assertEquals('CZK', $user->currency);
@@ -93,7 +93,7 @@ class CzechLocalizationFeatureTest extends TestCase
     public function guest_gets_czech_locale_from_browser_headers()
     {
         $response = $this->withHeaders([
-            'Accept-Language' => 'cs,en;q=0.9'
+            'Accept-Language' => 'cs,en;q=0.9',
         ])->get('/register');
 
         $response->assertStatus(200);

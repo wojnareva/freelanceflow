@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ClientController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -87,8 +87,10 @@ Route::middleware('auth')->group(function () {
     })->name('invoices.pdf');
 
     // Invoice Templates (Recurring Invoices) Routes
-    Route::get('/invoice-templates', App\Livewire\InvoiceTemplates\Index::class)->name('invoice-templates.index');
-    
+    Route::get('/invoice-templates', function () {
+        return view('invoice-templates.index');
+    })->name('invoice-templates.index');
+
     Route::get('/invoice-templates/create', function () {
         return view('invoice-templates.create');
     })->name('invoice-templates.create');
@@ -98,8 +100,10 @@ Route::middleware('auth')->group(function () {
     })->name('invoice-templates.edit');
 
     // Expenses Routes
-    Route::get('/expenses', App\Livewire\Expenses\Index::class)->name('expenses.index');
-    
+    Route::get('/expenses', function () {
+        return view('expenses.index');
+    })->name('expenses.index');
+
     Route::get('/expenses/create', function () {
         return view('expenses.create');
     })->name('expenses.create');

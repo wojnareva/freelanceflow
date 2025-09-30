@@ -13,7 +13,7 @@ return [
     'entry_created' => 'Entry created',
     'entry_updated' => 'Entry updated',
     'entry_deleted' => 'Entry deleted',
-    
+
     // Timer
     'timer' => 'Timer',
     'start_timer' => 'Start Timer',
@@ -26,7 +26,7 @@ return [
     'elapsed_time' => 'Elapsed time',
     'current_timer' => 'Current timer',
     'no_active_timer' => 'No active timer',
-    
+
     // Time Details
     'date' => 'Date',
     'start_time' => 'Start time',
@@ -40,7 +40,7 @@ return [
     'break_time' => 'Break time',
     'productive_time' => 'Productive time',
     'idle_time' => 'Idle time',
-    
+
     // Project & Task Association
     'project' => 'Project',
     'task' => 'Task',
@@ -51,7 +51,7 @@ return [
     'work_description' => 'Work description',
     'notes' => 'Notes',
     'tags' => 'Tags',
-    
+
     // Billing & Rates
     'billable' => 'Billable',
     'non_billable' => 'Non-billable',
@@ -63,7 +63,7 @@ return [
     'invoiced' => 'Invoiced',
     'not_invoiced' => 'Not invoiced',
     'invoice_status' => 'Invoice status',
-    
+
     // Time Tracking Categories
     'categories' => [
         'development' => 'Development',
@@ -80,7 +80,7 @@ return [
         'support' => 'Support',
         'other' => 'Other',
     ],
-    
+
     // Time Summary & Reports
     'summary' => 'Summary',
     'daily_summary' => 'Daily summary',
@@ -96,7 +96,7 @@ return [
     'last_week' => 'Last week',
     'last_month' => 'Last month',
     'custom_period' => 'Custom period',
-    
+
     // Calendar & Schedule
     'calendar' => 'Calendar',
     'calendar_view' => 'Calendar view',
@@ -108,7 +108,7 @@ return [
     'break_schedule' => 'Break schedule',
     'overtime' => 'Overtime',
     'undertime' => 'Undertime',
-    
+
     // Bulk Operations
     'bulk_edit' => 'Bulk Edit',
     'bulk_delete' => 'Bulk Delete',
@@ -121,7 +121,7 @@ return [
     'approve_selected' => 'Approve selected',
     'mark_billable' => 'Mark as billable',
     'mark_non_billable' => 'Mark as non-billable',
-    
+
     // Filters & Search
     'filter' => 'Filter',
     'search_entries' => 'Search entries',
@@ -137,7 +137,7 @@ return [
     'date_range' => 'Date range',
     'from_date' => 'From date',
     'to_date' => 'To date',
-    
+
     // Approval & Review
     'approval' => 'Approval',
     'pending_approval' => 'Pending approval',
@@ -150,7 +150,7 @@ return [
     'approval_status' => 'Approval status',
     'approval_date' => 'Approval date',
     'approval_notes' => 'Approval notes',
-    
+
     // Settings & Preferences
     'settings' => 'Settings',
     'time_tracking_settings' => 'Time tracking settings',
@@ -165,7 +165,7 @@ return [
     'rounding_interval' => 'Rounding interval',
     'minimum_time' => 'Minimum time',
     'maximum_hours_per_day' => 'Maximum hours per day',
-    
+
     // Notifications & Reminders
     'notifications' => 'Notifications',
     'reminders' => 'Reminders',
@@ -177,7 +177,7 @@ return [
     'notification_frequency' => 'Notification frequency',
     'email_notifications' => 'Email notifications',
     'push_notifications' => 'Push notifications',
-    
+
     // Integration & Export
     'integration' => 'Integration',
     'export' => 'Export',
@@ -191,7 +191,7 @@ return [
     'import_format' => 'Import format',
     'calendar_sync' => 'Calendar sync',
     'project_sync' => 'Project sync',
-    
+
     // Statistics & Analytics
     'statistics' => 'Statistics',
     'analytics' => 'Analytics',
@@ -206,7 +206,7 @@ return [
     'top_projects' => 'Top projects',
     'time_distribution' => 'Time distribution',
     'productivity_score' => 'Productivity score',
-    
+
     // Validation Messages
     'validation' => [
         'project_required' => 'Project is required',
@@ -221,7 +221,7 @@ return [
         'overlap_detected' => 'Overlap with existing entry',
         'maximum_hours_exceeded' => 'Maximum hours per day exceeded',
     ],
-    
+
     // Confirmation Messages
     'confirmations' => [
         'delete_entry' => 'Are you sure you want to delete this entry?',
@@ -231,7 +231,7 @@ return [
         'approve_entries' => 'Are you sure you want to approve selected entries?',
         'reject_entries' => 'Are you sure you want to reject selected entries?',
     ],
-    
+
     // Success Messages
     'success' => [
         'timer_started' => 'Timer started',

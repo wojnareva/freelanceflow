@@ -3,14 +3,14 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use SoapClient;
 
 class AresService
 {
     private const WSDL_URL = 'https://wwwinfo.mfcr.cz/ares/ares_obsluzne_vyslecht.wsdl';
-    
+
     /**
      * Primary JSON endpoints tried in order (tests fake ares.gov.cz/* so any path works)
      */
@@ -18,7 +18,7 @@ class AresService
         // Official REST that returns { icoId, zaznamy: [ { ico, obchodniJmeno, sidlo { ... } } ] }
         'https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty-res/%s',
     ];
-    
+
     /**
      * Get company data from ARES by IČO.
      */
@@ -29,7 +29,7 @@ class AresService
             return $this->fetchFromAres($ico);
         });
     }
-    
+
     /**
      * Fetch company data from ARES SOAP API.
      */
@@ -45,19 +45,20 @@ class AresService
                         'Accept' => 'application/json',
                         'Accept-Language' => 'cs',
                         // Some government endpoints are strict about User-Agent formatting – keep it simple.
-                        'User-Agent' => 'FreelanceFlow/1.0'
+                        'User-Agent' => 'FreelanceFlow/1.0',
                     ])
                     ->get($url);
 
                 if ($response->ok()) {
                     $json = $response->json();
                     $data = $this->parseJsonResponse($json);
-                    if (!empty($data) && !empty($data['company_name'])) {
+                    if (! empty($data) && ! empty($data['company_name'])) {
                         Log::info('ARES JSON data fetched successfully', [
                             'ico' => $ico,
                             'company_name' => $data['company_name'],
                             'endpoint' => $url,
                         ]);
+
                         return $data;
                     } else {
                         Log::warning('ARES JSON parsed empty or missing company_name', [
@@ -84,8 +85,9 @@ class AresService
         }
 
         // 2) Fallback to legacy SOAP API (best effort)
-        if (!class_exists(\SoapClient::class)) {
+        if (! class_exists(\SoapClient::class)) {
             Log::warning('SOAP extension not available, skipping SOAP fallback');
+
             return null;
         }
         try {
@@ -102,12 +104,13 @@ class AresService
                 'maxPocetZaznamu' => 1,
             ]);
 
-            if (!$result || !isset($result->SubjektySubjekt)) {
+            if (! $result || ! isset($result->SubjektySubjekt)) {
                 Log::warning('ARES SOAP response empty', [
                     'ico' => $ico,
                     'lastRequest' => method_exists($client, '__getLastRequest') ? $client->__getLastRequest() : null,
                     'lastResponse' => method_exists($client, '__getLastResponse') ? $client->__getLastResponse() : null,
                 ]);
+
                 return null;
             }
 
@@ -128,24 +131,25 @@ class AresService
                 'ico' => $ico,
                 'error' => $e->getMessage(),
             ]);
+
             return null;
         }
     }
-    
+
     /**
      * Parse ARES SOAP response into standardized format.
      */
     private function parseSoapResponse(object $subjekt): array
     {
         $company = (array) $subjekt;
-        
+
         if (empty($company)) {
             return [];
         }
-        
+
         $address = $company['Sidlo'] ?? [];
         $legalForm = $company['PravniForma'] ?? [];
-        
+
         return [
             'ico' => $company['ICO'] ?? '',
             'dic' => $company['DIC'] ?? null,
@@ -214,7 +218,7 @@ class AresService
             'raw_data' => $subject,
         ];
     }
-    
+
     /**
      * Get company name from various possible fields.
      */
@@ -227,36 +231,36 @@ class AresService
             ?? $company['nazevFirmy']
             ?? '';
     }
-    
+
     /**
      * Format complete address string.
      */
     private function formatAddress(array $address): string
     {
         $parts = [];
-        
+
         $street = $this->getStreet($address);
         $streetNumber = $this->getStreetNumber($address);
-        
+
         if ($street) {
             $streetPart = $street;
             if ($streetNumber) {
-                $streetPart .= ' ' . $streetNumber;
+                $streetPart .= ' '.$streetNumber;
             }
             $parts[] = $streetPart;
         }
-        
-        if (!empty($address['nazevObce'])) {
+
+        if (! empty($address['nazevObce'])) {
             $city = $address['nazevObce'];
-            if (!empty($address['PSC'])) {
-                $city = $address['PSC'] . ' ' . $city;
+            if (! empty($address['PSC'])) {
+                $city = $address['PSC'].' '.$city;
             }
             $parts[] = $city;
         }
-        
+
         return implode(', ', $parts);
     }
-    
+
     /**
      * Get street name from address.
      */
@@ -264,22 +268,22 @@ class AresService
     {
         return $address['nazevUlice'] ?? $address['nazevCastiObce'] ?? '';
     }
-    
+
     /**
      * Get street number from address.
      */
     private function getStreetNumber(array $address): string
     {
         $numbers = [];
-        
-        if (!empty($address['cisloDomovni'])) {
+
+        if (! empty($address['cisloDomovni'])) {
             $numbers[] = $address['cisloDomovni'];
         }
-        
-        if (!empty($address['cisloOrientacni'])) {
-            $numbers[] = '/' . $address['cisloOrientacni'];
+
+        if (! empty($address['cisloOrientacni'])) {
+            $numbers[] = '/'.$address['cisloOrientacni'];
         }
-        
+
         return implode('', $numbers);
     }
 
@@ -294,17 +298,18 @@ class AresService
         if ($street) {
             $streetPart = $street;
             if ($streetNumber) {
-                $streetPart .= ' ' . $streetNumber;
+                $streetPart .= ' '.$streetNumber;
             }
             $parts[] = $streetPart;
         }
-        if (!empty($address['nazevObce'])) {
+        if (! empty($address['nazevObce'])) {
             $city = $address['nazevObce'];
-            if (!empty($address['psc'])) {
-                $city = $address['psc'] . ' ' . $city;
+            if (! empty($address['psc'])) {
+                $city = $address['psc'].' '.$city;
             }
             $parts[] = $city;
         }
+
         return implode(', ', $parts);
     }
 
@@ -314,54 +319,56 @@ class AresService
     private function getStreetNumberJson(array $address): string
     {
         $numbers = [];
-        if (!empty($address['cisloDomovni'])) {
+        if (! empty($address['cisloDomovni'])) {
             $numbers[] = $address['cisloDomovni'];
         }
-        if (!empty($address['cisloOrientacni'])) {
-            $numbers[] = '/' . $address['cisloOrientacni'];
+        if (! empty($address['cisloOrientacni'])) {
+            $numbers[] = '/'.$address['cisloOrientacni'];
         }
+
         return implode('', $numbers);
     }
-    
+
     /**
      * Check if company is active.
      */
     private function isCompanyActive(array $company): bool
     {
         $status = $company['Stav'] ?? ($company['stav'] ?? '');
+
         return $status !== 'ZANIKLÝ' && $status !== 'ZRUŠENÝ' && $status !== 'ZANIKÁ';
     }
-    
+
     /**
      * Get business activities from company data.
      */
     private function getBusinessActivities(array $company): array
     {
         $activities = [];
-        
+
         if (isset($company['SeznamRegistraci'])) {
-            $registrace = is_array($company['SeznamRegistraci']->Rejstrik) 
-                ? $company['SeznamRegistraci']->Rejstrik 
+            $registrace = is_array($company['SeznamRegistraci']->Rejstrik)
+                ? $company['SeznamRegistraci']->Rejstrik
                 : [$company['SeznamRegistraci']->Rejstrik];
-            
+
             foreach ($registrace as $rejstrik) {
                 if (isset($rejstrik->PredmetyPodnikani)) {
-                    $predmety = is_array($rejstrik->PredmetyPodnikani->Predmet) 
-                        ? $rejstrik->PredmetyPodnikani->Predmet 
+                    $predmety = is_array($rejstrik->PredmetyPodnikani->Predmet)
+                        ? $rejstrik->PredmetyPodnikani->Predmet
                         : [$rejstrik->PredmetyPodnikani->Predmet];
-                    
+
                     foreach ($predmety as $predmet) {
-                        if (!empty($predmet->nazev)) {
+                        if (! empty($predmet->nazev)) {
                             $activities[] = (string) $predmet->nazev;
                         }
                     }
                 }
             }
         }
-        
+
         return array_unique(array_filter($activities));
     }
-    
+
     /**
      * Get establishment date.
      */
@@ -369,27 +376,27 @@ class AresService
     {
         return $company['DatumVzniku'] ?? null;
     }
-    
+
     /**
      * Get court registration information.
      */
     private function getCourtRegistration(array $company): ?string
     {
         if (isset($company['SeznamRegistraci'])) {
-            $registrace = is_array($company['SeznamRegistraci']->Rejstrik) 
-                ? $company['SeznamRegistraci']->Rejstrik 
+            $registrace = is_array($company['SeznamRegistraci']->Rejstrik)
+                ? $company['SeznamRegistraci']->Rejstrik
                 : [$company['SeznamRegistraci']->Rejstrik];
-            
+
             foreach ($registrace as $rejstrik) {
-                if (!empty($rejstrik->nazevRegistru)) {
+                if (! empty($rejstrik->nazevRegistru)) {
                     return (string) $rejstrik->nazevRegistru;
                 }
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * Clear cached company data.
      */
@@ -397,7 +404,7 @@ class AresService
     {
         Cache::forget("ares_company_{$ico}");
     }
-    
+
     /**
      * Validate IČO format.
      */
@@ -405,33 +412,33 @@ class AresService
     {
         return preg_match('/^[0-9]{8}$/', $ico);
     }
-    
+
     /**
      * Validate IČO with control digit algorithm.
      */
     public function isValidIco(string $ico): bool
     {
-        if (!$this->isValidIcoFormat($ico)) {
+        if (! $this->isValidIcoFormat($ico)) {
             return false;
         }
-        
+
         // IČO kontrolní algoritmus
         $weights = [8, 7, 6, 5, 4, 3, 2];
         $sum = 0;
-        
+
         for ($i = 0; $i < 7; $i++) {
-            $sum += (int)$ico[$i] * $weights[$i];
+            $sum += (int) $ico[$i] * $weights[$i];
         }
-        
+
         $remainder = $sum % 11;
         // If the remainder is 0 or 1, the check digit should be 0 according to Czech IČO specification
         $checkDigit = ($remainder === 0 || $remainder === 1)
             ? 0
             : 11 - $remainder;
-        
-        return (int)$ico[7] === $checkDigit;
+
+        return (int) $ico[7] === $checkDigit;
     }
-    
+
     /**
      * Check if ARES API is available.
      */
@@ -454,12 +461,13 @@ class AresService
                 'exceptions' => false,
                 'connection_timeout' => 5,
             ]);
+
             return $client ? true : false;
         } catch (\Throwable $e) {
             return false;
         }
     }
-    
+
     /**
      * Get cache statistics for debugging.
      */

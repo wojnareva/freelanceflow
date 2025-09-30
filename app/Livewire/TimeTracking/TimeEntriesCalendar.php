@@ -5,7 +5,6 @@ namespace App\Livewire\TimeTracking;
 use App\Models\Project;
 use App\Models\TimeEntry;
 use App\Services\CalendarService;
-use Carbon\Carbon;
 use Livewire\Component;
 
 class TimeEntriesCalendar extends Component
@@ -72,7 +71,7 @@ class TimeEntriesCalendar extends Component
 
         // Start from the first day of week for current locale containing the first day
         $startDate = CalendarService::getWeekStart($startOfMonth);
-        // End on last day of week for current locale containing the last day  
+        // End on last day of week for current locale containing the last day
         $endDate = CalendarService::getWeekEnd($endOfMonth);
 
         $days = [];
@@ -172,7 +171,7 @@ class TimeEntriesCalendar extends Component
             'timeEntries' => $this->timeEntries,
             'projects' => $this->projects,
             'dayNamesShort' => CalendarService::getDayNamesShort(),
-            'monthName' => __('time-tracking.' . strtolower($this->currentDate->format('F'))) . ' ' . $this->currentDate->format('Y'),
+            'monthName' => __('time-tracking.'.strtolower($this->currentDate->format('F'))).' '.$this->currentDate->format('Y'),
         ]);
     }
 }

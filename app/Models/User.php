@@ -3,17 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use PragmaRX\Google2FA\Google2FA;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -79,11 +79,11 @@ class User extends Authenticatable
      */
     public function generateTwoFactorSecret(): string
     {
-        $google2fa = new Google2FA();
+        $google2fa = new Google2FA;
         $secret = $google2fa->generateSecretKey();
-        
+
         $this->update(['two_factor_secret' => $secret]);
-        
+
         return $secret;
     }
 
@@ -92,8 +92,8 @@ class User extends Authenticatable
      */
     public function getTwoFactorQrCodeUrl(): string
     {
-        $google2fa = new Google2FA();
-        
+        $google2fa = new Google2FA;
+
         return $google2fa->getQRCodeUrl(
             'FreelanceFlow',
             $this->email,
@@ -106,12 +106,12 @@ class User extends Authenticatable
      */
     public function verifyTwoFactorCode(string $code): bool
     {
-        if (!$this->two_factor_secret) {
+        if (! $this->two_factor_secret) {
             return false;
         }
 
-        $google2fa = new Google2FA();
-        
+        $google2fa = new Google2FA;
+
         return $google2fa->verifyKey($this->two_factor_secret, $code, 2); // 2 = tolerance window
     }
 
@@ -121,13 +121,13 @@ class User extends Authenticatable
     public function generateRecoveryCodes(): array
     {
         $recoveryCodes = [];
-        
+
         for ($i = 0; $i < 8; $i++) {
             $recoveryCodes[] = strtoupper(bin2hex(random_bytes(4)));
         }
-        
+
         $this->update(['two_factor_recovery_codes' => $recoveryCodes]);
-        
+
         return $recoveryCodes;
     }
 
@@ -138,14 +138,15 @@ class User extends Authenticatable
     {
         $codes = $this->two_factor_recovery_codes ?? [];
         $code = strtoupper($code);
-        
+
         if (in_array($code, $codes)) {
             // Remove used code
-            $codes = array_values(array_filter($codes, fn($c) => $c !== $code));
+            $codes = array_values(array_filter($codes, fn ($c) => $c !== $code));
             $this->update(['two_factor_recovery_codes' => $codes]);
+
             return true;
         }
-        
+
         return false;
     }
 

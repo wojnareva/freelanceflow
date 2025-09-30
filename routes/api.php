@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\ExpenseController;
+use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\TimeEntryController;
-use App\Http\Controllers\Api\InvoiceController;
-use App\Http\Controllers\Api\ExpenseController;
 use App\Http\Controllers\Api\WebhookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // API v1 routes
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
-    
+
     // Clients API
     Route::apiResource('clients', ClientController::class)->names([
         'index' => 'api.clients.index',

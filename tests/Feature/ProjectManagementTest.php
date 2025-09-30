@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Enums\ProjectStatus;
+use App\Enums\TaskStatus;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\Task;
-use App\Enums\ProjectStatus;
-use App\Enums\TaskStatus;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -17,6 +17,7 @@ class ProjectManagementTest extends TestCase
     use RefreshDatabase;
 
     protected User $user;
+
     protected Client $client;
 
     protected function setUp(): void
@@ -111,10 +112,10 @@ class ProjectManagementTest extends TestCase
     public function test_projects_list_can_filter_by_status(): void
     {
         $activeProject = Project::factory()->for($this->user)->for($this->client)->create([
-            'status' => ProjectStatus::Active
+            'status' => ProjectStatus::Active,
         ]);
         $completedProject = Project::factory()->for($this->user)->for($this->client)->create([
-            'status' => ProjectStatus::Completed
+            'status' => ProjectStatus::Completed,
         ]);
 
         Livewire::actingAs($this->user)

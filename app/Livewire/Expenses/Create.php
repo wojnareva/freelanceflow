@@ -12,14 +12,23 @@ class Create extends Component
     use WithFileUploads;
 
     public $title = '';
+
     public $description = '';
+
     public $amount = '';
+
     public $currency = 'USD';
+
     public $category = '';
+
     public $project_id = '';
+
     public $billable = false;
+
     public $status = 'pending';
+
     public $expense_date;
+
     public $receipt;
 
     protected $rules = [
@@ -78,7 +87,7 @@ class Create extends Component
 
         $this->dispatch('expense-created', [
             'expense' => $expense->title,
-            'amount' => $expense->formatted_amount
+            'amount' => $expense->formatted_amount,
         ]);
 
         return redirect()->route('expenses.index');

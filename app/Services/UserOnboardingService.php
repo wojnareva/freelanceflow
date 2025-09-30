@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Models\User;
+use App\Enums\InvoiceStatus;
+use App\Enums\ProjectStatus;
 use App\Models\Client;
+use App\Models\Invoice;
 use App\Models\Project;
 use App\Models\TimeEntry;
-use App\Models\Invoice;
-use App\Enums\ProjectStatus;
-use App\Enums\InvoiceStatus;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class UserOnboardingService
 {
@@ -22,16 +22,16 @@ class UserOnboardingService
         DB::transaction(function () use ($user) {
             // Create sample clients
             $clients = $this->createSampleClients($user);
-            
+
             // Create sample projects
             $projects = $this->createSampleProjects($user, $clients);
-            
+
             // Create sample time entries
             $this->createSampleTimeEntries($projects);
-            
+
             // Create sample invoices
             $this->createSampleInvoices($user, $projects);
-            
+
             // Mark user as onboarded
             $user->update([
                 'onboarded_at' => now(),
@@ -138,7 +138,7 @@ class UserOnboardingService
         foreach ($sampleProjects as $projectData) {
             $client = $projectData['client'];
             unset($projectData['client']);
-            
+
             $projects[] = Project::create(array_merge($projectData, [
                 'user_id' => $user->id,
                 'client_id' => $client->id,
@@ -179,7 +179,7 @@ class UserOnboardingService
                 'duration' => 420, // 7 hours
                 'date' => Carbon::now()->subDays(10),
             ],
-            
+
             // Portfolio Website project entries
             [
                 'project' => $projects[1],
@@ -199,7 +199,7 @@ class UserOnboardingService
                 'duration' => 480, // 8 hours
                 'date' => Carbon::now()->subDays(4),
             ],
-            
+
             // Completed project entries
             [
                 'project' => $projects[3],
@@ -212,7 +212,7 @@ class UserOnboardingService
         foreach ($timeEntries as $entryData) {
             $project = $entryData['project'];
             unset($entryData['project']);
-            
+
             TimeEntry::create(array_merge($entryData, [
                 'user_id' => $project->user_id,
                 'project_id' => $project->id,
@@ -249,7 +249,7 @@ class UserOnboardingService
         foreach ($sampleInvoices as $invoiceData) {
             $project = $invoiceData['project'];
             unset($invoiceData['project']);
-            
+
             Invoice::create(array_merge($invoiceData, [
                 'user_id' => $user->id,
                 'client_id' => $project->client_id,
@@ -285,7 +285,7 @@ class UserOnboardingService
      */
     public function shouldShowOnboarding(User $user): bool
     {
-        return !$user->onboarded_at && !$user->sample_data_created;
+        return ! $user->onboarded_at && ! $user->sample_data_created;
     }
 
     /**

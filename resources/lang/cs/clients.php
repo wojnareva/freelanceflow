@@ -36,7 +36,7 @@ return [
     'client_created' => 'Klient byl vytvořen',
     'client_updated' => 'Klient byl aktualizován',
     'client_deleted' => 'Klient byl smazán',
-    
+
     // Basic Information
     'name' => 'Jméno',
     'first_name' => 'Křestní jméno',
@@ -47,7 +47,7 @@ return [
     'title' => 'Titul',
     'contact_person' => 'Kontaktní osoba',
     'primary_contact' => 'Hlavní kontakt',
-    
+
     // Contact Information
     'contact_info' => 'Kontaktní údaje',
     'email' => 'E-mail',
@@ -60,7 +60,7 @@ return [
     'website' => 'Webové stránky',
     'linkedin' => 'LinkedIn',
     'social_media' => 'Sociální sítě',
-    
+
     // Address Information
     'address' => 'Adresa',
     'billing_address' => 'Fakturační adresa',
@@ -72,7 +72,7 @@ return [
     'state' => 'Stát',
     'country' => 'Země',
     'region' => 'Region',
-    
+
     // Czech Business Information
     'business_info' => 'Firemní údaje',
     'ico' => 'IČO',
@@ -84,7 +84,7 @@ return [
     'business_activities' => 'Předměty podnikání',
     'court_registration' => 'Soudní registrace',
     'established_date' => 'Datum založení',
-    
+
     // ARES Integration
     'ares_lookup' => 'ARES vyhledávání',
     'auto_fill_company_data' => 'Automatické vyplnění údajů firmy',
@@ -100,7 +100,7 @@ return [
     'refresh_company_data' => 'Obnovit údaje firmy',
     'last_updated_from_ares' => 'Naposledy aktualizováno z ARES',
     'verify_with_ares' => 'Ověřit pomocí ARES',
-    
+
     // Financial Information
     'financial_info' => 'Finanční údaje',
     'hourly_rate' => 'Hodinová sazba',
@@ -115,7 +115,7 @@ return [
     'credit_limit' => 'Úvěrový limit',
     'discount' => 'Sleva',
     'tax_rate' => 'Daňová sazba',
-    
+
     // Relationship & History
     'relationship' => 'Vztah',
     'client_since' => 'Klient od',
@@ -131,7 +131,7 @@ return [
     'internal_notes' => 'Interní poznámky',
     'tags' => 'Štítky',
     'categories' => 'Kategorie',
-    
+
     // Statistics & Analytics
     'statistics' => 'Statistiky',
     'total_projects' => 'Celkem projektů',
@@ -147,7 +147,7 @@ return [
     'payment_history' => 'Historie plateb',
     'project_history' => 'Historie projektů',
     'communication_history' => 'Historie komunikace',
-    
+
     // Client Types
     'types' => [
         'individual' => 'Fyzická osoba',
@@ -160,7 +160,7 @@ return [
         'freelancer' => 'Freelancer',
         'agency' => 'Agentura',
     ],
-    
+
     // Client Status
     'statuses' => [
         'active' => 'Aktivní',
@@ -172,7 +172,7 @@ return [
         'vip' => 'VIP',
         'trial' => 'Zkušební',
     ],
-    
+
     // Industries
     'industries' => [
         'technology' => 'Technologie',
@@ -187,7 +187,7 @@ return [
         'design' => 'Design',
         'other' => 'Ostatní',
     ],
-    
+
     // Communication
     'communication' => 'Komunikace',
     'send_email' => 'Odeslat e-mail',
@@ -199,7 +199,7 @@ return [
     'preferred_contact_method' => 'Preferovaný způsob kontaktu',
     'time_zone' => 'Časové pásmo',
     'language' => 'Jazyk',
-    
+
     // Actions
     'view_projects' => 'Zobrazit projekty',
     'view_invoices' => 'Zobrazit faktury',
@@ -212,7 +212,7 @@ return [
     'restore_client' => 'Obnovit klienta',
     'merge_clients' => 'Sloučit klienty',
     'duplicate_client' => 'Duplikovat klienta',
-    
+
     // Filters & Search
     'search_clients' => 'Hledat klienty',
     'filter_by_status' => 'Filtrovat podle stavu',
@@ -224,7 +224,7 @@ return [
     'sort_by_date' => 'Seřadit podle data',
     'show_active_only' => 'Zobrazit pouze aktivní',
     'show_all' => 'Zobrazit vše',
-    
+
     // List View
     'clients_list' => 'Seznam klientů',
     'grid_view' => 'Mřížka',
@@ -232,7 +232,7 @@ return [
     'card_view' => 'Karty',
     'compact_view' => 'Kompaktní zobrazení',
     'detailed_view' => 'Detailní zobrazení',
-    
+
     // Import/Export
     'import_clients' => 'Importovat klienty',
     'export_clients' => 'Exportovat klienty',
@@ -242,7 +242,7 @@ return [
     'download_template' => 'Stáhnout šablonu',
     'upload_file' => 'Nahrát soubor',
     'mapping_fields' => 'Mapování polí',
-    
+
     // Validation Messages
     'validation' => [
         'name_required' => 'Jméno je povinné',
@@ -255,7 +255,7 @@ return [
         'duplicate_email' => 'Klient s tímto e-mailem již existuje',
         'duplicate_ico' => 'Klient s tímto IČO již existuje',
     ],
-    
+
     // Confirmation Messages
     'confirmations' => [
         'delete_client' => 'Opravdu chcete smazat tohoto klienta?',
@@ -264,7 +264,7 @@ return [
         'this_will_affect_projects' => 'Toto ovlivní související projekty a faktury.',
         'action_cannot_be_undone' => 'Tuto akci nelze vrátit zpět.',
     ],
-    
+
     // Placeholders
     'placeholders' => [
         'enter_client_name' => 'Zadejte jméno klienta',

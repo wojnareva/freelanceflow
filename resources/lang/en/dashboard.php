@@ -6,7 +6,7 @@ return [
     'good_morning' => 'Good morning',
     'good_afternoon' => 'Good afternoon',
     'good_evening' => 'Good evening',
-    
+
     // Stats Overview
     'stats' => [
         'monthly_revenue' => 'Monthly Revenue',
@@ -32,7 +32,7 @@ return [
         'no_revenue_data' => 'No Revenue Data',
         'no_revenue_data_description' => 'Create and mark invoices as paid to see revenue.',
     ],
-    
+
     // Quick Actions
     'quick_actions' => [
         'title' => 'Quick Actions',
@@ -48,7 +48,7 @@ return [
         'generate_report' => 'Generate Report',
         'get_started_text' => 'Create your first project or client to see quick actions here.',
     ],
-    
+
     // Activity Feed
     'activity_feed' => 'Recent Activity',
     'recent_activity' => 'Recent Activity',
@@ -67,7 +67,7 @@ return [
         'meeting_scheduled' => 'Meeting scheduled',
         'report_generated' => 'Report generated',
     ],
-    
+
     // Revenue Chart
     'revenue_chart' => 'Revenue Last 6 Months',
     'revenue_trends' => 'Revenue Trends',
@@ -75,7 +75,7 @@ return [
     'yearly_comparison' => 'Yearly Comparison',
     'growth_rate' => 'Growth Rate',
     'forecast' => 'Forecast',
-    
+
     // Time Tracking Summary
     'time_summary' => [
         'title' => 'Time Summary',
@@ -89,7 +89,7 @@ return [
         'productive_time' => 'Productive Time',
         'time_utilization' => 'Time Utilization',
     ],
-    
+
     // Project Overview
     'project_overview' => [
         'title' => 'Project Overview',
@@ -103,7 +103,7 @@ return [
         'budget_utilization' => 'Budget Utilization',
         'timeline_status' => 'Timeline Status',
     ],
-    
+
     // Client Overview
     'client_overview' => [
         'title' => 'Client Overview',
@@ -116,7 +116,7 @@ return [
         'payment_history' => 'Payment History',
         'communication_frequency' => 'Communication Frequency',
     ],
-    
+
     // Financial Overview
     'financial_overview' => [
         'title' => 'Financial Overview',
@@ -130,7 +130,7 @@ return [
         'tax_liability' => 'Tax Liability',
         'financial_health' => 'Financial Health',
     ],
-    
+
     // Notifications
     'notifications' => [
         'title' => 'Notifications',
@@ -145,7 +145,7 @@ return [
         'meeting_reminder' => 'Meeting reminder',
         'system_update' => 'System update',
     ],
-    
+
     // Performance Metrics
     'performance' => [
         'title' => 'Performance Metrics',
@@ -158,7 +158,7 @@ return [
         'budget_accuracy' => 'Budget Accuracy',
         'resource_utilization' => 'Resource Utilization',
     ],
-    
+
     // Goals & Targets
     'goals' => [
         'title' => 'Goals & Targets',
@@ -172,7 +172,7 @@ return [
         'days_remaining' => 'Days Remaining',
         'achievement_rate' => 'Achievement Rate',
     ],
-    
+
     // Widgets
     'widgets' => [
         'customize_dashboard' => 'Customize Dashboard',
@@ -184,7 +184,7 @@ return [
         'save_layout' => 'Save Layout',
         'reset_layout' => 'Reset Layout',
     ],
-    
+
     // Time periods
     'periods' => [
         'today' => 'Today',
@@ -201,7 +201,7 @@ return [
         'all_time' => 'All Time',
         'last_6_months' => 'Last 6 Months',
     ],
-    
+
     // Export options
     'export' => [
         'title' => 'Export Data',

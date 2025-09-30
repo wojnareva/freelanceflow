@@ -28,10 +28,10 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn([
                 'locale',
-                'currency', 
+                'currency',
                 'number_format',
                 'date_format',
-                'timezone'
+                'timezone',
             ]);
         });
     }

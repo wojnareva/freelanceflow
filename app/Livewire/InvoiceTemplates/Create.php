@@ -9,12 +9,19 @@ use Livewire\Component;
 class Create extends Component
 {
     public $name = '';
+
     public $client_id = '';
+
     public $frequency = 'monthly';
+
     public $description = '';
+
     public $start_date = '';
+
     public $end_date = '';
+
     public $amount = '';
+
     public $days_until_due = 30;
 
     protected $rules = [
@@ -39,7 +46,7 @@ class Create extends Component
 
         // Calculate next generation date based on frequency and start date
         $startDate = \Carbon\Carbon::parse($this->start_date);
-        $nextGenDate = match($this->frequency) {
+        $nextGenDate = match ($this->frequency) {
             'weekly' => $startDate->copy()->addWeek(),
             'monthly' => $startDate->copy()->addMonth(),
             'quarterly' => $startDate->copy()->addQuarter(),

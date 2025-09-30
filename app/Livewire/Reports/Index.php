@@ -2,20 +2,24 @@
 
 namespace App\Livewire\Reports;
 
-use App\Models\Invoice;
-use App\Models\Expense;
-use App\Models\TimeEntry;
-use App\Models\Project;
 use App\Models\Client;
-use Livewire\Component;
+use App\Models\Expense;
+use App\Models\Invoice;
+use App\Models\Project;
+use App\Models\TimeEntry;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
 
 class Index extends Component
 {
     public $dateRange = 'this_year';
+
     public $currency = 'USD';
+
     public $reportType = 'overview';
+
     public $selectedClient = '';
+
     public $selectedProject = '';
 
     protected $queryString = [
@@ -60,7 +64,7 @@ class Index extends Component
     public function getDateRangeQuery()
     {
         $now = now();
-        
+
         return match ($this->dateRange) {
             'today' => [$now->startOfDay(), $now->endOfDay()],
             'yesterday' => [$now->subDay()->startOfDay(), $now->subDay()->endOfDay()],
@@ -139,10 +143,10 @@ class Index extends Component
         }
 
         return $query->select(
-                DB::raw('YEAR(invoice_date) as year'),
-                DB::raw('MONTH(invoice_date) as month'),
-                DB::raw('SUM(total_amount) as total')
-            )
+            DB::raw('YEAR(invoice_date) as year'),
+            DB::raw('MONTH(invoice_date) as month'),
+            DB::raw('SUM(total_amount) as total')
+        )
             ->groupBy('year', 'month')
             ->orderBy('year')
             ->orderBy('month')
@@ -219,7 +223,7 @@ class Index extends Component
     public function getProfitabilityProperty()
     {
         $stats = $this->overviewStats;
-        
+
         $profit = $stats['total_revenue'] - $stats['total_expenses'];
         $margin = $stats['total_revenue'] > 0 ? ($profit / $stats['total_revenue']) * 100 : 0;
 
@@ -241,7 +245,7 @@ class Index extends Component
     public function getProjectsProperty()
     {
         $query = Project::where('user_id', auth()->id());
-        
+
         if ($this->selectedClient) {
             $query->where('client_id', $this->selectedClient);
         }

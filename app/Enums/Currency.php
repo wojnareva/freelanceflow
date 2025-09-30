@@ -81,6 +81,7 @@ enum Currency: string
     {
         // Use LocalizationService for proper formatting based on locale
         $localizationService = app(\App\Services\LocalizationService::class);
+
         return $localizationService->formatMoney($amount, $this->value);
     }
 }

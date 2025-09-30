@@ -11,7 +11,7 @@ use Livewire\WithPagination;
 
 class ProjectsList extends Component
 {
-    use WithPagination, HandlesErrors;
+    use HandlesErrors, WithPagination;
 
     public $search = '';
 
@@ -145,19 +145,19 @@ class ProjectsList extends Component
     {
         $this->tryOperation(function () use ($projectId) {
             $project = Project::findOrFail($projectId);
-            
+
             // Check if project belongs to current user
             if ($project->user_id !== auth()->id()) {
                 throw new \Illuminate\Auth\Access\AuthorizationException('You are not authorized to delete this project.');
             }
-            
+
             $project->delete();
-            
+
             // Clear performance caches after project deletion
             $performanceService = app(PerformanceService::class);
             $performanceService->clearProjectsListCache(auth()->id());
             $performanceService->clearDashboardStatsCache(auth()->id());
-            
+
             $this->showSuccess('Project deleted successfully!');
         }, 'delete project');
     }
@@ -179,7 +179,7 @@ class ProjectsList extends Component
     {
         $performanceService = app(PerformanceService::class);
         $userId = auth()->id();
-        
+
         // Create filters array for cache key
         $filters = [
             'search' => $this->search,

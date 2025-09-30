@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\LocaleHelper;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-use App\Helpers\LocaleHelper;
 use Symfony\Component\HttpFoundation\Response;
 
 class SetLocale
@@ -16,16 +16,16 @@ class SetLocale
     public function handle(Request $request, Closure $next): Response
     {
         $locale = $this->determineLocale($request);
-        
+
         // Set application locale
         app()->setLocale($locale);
-        
+
         // Configure Carbon and other locale-specific settings
         LocaleHelper::configureCarbon();
-        
+
         return $next($request);
     }
-    
+
     /**
      * Determine the appropriate locale for the request.
      */
@@ -35,7 +35,7 @@ class SetLocale
         if (auth()->check() && auth()->user()->locale) {
             return auth()->user()->locale;
         }
-        
+
         // 2. Session locale (for guest users)
         if (session('locale')) {
             $sessionLocale = session('locale');
@@ -43,39 +43,39 @@ class SetLocale
                 return $sessionLocale;
             }
         }
-        
+
         // 3. Browser language detection
         $browserLocale = $this->detectBrowserLocale($request);
         if ($browserLocale) {
             return $browserLocale;
         }
-        
+
         // 4. Default to application locale
         return config('app.locale', 'cs');
     }
-    
+
     /**
      * Detect locale from browser Accept-Language header.
      */
     private function detectBrowserLocale(Request $request): ?string
     {
         $availableLocales = array_keys(config('app.available_locales', ['cs' => [], 'en' => []]));
-        
+
         // Get preferred language from browser
         $preferred = $request->getPreferredLanguage($availableLocales);
-        
+
         if ($preferred) {
             // Extract language code (e.g., 'cs' from 'cs-CZ')
             $locale = substr($preferred, 0, 2);
-            
+
             if ($this->isValidLocale($locale)) {
                 return $locale;
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * Check if the given locale is valid and supported.
      */

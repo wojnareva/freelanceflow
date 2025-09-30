@@ -28,7 +28,7 @@ class ProfileController extends Controller
     {
         $user = $request->user();
         $oldLocale = $user->locale;
-        
+
         $user->fill($request->validated());
 
         if ($user->isDirty('email')) {

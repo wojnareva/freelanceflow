@@ -11,7 +11,7 @@ enum ExpenseStatus: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Pending => __('expense_status.pending'),
             self::Approved => __('expense_status.approved'),
             self::Rejected => __('expense_status.rejected'),
@@ -21,7 +21,7 @@ enum ExpenseStatus: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Pending => 'yellow',
             self::Approved => 'green',
             self::Rejected => 'red',

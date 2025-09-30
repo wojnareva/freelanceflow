@@ -19,7 +19,7 @@ return [
     'invoice_sent' => 'Faktura byla odeslána',
     'invoice_paid' => 'Faktura byla označena jako zaplacená',
     'invoice_deleted' => 'Faktura byla smazána',
-    
+
     // Invoice Information
     'invoice_number' => 'Číslo faktury',
     'invoice_date' => 'Datum faktury',
@@ -36,7 +36,7 @@ return [
     'reference' => 'Reference',
     'purchase_order' => 'Objednávka',
     'contract_number' => 'Číslo smlouvy',
-    
+
     // Invoice Status
     'status' => 'Stav',
     'statuses' => [
@@ -52,7 +52,7 @@ return [
         'refunded' => 'Vráceno',
         'disputed' => 'Sporné',
     ],
-    
+
     // Financial Details
     'line_items' => 'Položky faktury',
     'item' => 'Položka',
@@ -74,7 +74,7 @@ return [
     'amount_due' => 'Zbývá k úhradě',
     'currency' => 'Měna',
     'exchange_rate' => 'Směnný kurz',
-    
+
     // Payment Information
     'payment' => 'Platba',
     'payment_method' => 'Způsob platby',
@@ -96,7 +96,7 @@ return [
         'check' => 'Šekem',
         'other' => 'Jinak',
     ],
-    
+
     // Company Information
     'supplier' => 'Dodavatel',
     'customer' => 'Odběratel',
@@ -112,7 +112,7 @@ return [
     'phone' => 'Telefon',
     'email' => 'E-mail',
     'website' => 'Web',
-    
+
     // Time-based Billing
     'time_entries' => 'Časové záznamy',
     'hours_worked' => 'Odpracované hodiny',
@@ -126,7 +126,7 @@ return [
     'to_date' => 'Do data',
     'task_description' => 'Popis úkolu',
     'time_summary' => 'Souhrn času',
-    
+
     // Actions
     'send_invoice' => 'Odeslat fakturu',
     'mark_as_sent' => 'Označit jako odeslanou',
@@ -147,7 +147,7 @@ return [
     'archive' => 'Archivovat',
     'restore' => 'Obnovit',
     'regenerate' => 'Obnovit',
-    
+
     // Templates & Customization
     'template' => 'Šablona',
     'templates' => 'Šablony',
@@ -172,7 +172,7 @@ return [
     'color_scheme' => 'Barevné schéma',
     'font' => 'Písmo',
     'layout' => 'Rozložení',
-    
+
     // Recurring Invoices
     'recurring' => 'Opakující se',
     'recurring_invoice' => 'Opakující se faktura',
@@ -195,7 +195,7 @@ return [
     'remaining_invoices' => 'Zbývající faktury',
     'auto_send' => 'Automatické odeslání',
     'auto_reminder' => 'Automatické upomínky',
-    
+
     // Reports & Analytics
     'reports' => 'Sestavy',
     'invoice_summary' => 'Souhrn faktur',
@@ -208,7 +208,7 @@ return [
     'yearly_revenue' => 'Roční příjmy',
     'tax_report' => 'Daňová sestava',
     'profit_loss' => 'Zisk a ztráta',
-    
+
     // Filters & Search
     'search_invoices' => 'Hledat faktury',
     'filter_by_status' => 'Filtrovat podle stavu',
@@ -224,7 +224,7 @@ return [
     'sort_by_date' => 'Seřadit podle data',
     'sort_by_amount' => 'Seřadit podle částky',
     'sort_by_status' => 'Seřadit podle stavu',
-    
+
     // Email Templates
     'email_templates' => 'E-mailové šablony',
     'email_subject' => 'Předmět e-mailu',
@@ -239,7 +239,7 @@ return [
         'payment_confirmation' => 'Potvrzení platby',
         'overdue_notice' => 'Oznámení o prodlení',
     ],
-    
+
     // Validation Messages
     'validation' => [
         'client_required' => 'Klient je povinný',
@@ -253,7 +253,7 @@ return [
         'email_format' => 'E-mail má neplatný formát',
         'invoice_number_unique' => 'Číslo faktury musí být jedinečné',
     ],
-    
+
     // Success Messages
     'success' => [
         'invoice_created' => 'Faktura byla úspěšně vytvořena',
@@ -264,7 +264,7 @@ return [
         'reminder_sent' => 'Upomínka byla odeslána',
         'pdf_generated' => 'PDF bylo vygenerováno',
     ],
-    
+
     // Error Messages
     'errors' => [
         'invoice_not_found' => 'Faktura nebyla nalezena',
@@ -275,7 +275,7 @@ return [
         'payment_exceeds_total' => 'Platba překračuje celkovou částku',
         'invalid_amount' => 'Neplatná částka',
     ],
-    
+
     // Confirmation Messages
     'confirmations' => [
         'delete_invoice' => 'Opravdu chcete smazat tuto fakturu?',

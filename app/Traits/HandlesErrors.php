@@ -14,10 +14,10 @@ trait HandlesErrors
     {
         $errorService = app(ErrorHandlingService::class);
         $result = $errorService->handleLivewireError($exception, $operation);
-        
+
         // Flash error message to session
         session()->flash('error', $result['message']);
-        
+
         // Emit error event for client-side handling
         $this->dispatch('error-occurred', [
             'message' => $result['message'],
@@ -32,9 +32,11 @@ trait HandlesErrors
     {
         try {
             $operation();
+
             return true;
         } catch (Throwable $e) {
             $this->handleError($e, $operationName);
+
             return false;
         }
     }
@@ -45,7 +47,7 @@ trait HandlesErrors
     protected function showSuccess(string $message): void
     {
         session()->flash('success', $message);
-        
+
         $this->dispatch('success-occurred', [
             'message' => $message,
         ]);
@@ -57,7 +59,7 @@ trait HandlesErrors
     protected function showWarning(string $message): void
     {
         session()->flash('warning', $message);
-        
+
         $this->dispatch('warning-occurred', [
             'message' => $message,
         ]);
@@ -69,7 +71,7 @@ trait HandlesErrors
     protected function showInfo(string $message): void
     {
         session()->flash('info', $message);
-        
+
         $this->dispatch('info-occurred', [
             'message' => $message,
         ]);
@@ -82,18 +84,20 @@ trait HandlesErrors
     {
         try {
             $this->validate($rules, $messages);
+
             return true;
         } catch (\Illuminate\Validation\ValidationException $e) {
             $errorService = app(ErrorHandlingService::class);
             $errors = $errorService->formatValidationErrors($e->errors());
-            
+
             foreach ($errors as $field => $message) {
                 $this->addError($field, $message);
             }
-            
+
             return false;
         } catch (Throwable $e) {
             $this->handleError($e, 'validation');
+
             return false;
         }
     }

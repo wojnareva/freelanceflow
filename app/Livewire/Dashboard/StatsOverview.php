@@ -50,7 +50,7 @@ class StatsOverview extends Component
             // Always convert to user's currency if there are mixed currencies
             // Get all invoices with their currency
             $monthlyInvoices = $monthlyRevenueQuery->select('total', 'currency')->get();
-            
+
             $monthlyRevenue = 0;
             foreach ($monthlyInvoices as $invoice) {
                 // Get invoice currency or default to user's currency if not set
@@ -127,7 +127,7 @@ class StatsOverview extends Component
         // Clear the cache before recalculating
         $performanceService = app(PerformanceService::class);
         $performanceService->clearDashboardStatsCache(auth()->id());
-        
+
         $this->calculateStats();
     }
 

@@ -2,14 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Livewire\Clients\ClientForm;
 use App\Models\Client;
+use App\Models\User;
 use App\Services\AresService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
-use Tests\TestCase;
 use Livewire\Livewire;
-use App\Livewire\Clients\ClientForm;
+use Tests\TestCase;
 
 class AresIntegrationFeatureTest extends TestCase
 {
@@ -165,7 +165,7 @@ class AresIntegrationFeatureTest extends TestCase
     /** @test */
     public function ares_service_caches_company_data()
     {
-        $aresService = new AresService();
+        $aresService = new AresService;
 
         // Mock first API call
         Http::fake([
@@ -233,7 +233,7 @@ class AresIntegrationFeatureTest extends TestCase
     public function duplicate_ico_is_prevented()
     {
         $user = User::factory()->create();
-        
+
         // Create first client with IČO
         Client::factory()->create([
             'user_id' => $user->id,

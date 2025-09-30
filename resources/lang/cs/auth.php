@@ -38,7 +38,7 @@ return [
     'no_account' => 'Nemáte účet?',
     'welcome_back' => 'Vítejte zpět',
     'get_started' => 'Začít',
-    
+
     // Form Fields
     'name' => 'Jméno',
     'first_name' => 'Křestní jméno',
@@ -53,7 +53,7 @@ return [
     'password_confirmation' => 'Potvrzení hesla',
     'remember_me' => 'Zapamatovat si mě',
     'keep_signed_in' => 'Zůstat přihlášen',
-    
+
     // Password Reset
     'forgot_password' => 'Zapomenuté heslo?',
     'forgot_your_password' => 'Zapomněli jste heslo?',
@@ -65,7 +65,7 @@ return [
     'no_password_reset' => 'Pokud jste nepožádali o reset hesla, není třeba nic dělat.',
     'reset_link_expires' => 'Tento odkaz pro reset hesla vyprší za :count minut.',
     'trouble_clicking' => 'Pokud máte problémy s kliknutím na tlačítko ":actionText", zkopírujte a vložte níže uvedenou URL do svého webového prohlížeče:',
-    
+
     // Email Verification
     'verify_email' => 'Ověřit e-mail',
     'email_verification' => 'Ověření e-mailu',
@@ -77,7 +77,7 @@ return [
     'resend_verification' => 'Znovu odeslat ověřovací e-mail',
     'verification_sent' => 'Ověřovací e-mail byl odeslán',
     'email_verified' => 'E-mail byl úspěšně ověřen',
-    
+
     // Two-Factor Authentication
     'two_factor' => 'Dvoufaktorové ověření',
     'two_factor_authentication' => 'Dvoufaktorové ověření',
@@ -101,7 +101,7 @@ return [
     'regenerate_codes' => 'Obnovit kódy',
     '2fa_enabled' => 'Dvoufaktorové ověření je povoleno',
     '2fa_disabled' => 'Dvoufaktorové ověření je zakázáno',
-    
+
     // Account Management
     'account' => 'Účet',
     'my_account' => 'Můj účet',
@@ -115,7 +115,7 @@ return [
     'confirm_account_deletion' => 'Potvrdit smazání účtu',
     'account_deletion_warning' => 'Jakmile bude váš účet smazán, všechna jeho zdroje a data budou trvale odstraněna.',
     'enter_password_to_confirm' => 'Zadejte heslo pro potvrzení',
-    
+
     // Sessions & Security
     'active_sessions' => 'Aktivní relace',
     'manage_sessions' => 'Spravovat relace',
@@ -129,7 +129,7 @@ return [
     'security' => 'Zabezpečení',
     'password_security' => 'Zabezpečení hesla',
     'account_security' => 'Zabezpečení účtu',
-    
+
     // Permissions & Roles
     'permissions' => 'Oprávnění',
     'roles' => 'Role',
@@ -141,7 +141,7 @@ return [
     'user' => 'Uživatel',
     'moderator' => 'Moderátor',
     'guest' => 'Host',
-    
+
     // API & Tokens
     'api_tokens' => 'API tokeny',
     'create_token' => 'Vytvořit token',
@@ -153,7 +153,7 @@ return [
     'manage_api_tokens' => 'Spravovat API tokeny',
     'last_used' => 'Naposledy použit',
     'never_used' => 'Nikdy nepoužit',
-    
+
     // Validation Messages
     'validation' => [
         'name_required' => 'Jméno je povinné',
@@ -168,7 +168,7 @@ return [
         'captcha_required' => 'Captcha je povinná',
         'token_invalid' => 'Token je neplatný nebo vypršel',
     ],
-    
+
     // Success Messages
     'success' => [
         'registered' => 'Registrace byla úspěšná',
@@ -185,7 +185,7 @@ return [
         'sessions_logged_out' => 'Ostatní relace byly odhlášeny',
         'account_deleted' => 'Účet byl smazán',
     ],
-    
+
     // Error Messages
     'errors' => [
         'login_failed' => 'Přihlášení se nezdařilo',
@@ -202,7 +202,7 @@ return [
         'registration_disabled' => 'Registrace je zakázána',
         'maintenance_mode' => 'Režim údržby',
     ],
-    
+
     // Social Authentication
     'social' => [
         'login_with' => 'Přihlásit se pomocí :provider',
@@ -216,7 +216,7 @@ return [
         'microsoft' => 'Microsoft',
         'apple' => 'Apple',
     ],
-    
+
     // Terms & Privacy
     'terms' => 'Podmínky použití',
     'privacy_policy' => 'Zásady ochrany osobních údajů',
@@ -226,7 +226,7 @@ return [
     'gdpr_consent' => 'Souhlasím se zpracováním osobních údajů',
     'newsletter_consent' => 'Souhlasím s odběrem newsletteru',
     'marketing_consent' => 'Souhlasím s marketingovou komunikací',
-    
+
     // Localization
     'language' => 'Jazyk',
     'choose_language' => 'Vyberte jazyk',
@@ -234,7 +234,7 @@ return [
     'timezone' => 'Časové pásmo',
     'region' => 'Region',
     'country' => 'Země',
-    
+
     // Notifications
     'notifications' => 'Upozornění',
     'email_notifications' => 'E-mailová upozornění',

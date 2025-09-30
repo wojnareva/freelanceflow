@@ -12,10 +12,15 @@ class Index extends Component
     use WithPagination;
 
     public $search = '';
+
     public $categoryFilter = 'all';
+
     public $projectFilter = 'all';
+
     public $billableFilter = 'all';
+
     public $statusFilter = 'all';
+
     public $dateRange = '30days';
 
     protected $queryString = [
@@ -60,28 +65,29 @@ class Index extends Component
     public function markAsBilled($expenseId)
     {
         $expense = Expense::findOrFail($expenseId);
-        
-        if (!$expense->billable) {
+
+        if (! $expense->billable) {
             $this->dispatch('error', 'Only billable expenses can be marked as billed');
+
             return;
         }
 
         $expense->update(['billed' => true]);
-        
+
         $this->dispatch('expense-billed', [
             'expense' => $expense->title,
-            'amount' => $expense->formatted_amount
+            'amount' => $expense->formatted_amount,
         ]);
     }
 
     public function toggleBillable($expenseId)
     {
         $expense = Expense::findOrFail($expenseId);
-        $expense->update(['billable' => !$expense->billable]);
+        $expense->update(['billable' => ! $expense->billable]);
 
         $this->dispatch('expense-updated', [
             'expense' => $expense->title,
-            'status' => $expense->billable ? 'marked as billable' : 'marked as non-billable'
+            'status' => $expense->billable ? 'marked as billable' : 'marked as non-billable',
         ]);
     }
 
@@ -92,7 +98,7 @@ class Index extends Component
 
         $this->dispatch('expense-updated', [
             'expense' => $expense->title,
-            'status' => 'status changed to ' . $status
+            'status' => 'status changed to '.$status,
         ]);
     }
 
@@ -101,7 +107,7 @@ class Index extends Component
         $expense = Expense::findOrFail($expenseId);
         $expenseName = $expense->title;
         $expense->delete();
-        
+
         $this->dispatch('expense-deleted', ['expense' => $expenseName]);
     }
 
@@ -113,11 +119,11 @@ class Index extends Component
         // Search filter
         if ($this->search) {
             $query->where(function ($q) {
-                $q->where('title', 'like', '%' . $this->search . '%')
-                  ->orWhere('description', 'like', '%' . $this->search . '%')
-                  ->orWhereHas('project', function ($projectQuery) {
-                      $projectQuery->where('name', 'like', '%' . $this->search . '%');
-                  });
+                $q->where('title', 'like', '%'.$this->search.'%')
+                    ->orWhere('description', 'like', '%'.$this->search.'%')
+                    ->orWhereHas('project', function ($projectQuery) {
+                        $projectQuery->where('name', 'like', '%'.$this->search.'%');
+                    });
             });
         }
 
@@ -184,15 +190,15 @@ class Index extends Component
     public function getTotalStatsProperty()
     {
         $baseQuery = Expense::where('user_id', auth()->id());
-        
+
         // Apply same filters as main query for consistency
         if ($this->search) {
             $baseQuery->where(function ($q) {
-                $q->where('title', 'like', '%' . $this->search . '%')
-                  ->orWhere('description', 'like', '%' . $this->search . '%')
-                  ->orWhereHas('project', function ($projectQuery) {
-                      $projectQuery->where('name', 'like', '%' . $this->search . '%');
-                  });
+                $q->where('title', 'like', '%'.$this->search.'%')
+                    ->orWhere('description', 'like', '%'.$this->search.'%')
+                    ->orWhereHas('project', function ($projectQuery) {
+                        $projectQuery->where('name', 'like', '%'.$this->search.'%');
+                    });
             });
         }
 

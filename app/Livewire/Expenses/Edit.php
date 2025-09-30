@@ -4,25 +4,36 @@ namespace App\Livewire\Expenses;
 
 use App\Models\Expense;
 use App\Models\Project;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
 class Edit extends Component
 {
     use WithFileUploads;
 
     public Expense $expense;
+
     public $title;
+
     public $description;
+
     public $amount;
+
     public $currency;
+
     public $category;
+
     public $project_id;
+
     public $billable;
+
     public $status;
+
     public $expense_date;
+
     public $receipt;
+
     public $removeReceipt = false;
 
     protected $rules = [
@@ -96,7 +107,7 @@ class Edit extends Component
 
         $this->dispatch('expense-updated', [
             'expense' => $this->expense->title,
-            'amount' => $this->expense->formatted_amount
+            'amount' => $this->expense->formatted_amount,
         ]);
 
         return redirect()->route('expenses.index');

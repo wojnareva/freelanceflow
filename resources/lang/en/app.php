@@ -15,7 +15,7 @@ return [
     'forgot_password' => 'Forgot Password?',
     'reset_password' => 'Reset Password',
     'send_reset_link' => 'Send Reset Link',
-    
+
     // CRUD Actions
     'create' => 'Create',
     'edit' => 'Edit',
@@ -54,7 +54,7 @@ return [
     'archive' => 'Archive',
     'restore' => 'Restore',
     'print' => 'Print',
-    
+
     // Status & States
     'active' => 'Active',
     'inactive' => 'Inactive',
@@ -80,7 +80,7 @@ return [
     'error' => 'Error',
     'warning' => 'Warning',
     'info' => 'Information',
-    
+
     // Common Terms
     'yes' => 'Yes',
     'no' => 'No',
@@ -136,7 +136,7 @@ return [
     'terms' => 'Terms',
     'license' => 'License',
     'version' => 'Version',
-    
+
     // Time & Dates
     'today' => 'Today',
     'yesterday' => 'Yesterday',
@@ -169,7 +169,7 @@ return [
     'weeks' => 'weeks',
     'months' => 'months',
     'years' => 'years',
-    
+
     // Numbers & Currency
     'amount' => 'Amount',
     'price' => 'Price',
@@ -186,7 +186,7 @@ return [
     'currency' => 'Currency',
     'free' => 'Free',
     'paid' => 'Paid',
-    
+
     // File & Media
     'file' => 'File',
     'image' => 'Image',
@@ -198,7 +198,7 @@ return [
     'format' => 'Format',
     'quality' => 'Quality',
     'resolution' => 'Resolution',
-    
+
     // Navigation
     'menu' => 'Menu',
     'navigation' => 'Navigation',
@@ -214,7 +214,7 @@ return [
     'results' => 'results',
     'showing' => 'Showing',
     'entries' => 'entries',
-    
+
     // Messages
     'welcome' => 'Welcome',
     'goodbye' => 'Goodbye',
@@ -225,7 +225,7 @@ return [
     'good_luck' => 'Good luck',
     'have_a_nice_day' => 'Have a nice day',
     'see_you_later' => 'See you later',
-    
+
     // Actions completed
     'created_successfully' => 'Created successfully',
     'updated_successfully' => 'Updated successfully',
@@ -237,7 +237,7 @@ return [
     'copied_successfully' => 'Copied successfully',
     'operation_successful' => 'Operation successful',
     'changes_saved' => 'Changes saved',
-    
+
     // Error messages
     'error_occurred' => 'An error occurred',
     'something_went_wrong' => 'Something went wrong',
@@ -257,7 +257,7 @@ return [
     'timeout' => 'Timeout',
     'server_error' => 'Server error',
     'maintenance_mode' => 'Maintenance mode',
-    
+
     // Main Navigation
     'Dashboard' => 'Dashboard',
     'Time Tracking' => 'Time Tracking',

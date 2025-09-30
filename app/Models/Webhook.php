@@ -90,8 +90,9 @@ class Webhook extends Model
      */
     public function generateSecret(): string
     {
-        $secret = 'whsec_' . bin2hex(random_bytes(32));
+        $secret = 'whsec_'.bin2hex(random_bytes(32));
         $this->update(['secret' => $secret]);
+
         return $secret;
     }
 
@@ -100,11 +101,12 @@ class Webhook extends Model
      */
     public function verifySignature(string $payload, string $signature): bool
     {
-        if (!$this->secret) {
+        if (! $this->secret) {
             return true; // No secret configured, skip verification
         }
 
-        $expectedSignature = 'sha256=' . hash_hmac('sha256', $payload, $this->secret);
+        $expectedSignature = 'sha256='.hash_hmac('sha256', $payload, $this->secret);
+
         return hash_equals($expectedSignature, $signature);
     }
 
@@ -130,7 +132,7 @@ class Webhook extends Model
                         'invoice' => $model->toArray(),
                         'client' => $model->client?->toArray(),
                         'items' => $model->items?->toArray(),
-                    ]
+                    ],
                 ]);
 
             case 'payment.received':
@@ -139,7 +141,7 @@ class Webhook extends Model
                         'payment' => $model->toArray(),
                         'invoice' => $model->invoice?->toArray(),
                         'client' => $model->invoice?->client?->toArray(),
-                    ]
+                    ],
                 ]);
 
             case 'project.created':
@@ -148,14 +150,14 @@ class Webhook extends Model
                     'data' => [
                         'project' => $model->toArray(),
                         'client' => $model->client?->toArray(),
-                    ]
+                    ],
                 ]);
 
             case 'client.created':
                 return array_merge($basePayload, [
                     'data' => [
                         'client' => $model->toArray(),
-                    ]
+                    ],
                 ]);
 
             case 'time_entry.created':
@@ -164,7 +166,7 @@ class Webhook extends Model
                         'time_entry' => $model->toArray(),
                         'project' => $model->project?->toArray(),
                         'task' => $model->task?->toArray(),
-                    ]
+                    ],
                 ]);
 
             case 'expense.created':
@@ -172,12 +174,12 @@ class Webhook extends Model
                     'data' => [
                         'expense' => $model->toArray(),
                         'project' => $model->project?->toArray(),
-                    ]
+                    ],
                 ]);
 
             default:
                 return array_merge($basePayload, [
-                    'data' => $model->toArray()
+                    'data' => $model->toArray(),
                 ]);
         }
     }

@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\Client;
-use App\Models\Project;
-use App\Models\Expense;
 use App\Enums\ExpenseStatus;
+use App\Models\Client;
+use App\Models\Expense;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +18,9 @@ class ExpenseTrackingTest extends TestCase
     use RefreshDatabase;
 
     protected User $user;
+
     protected Client $client;
+
     protected Project $project;
 
     protected function setUp(): void

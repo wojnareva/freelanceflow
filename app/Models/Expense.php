@@ -56,7 +56,7 @@ class Expense extends Model
 
     public function getFormattedAmountAttribute(): string
     {
-        return number_format($this->amount, 2) . ' ' . $this->currency;
+        return number_format($this->amount, 2).' '.$this->currency;
     }
 
     public function getCategoryColorAttribute(): string
@@ -89,7 +89,7 @@ class Expense extends Model
 
     public function hasReceipt(): bool
     {
-        return !empty($this->receipt_path);
+        return ! empty($this->receipt_path);
     }
 
     public function scopeBillable($query)
@@ -120,7 +120,7 @@ class Expense extends Model
     public function scopeThisMonth($query)
     {
         return $query->whereMonth('expense_date', now()->month)
-                    ->whereYear('expense_date', now()->year);
+            ->whereYear('expense_date', now()->year);
     }
 
     public function scopeThisYear($query)

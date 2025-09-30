@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Cache;
-use Carbon\Carbon;
 
 class PerformanceService
 {
@@ -31,7 +30,7 @@ class PerformanceService
      */
     public function getProjectsList(int $userId, array $filters, callable $callback): mixed
     {
-        $cacheKey = "projects_list_{$userId}_" . md5(serialize($filters));
+        $cacheKey = "projects_list_{$userId}_".md5(serialize($filters));
         $cacheTTL = now()->addMinutes(3); // Cache for 3 minutes
 
         return Cache::remember($cacheKey, $cacheTTL, $callback);
@@ -51,7 +50,7 @@ class PerformanceService
      */
     public function getTimeEntriesStats(int $userId, array $filters, callable $callback): array
     {
-        $cacheKey = "time_entries_stats_{$userId}_" . md5(serialize($filters));
+        $cacheKey = "time_entries_stats_{$userId}_".md5(serialize($filters));
         $cacheTTL = now()->addMinutes(2); // Cache for 2 minutes
 
         return Cache::remember($cacheKey, $cacheTTL, $callback);
@@ -90,7 +89,7 @@ class PerformanceService
      */
     public function getReportData(int $userId, string $reportType, array $params, callable $callback): array
     {
-        $cacheKey = "report_{$reportType}_{$userId}_" . md5(serialize($params));
+        $cacheKey = "report_{$reportType}_{$userId}_".md5(serialize($params));
         $cacheTTL = now()->addMinutes(15); // Cache for 15 minutes
 
         return Cache::remember($cacheKey, $cacheTTL, $callback);
@@ -99,7 +98,7 @@ class PerformanceService
     /**
      * Clear report cache for a user
      */
-    public function clearReportCache(int $userId, string $reportType = null): void
+    public function clearReportCache(int $userId, ?string $reportType = null): void
     {
         if ($reportType) {
             $pattern = "report_{$reportType}_{$userId}_*";
@@ -168,10 +167,10 @@ class PerformanceService
     {
         // For simple cache drivers, we'll just track keys
         // In production, you might want to use Redis with pattern deletion
-        
+
         // For now, we'll implement a simple approach
         $store = Cache::getStore();
-        
+
         if (method_exists($store, 'flush')) {
             // If it's array cache or similar, we could flush all
             // but that's too aggressive, so we'll skip pattern clearing
@@ -186,7 +185,7 @@ class PerformanceService
     {
         $memoryUsage = memory_get_usage(true);
         $peakMemory = memory_get_peak_usage(true);
-        
+
         return [
             'memory_usage' => $this->formatBytes($memoryUsage),
             'peak_memory' => $this->formatBytes($peakMemory),
@@ -205,10 +204,10 @@ class PerformanceService
         $bytes = max($bytes, 0);
         $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
         $pow = min($pow, count($units) - 1);
-        
+
         $bytes /= pow(1024, $pow);
-        
-        return round($bytes, 2) . ' ' . $units[$pow];
+
+        return round($bytes, 2).' '.$units[$pow];
     }
 
     /**

@@ -9,9 +9,13 @@ use Livewire\Component;
 class Edit extends Component
 {
     public InvoiceTemplate $template;
+
     public $name;
+
     public $client_id;
+
     public $frequency;
+
     public $description;
 
     protected $rules = [

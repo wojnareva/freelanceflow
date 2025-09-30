@@ -13,7 +13,7 @@ return [
     'entry_created' => 'Záznam byl vytvořen',
     'entry_updated' => 'Záznam byl aktualizován',
     'entry_deleted' => 'Záznam byl smazán',
-    
+
     // Timer
     'timer' => 'Časomíra',
     'start_timer' => 'Spustit časomíru',
@@ -26,7 +26,7 @@ return [
     'elapsed_time' => 'Uplynulý čas',
     'current_timer' => 'Aktuální časomíra',
     'no_active_timer' => 'Žádná aktivní časomíra',
-    
+
     // Time Details
     'date' => 'Datum',
     'start_time' => 'Čas zahájení',
@@ -40,7 +40,7 @@ return [
     'break_time' => 'Čas pauzy',
     'productive_time' => 'Produktivní čas',
     'idle_time' => 'Nečinný čas',
-    
+
     // Project & Task Association
     'project' => 'Projekt',
     'task' => 'Úkol',
@@ -51,7 +51,7 @@ return [
     'work_description' => 'Popis práce',
     'notes' => 'Poznámky',
     'tags' => 'Štítky',
-    
+
     // Billing & Rates
     'billable' => 'Fakturovatelné',
     'non_billable' => 'Nefakturovatelné',
@@ -63,7 +63,7 @@ return [
     'invoiced' => 'Fakturováno',
     'not_invoiced' => 'Nefakturováno',
     'invoice_status' => 'Stav fakturace',
-    
+
     // Time Tracking Categories
     'categories' => [
         'development' => 'Vývoj',
@@ -80,7 +80,7 @@ return [
         'support' => 'Podpora',
         'other' => 'Ostatní',
     ],
-    
+
     // Time Summary & Reports
     'summary' => 'Souhrn',
     'daily_summary' => 'Denní souhrn',
@@ -96,7 +96,7 @@ return [
     'last_week' => 'Minulý týden',
     'last_month' => 'Minulý měsíc',
     'custom_period' => 'Vlastní období',
-    
+
     // Calendar & Schedule
     'calendar' => 'Kalendář',
     'calendar_view' => 'Kalendářní zobrazení',
@@ -108,7 +108,7 @@ return [
     'break_schedule' => 'Rozvrh pauz',
     'overtime' => 'Přesčasy',
     'undertime' => 'Nedostatek hodin',
-    
+
     // Bulk Operations
     'bulk_edit' => 'Hromadná úprava',
     'bulk_delete' => 'Hromadné mazání',
@@ -121,7 +121,7 @@ return [
     'approve_selected' => 'Schválit vybrané',
     'mark_billable' => 'Označit jako fakturovatelné',
     'mark_non_billable' => 'Označit jako nefakturovatelné',
-    
+
     // Filters & Search
     'filter' => 'Filtr',
     'search_entries' => 'Hledat záznamy',
@@ -137,7 +137,7 @@ return [
     'date_range' => 'Časové období',
     'from_date' => 'Od data',
     'to_date' => 'Do data',
-    
+
     // Approval & Review
     'approval' => 'Schválení',
     'pending_approval' => 'Čeká na schválení',
@@ -150,7 +150,7 @@ return [
     'approval_status' => 'Stav schválení',
     'approval_date' => 'Datum schválení',
     'approval_notes' => 'Poznámky ke schválení',
-    
+
     // Settings & Preferences
     'settings' => 'Nastavení',
     'time_tracking_settings' => 'Nastavení sledování času',
@@ -165,7 +165,7 @@ return [
     'rounding_interval' => 'Interval zaokrouhlování',
     'minimum_time' => 'Minimální čas',
     'maximum_hours_per_day' => 'Maximum hodin za den',
-    
+
     // Notifications & Reminders
     'notifications' => 'Upozornění',
     'reminders' => 'Připomínky',
@@ -177,7 +177,7 @@ return [
     'notification_frequency' => 'Frekvence upozornění',
     'email_notifications' => 'E-mailová upozornění',
     'push_notifications' => 'Push upozornění',
-    
+
     // Integration & Export
     'integration' => 'Integrace',
     'export' => 'Export',
@@ -191,7 +191,7 @@ return [
     'import_format' => 'Formát importu',
     'calendar_sync' => 'Synchronizace kalendáře',
     'project_sync' => 'Synchronizace projektů',
-    
+
     // Statistics & Analytics
     'statistics' => 'Statistiky',
     'analytics' => 'Analytika',
@@ -206,7 +206,7 @@ return [
     'top_projects' => 'Nejvíce časově náročné projekty',
     'time_distribution' => 'Rozdělení času',
     'productivity_score' => 'Skóre produktivity',
-    
+
     // Validation Messages
     'validation' => [
         'project_required' => 'Projekt je povinný',
@@ -221,7 +221,7 @@ return [
         'overlap_detected' => 'Překrývání s existujícím záznamem',
         'maximum_hours_exceeded' => 'Překročen maximální počet hodin za den',
     ],
-    
+
     // Confirmation Messages
     'confirmations' => [
         'delete_entry' => 'Opravdu chcete smazat tento záznam?',
@@ -231,7 +231,7 @@ return [
         'approve_entries' => 'Opravdu chcete schválit vybrané záznamy?',
         'reject_entries' => 'Opravdu chcete zamítnout vybrané záznamy?',
     ],
-    
+
     // Success Messages
     'success' => [
         'timer_started' => 'Časomíra byla spuštěna',

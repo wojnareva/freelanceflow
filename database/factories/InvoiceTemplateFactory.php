@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use App\Models\Client;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,7 +23,7 @@ class InvoiceTemplateFactory extends Factory
         $taxRate = fake()->randomElement([0, 8.25, 10, 15, 20]);
         $frequency = fake()->randomElement(['weekly', 'monthly', 'quarterly', 'yearly']);
         $startDate = fake()->dateTimeBetween('-6 months', '+1 month');
-        
+
         return [
             'user_id' => User::factory(),
             'client_id' => Client::factory(),
@@ -36,7 +36,7 @@ class InvoiceTemplateFactory extends Factory
                 'Development Retainer',
                 'Hosting & Maintenance',
                 'Consulting Services',
-                'Support Package'
+                'Support Package',
             ]),
             'description' => fake()->optional()->sentence(),
             'frequency' => $frequency,
@@ -58,7 +58,7 @@ class InvoiceTemplateFactory extends Factory
     private function calculateNextDate($startDate, $frequency): \DateTime
     {
         $date = clone $startDate;
-        
+
         return match ($frequency) {
             'weekly' => $date->modify('+1 week'),
             'monthly' => $date->modify('+1 month'),
@@ -72,7 +72,7 @@ class InvoiceTemplateFactory extends Factory
         $itemCount = fake()->numberBetween(1, 3);
         $items = [];
         $remainingAmount = $totalAmount;
-        
+
         for ($i = 0; $i < $itemCount; $i++) {
             if ($i === $itemCount - 1) {
                 // Last item gets the remaining amount
@@ -81,7 +81,7 @@ class InvoiceTemplateFactory extends Factory
                 $rate = fake()->randomFloat(2, 100, $remainingAmount * 0.6);
                 $remainingAmount -= $rate;
             }
-            
+
             $items[] = [
                 'description' => fake()->randomElement([
                     'Development Services',
@@ -91,14 +91,14 @@ class InvoiceTemplateFactory extends Factory
                     'Design Services',
                     'Testing & QA',
                     'Documentation',
-                    'Training Services'
+                    'Training Services',
                 ]),
                 'quantity' => 1,
                 'rate' => $rate,
-                'type' => 'fixed'
+                'type' => 'fixed',
             ];
         }
-        
+
         return $items;
     }
 

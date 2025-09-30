@@ -26,7 +26,7 @@ class RevenueChart extends Component
     {
         $currencyService = app(CurrencyService::class);
         $userCurrency = $currencyService->getUserCurrency();
-        
+
         $months = collect();
         $revenueData = collect();
 
@@ -41,7 +41,7 @@ class RevenueChart extends Component
                 ->whereYear('paid_at', $month->year)
                 ->whereMonth('paid_at', $month->month)
                 ->get();
-            
+
             $revenue = 0;
             foreach ($monthInvoices as $invoice) {
                 $invoiceCurrency = \App\Enums\Currency::tryFrom($invoice->currency) ?? \App\Enums\Currency::USD;
@@ -69,7 +69,7 @@ class RevenueChart extends Component
                 ->whereYear('paid_at', $month->year)
                 ->whereMonth('paid_at', $month->month)
                 ->get();
-            
+
             foreach ($monthInvoices as $invoice) {
                 $invoiceCurrency = \App\Enums\Currency::tryFrom($invoice->currency) ?? \App\Enums\Currency::USD;
                 $previousPeriodRevenue += $currencyService->convert($invoice->total, $invoiceCurrency, $userCurrency);
@@ -94,7 +94,7 @@ class RevenueChart extends Component
     {
         $currencyService = app(CurrencyService::class);
         $userCurrency = $currencyService->getUserCurrency();
-        
+
         return view('livewire.dashboard.revenue-chart', [
             'userCurrency' => $userCurrency,
             'formattedTotal' => $currencyService->format($this->totalRevenue, $userCurrency),
