@@ -193,9 +193,9 @@
                                 </a>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900 dark:text-white">{{ $invoice->client->name }}</div>
-                                @if($invoice->client->company)
-                                    <div class="text-sm text-gray-500 dark:text-gray-400">{{ $invoice->client->company }}</div>
+                                <div class="text-sm text-gray-900 dark:text-white">{{ $invoice->client?->name ?? 'N/A' }}</div>
+                                @if($invoice->client?->company)
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">{{ $invoice->client?->company }}</div>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
