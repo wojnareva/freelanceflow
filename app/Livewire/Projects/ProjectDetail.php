@@ -52,7 +52,7 @@ class ProjectDetail extends Component
         $this->editingTask = Task::findOrFail($taskId);
         $this->taskTitle = $this->editingTask->title;
         $this->taskDescription = $this->editingTask->description;
-        $this->taskStatus = $this->editingTask->status;
+        $this->taskStatus = $this->editingTask->status->value;
         $this->taskPriority = $this->editingTask->priority;
         $this->taskDueDate = $this->editingTask->due_date?->format('Y-m-d');
         $this->taskEstimatedHours = $this->editingTask->estimated_hours;
