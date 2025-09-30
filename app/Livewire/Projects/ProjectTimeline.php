@@ -20,7 +20,11 @@ class ProjectTimeline extends Component
 
     public function mount(?Project $project = null)
     {
-        $this->project = $project;
+        if ($project) {
+            $this->project = $project->load('client');
+        } else {
+            $this->project = null;
+        }
         $this->showAllProjects = $project === null;
         $this->currentDate = Carbon::now();
     }
