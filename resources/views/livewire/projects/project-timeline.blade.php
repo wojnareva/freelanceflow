@@ -3,10 +3,14 @@
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-6">
         <div class="flex justify-between items-center mb-4">
             <div>
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ $project->name }} - Timeline</h2>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    {{ $project->client->name }} • {{ $project->status->label() }}
-                </p>
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    {{ $showAllProjects ? 'All Projects Timeline' : $project->name . ' - Timeline' }}
+                </h2>
+                @if(!$showAllProjects)
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        {{ $project->client->name }} • {{ $project->status->label() }}
+                    </p>
+                @endif
             </div>
             
             <!-- View Mode Toggle -->
