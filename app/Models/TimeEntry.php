@@ -35,6 +35,11 @@ class TimeEntry extends Model
         'duration' => 'integer',
     ];
 
+    public function setHourlyRateAttribute($value)
+    {
+        $this->attributes['hourly_rate'] = ($value === '' || $value === null) ? null : $value;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

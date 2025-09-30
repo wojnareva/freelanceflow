@@ -39,6 +39,11 @@ class Client extends Model
         'registry_updated_at' => 'datetime',
     ];
 
+    public function setHourlyRateAttribute($value)
+    {
+        $this->attributes['hourly_rate'] = ($value === '' || $value === null) ? null : $value;
+    }
+
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);

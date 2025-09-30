@@ -34,6 +34,11 @@ class Expense extends Model
         'status' => \App\Enums\ExpenseStatus::class,
     ];
 
+    public function setAmountAttribute($value)
+    {
+        $this->attributes['amount'] = ($value === '' || $value === null) ? null : $value;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
