@@ -226,7 +226,7 @@ class ProjectsList extends Component
 
     public function getStatsProperty()
     {
-        $baseQuery = Project::query();
+        $baseQuery = Project::where('user_id', auth()->id());
 
         if ($this->search) {
             $baseQuery->where(function ($q) {

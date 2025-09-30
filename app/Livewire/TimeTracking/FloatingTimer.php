@@ -41,7 +41,8 @@ class FloatingTimer extends Component
 
     public function loadProjects()
     {
-        $this->projects = Project::whereIn('status', ['active', 'on_hold', 'draft'])
+        $this->projects = Project::where('user_id', auth()->id())
+            ->whereIn('status', ['active', 'on_hold', 'draft'])
             ->with('client')
             ->orderBy('status') // Show active first, then on_hold, then draft
             ->orderBy('name')
