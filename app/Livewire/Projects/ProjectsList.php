@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Project;
 use App\Services\PerformanceService;
 use App\Traits\HandlesErrors;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -178,7 +179,7 @@ class ProjectsList extends Component
     public function getProjectsProperty()
     {
         $performanceService = app(PerformanceService::class);
-        $userId = auth()->id();
+        $userId = Auth::id();
 
         // Create filters array for cache key
         $filters = [
@@ -194,7 +195,7 @@ class ProjectsList extends Component
             return Project::with(['client', 'tasks'])
                 ->withCount(['tasks', 'timeEntries'])
                 ->selectRaw('projects.*, COALESCE((SELECT SUM(duration) FROM time_entries WHERE time_entries.project_id = projects.id), 0) as time_entries_sum_duration')
-                ->where('user_id', auth()->id())
+                ->where('user_id', Auth::id())
                 ->when($this->search, function ($query) {
                     $query->where(function ($q) {
                         $q->where('name', 'like', '%'.$this->search.'%')
@@ -207,7 +208,7 @@ class ProjectsList extends Component
                 ->when($this->statusFilter, function ($query) {
                     $query->where('status', $this->statusFilter);
                 })
-                ->when($this->clientFilter, function ($query) {
+                ->when($this->clientFilter !== '', function ($query) {
                     $query->where('client_id', $this->clientFilter);
                 })
                 ->orderBy($this->sortBy, $this->sortDirection)
@@ -218,7 +219,7 @@ class ProjectsList extends Component
     public function getClientsProperty()
     {
         // Use get() with select for Livewire compatibility
-        return Client::where('user_id', auth()->id())
+        return Client::where('user_id', Auth::id())
             ->select('id', 'name')
             ->orderBy('name')
             ->get();
@@ -226,7 +227,7 @@ class ProjectsList extends Component
 
     public function getStatsProperty()
     {
-        $baseQuery = Project::where('user_id', auth()->id());
+        $baseQuery = Project::where('user_id', Auth::id());
 
         if ($this->search) {
             $baseQuery->where(function ($q) {

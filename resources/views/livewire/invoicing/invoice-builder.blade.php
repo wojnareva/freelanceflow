@@ -60,7 +60,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('invoices.client') }}</label>
-                    <select wire:model="selectedClient" 
+                    <select wire:model.live="selectedClient" 
                             class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                         <option value="">{{ __('invoices.all_clients') }}</option>
                         @foreach($clients as $client)
@@ -71,7 +71,7 @@
                 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ __('invoices.project') }}</label>
-                    <select wire:model="selectedProject" 
+                    <select wire:model.live="selectedProject" 
                             class="w-full border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             {{ !$selectedClient ? 'disabled' : '' }}>
                         <option value="">{{ __('invoices.all_projects') }}</option>

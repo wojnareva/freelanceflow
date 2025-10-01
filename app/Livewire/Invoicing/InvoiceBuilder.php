@@ -8,6 +8,7 @@ use App\Models\InvoiceItem;
 use App\Models\Project;
 use App\Models\TimeEntry;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class InvoiceBuilder extends Component
@@ -25,7 +26,7 @@ class InvoiceBuilder extends Component
 
     public $selectedTimeEntries = [];
 
-    public $availableTimeEntries = [];
+    public $availableTimeEntries;
 
     // Step 2: Invoice Details
     public $invoiceNumber = '';
@@ -62,6 +63,7 @@ class InvoiceBuilder extends Component
 
     public function mount()
     {
+        $this->availableTimeEntries = collect();
         $this->issueDate = Carbon::now()->format('Y-m-d');
         $this->dueDate = Carbon::now()->addDays(30)->format('Y-m-d');
         $this->dateFrom = Carbon::now()->startOfMonth()->format('Y-m-d');
@@ -99,7 +101,7 @@ class InvoiceBuilder extends Component
     public function loadTimeEntries()
     {
         $query = TimeEntry::with(['task', 'project', 'project.client'])
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::id())
             ->where('billable', true)
             ->whereNull('invoice_item_id')
             ->whereBetween('date', [$this->dateFrom, $this->dateTo]);
@@ -216,7 +218,7 @@ class InvoiceBuilder extends Component
 
         // Create the invoice
         $invoice = Invoice::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'invoice_number' => $this->invoiceNumber,
             'client_id' => $client ? $client->id : null,
             'project_id' => $primaryProject ? $primaryProject->id : null,
@@ -254,7 +256,7 @@ class InvoiceBuilder extends Component
 
     public function getClientsProperty()
     {
-        return Client::where('user_id', auth()->id())
+        return Client::where('user_id', Auth::id())
             ->orderBy('name')
             ->get();
     }
@@ -262,7 +264,7 @@ class InvoiceBuilder extends Component
     public function getProjectsProperty()
     {
         if ($this->selectedClient && $this->selectedClient !== '') {
-            return Project::where('user_id', auth()->id())
+            return Project::where('user_id', Auth::id())
                 ->where('client_id', (int) $this->selectedClient)
                 ->orderBy('name')
                 ->get();

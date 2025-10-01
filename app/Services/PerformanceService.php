@@ -33,6 +33,14 @@ class PerformanceService
         $cacheKey = "projects_list_{$userId}_".md5(serialize($filters));
         $cacheTTL = now()->addMinutes(3); // Cache for 3 minutes
 
+        // Track keys for targeted invalidation
+        $indexKey = "projects_list_keys_{$userId}";
+        $tracked = Cache::get($indexKey, []);
+        if (! in_array($cacheKey, $tracked, true)) {
+            $tracked[] = $cacheKey;
+            Cache::put($indexKey, $tracked, $cacheTTL);
+        }
+
         return Cache::remember($cacheKey, $cacheTTL, $callback);
     }
 
@@ -41,8 +49,12 @@ class PerformanceService
      */
     public function clearProjectsListCache(int $userId): void
     {
-        $pattern = "projects_list_{$userId}_*";
-        $this->clearCachePattern($pattern);
+        $indexKey = "projects_list_keys_{$userId}";
+        $tracked = Cache::get($indexKey, []);
+        foreach ($tracked as $key) {
+            Cache::forget($key);
+        }
+        Cache::forget($indexKey);
     }
 
     /**
