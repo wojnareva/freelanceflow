@@ -99,6 +99,7 @@ class InvoiceBuilder extends Component
     public function loadTimeEntries()
     {
         $query = TimeEntry::with(['task', 'project', 'project.client'])
+            ->where('user_id', auth()->id())
             ->where('billable', true)
             ->whereNull('invoice_item_id')
             ->whereBetween('date', [$this->dateFrom, $this->dateTo]);
@@ -253,13 +254,18 @@ class InvoiceBuilder extends Component
 
     public function getClientsProperty()
     {
-        return Client::orderBy('name')->get();
+        return Client::where('user_id', auth()->id())
+            ->orderBy('name')
+            ->get();
     }
 
     public function getProjectsProperty()
     {
         if ($this->selectedClient && $this->selectedClient !== '') {
-            return Project::where('client_id', (int) $this->selectedClient)->orderBy('name')->get();
+            return Project::where('user_id', auth()->id())
+                ->where('client_id', (int) $this->selectedClient)
+                ->orderBy('name')
+                ->get();
         }
 
         return collect();
