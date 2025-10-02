@@ -1,0 +1,4854 @@
+Co si myslíš o tomto: 
+👉 Pokud chceš, aby web měl dobrou návštěvnost z vyhledávačů → určitě použij Next.js (React) nebo Nuxt.js (Vue), ne čisté SPA.
+
+
+Analyzed SEO impact and recommended framework for time tracking app.
+
+
+
+
+
+
+Skvělá otázka! To je důležitý bod, který jsem v původním dokumentu úplně opomenul. Pojďme to rozebrat poctivě.
+
+Kdy je SEO důležité pro time tracking aplikaci?
+Musíme rozlišit DVĚ různé věci:
+
+1️⃣ Marketing web (veřejný)
+Landing page - "Objevte nejlepší time tracker pro živnostníky"
+Pricing stránka
+Blog s radami pro živnostníky
+Případové studie
+👉 Tohle POTŘEBUJE SEO - chceš aby tě lidé našli na Google
+2️⃣ Aplikace samotná (za přihlášením)
+Dashboard s projekty
+Time tracking interface
+Faktury a reporty
+Nastavení
+👉 Tohle SEO NEPOTŘEBUJE - nikdo nehledá "můj časovač" na Googlu
+Tvoje situace: Co vlastně stavíš?
+Scénář A: Jen aplikace pro známé klienty
+
+www.tvoje-domena.cz
+  └─ /login  
+  └─ /dashboard (po přihlášení)
+  └─ /projects
+  └─ /invoices
+→ SEO NENÍ důležité - klienti znají URL přímo
+→ Čisté SPA (Vite + React) STAČÍ
+
+Scénář B: Aplikace + marketing web
+
+www.tvoje-domena.cz (marketing - SEO důležité!)
+  ├─ / (landing page)
+  ├─ /features
+  ├─ /pricing  
+  ├─ /blog
+  └─ /kontakt
+
+app.tvoje-domena.cz (aplikace - SEO nedůležité)
+  └─ /dashboard
+  └─ /projects
+→ Marketing potřebuje SEO
+→ Next.js/Nuxt dává smysl PRO MARKETING
+→ Aplikace může být čisté SPA
+
+Technické řešení pro různé situace:
+✅ Řešení 1: Oddělené projekty (doporučuji)
+Marketing web (SEO optimalizované):
+
+Next.js nebo Nuxt.js
+Server-side rendering
+Optimalizované pro Google
+Hostované na www.tvoje-app.cz
+Aplikace (SPA za přihlášením):
+
+Vite + React/Vue + Capacitor
+Hostované na app.tvoje-app.cz
+Stejný kód pro PWA + mobil
+Výhody:
+
+✅ Marketing web je super rychlý a SEO friendly
+✅ Aplikace je jednoduchá SPA s Capacitor
+✅ Můžeš je nasazovat nezávisle
+✅ Žádné kompromisy
+Nevýhody:
+
+❌ Dva projekty k údržbě (ale můžeš sdílet komponenty)
+⚠️ Řešení 2: Next.js/Nuxt s Capacitorem (možné, ale složitější)
+Struktura:
+
+/pages
+  /index.tsx          → Marketing (SSR)
+  /features.tsx       → Marketing (SSR)
+  /app
+    /dashboard.tsx    → Aplikace (CSR)
+    /projects.tsx     → Aplikace (CSR)
+Jak to funguje s Capacitorem:
+
+bash
+# 1. Build Next.js jako static export
+next build
+next export  # → vytvoří /out folder
+
+# 2. Nasměruj Capacitor na build
+# capacitor.config.ts
+{
+  webDir: "out"  # nebo "dist" pro Nuxt
+}
+
+# 3. Build mobilní app
+npx cap sync
+npx cap open android
+Výhody:
+
+✅ Jeden projekt pro všechno
+✅ Marketing má SSR/SEO
+✅ Mobilní app funguje
+Nevýhody:
+
+❌ Složitější konfigurace
+❌ Next.js static export má omezení
+❌ Některé Next.js features nefungují (API routes v static export)
+❌ Větší bundle size pro mobilní app
+❌ Řešení 3: Čisté SPA všude (nejjednodušší, ale bez SEO)
+Struktura:
+
+src/
+  pages/
+    Landing.tsx       → Marketing
+    Dashboard.tsx     → Aplikace
+Výhody:
+
+✅ Nejjednodušší setup
+✅ Perfektní Capacitor integrace
+✅ Jeden build pro web + mobil
+Nevýhody:
+
+❌ Žádné SEO pro marketing stránky
+❌ Google neuvidí tvůj obsah dobře
+❌ Pomalé první načtení
+Moje konkrétní doporučení pro TEBE:
+Záleží na tvé go-to-market strategii:
+
+Pokud plánuješ organický růst přes Google:
+┌─────────────────────────────────────────┐
+│ MARKETING WEB (Next.js/Nuxt)           │
+│ www.tvoje-app.cz                        │
+│ - Landing page                          │
+│ - Blog o živnostech a time managementu  │
+│ - SEO optimalizované                    │
+│ - Tlačítko "Začít zdarma" →            │
+└─────────────────┬───────────────────────┘
+                  │
+                  ↓
+┌─────────────────────────────────────────┐
+│ APLIKACE (Vite + React + Capacitor)    │
+│ app.tvoje-app.cz                        │
+│ - Čisté SPA                             │
+│ - Dashboard, timer, faktury             │
+│ - Stejný kód pro PWA + iOS + Android    │
+└─────────────────────────────────────────┘
+Proč oddělit:
+
+Marketing web potřebuješ změnit často (nové blog posty, A/B testy)
+Aplikace se mění pomaleji a stabilněji
+Jednodušší debugging
+Můžeš najít marketéra který upraví Next.js bez toho aby rozuměl Capacitoru
+Pokud plánuješ růst přes osobní síť / word-of-mouth:
+┌─────────────────────────────────────────┐
+│ JEDNA APLIKACE (Vite + React + Cap.)   │
+│ www.tvoje-app.cz                        │
+│ - Jednoduchý landing (SPA stačí)       │
+│ - Registrace / Login                    │
+│ - Dashboard, timer, faktury             │
+│ - PWA + iOS + Android z jednoho kódu   │
+└─────────────────────────────────────────┘
+Proč takhle:
+
+Nejrychlejší vývoj (8-10 týdnů do MVP)
+Minimální komplexita
+SEO není kritické - lidi tě znají osobně nebo doporučení
+Můžeš přidat SEO později když získáš trakci
+Praktický kompromis: Astro + Capacitor
+Existuje ještě jedna zajímavá možnost:
+
+Astro = moderní meta-framework
+
+Ultra rychlé statické stránky (lepší než Next.js pro marketing)
+Můžeš použít React komponenty
+Zero JS na marketing stránkách = nejrychlejší možné SEO
+Oddělená aplikace v čistém React + Capacitor
+/marketing (Astro)
+  - www.tvoje-app.cz
+  - Blog, landing pages
+  
+/app (Vite + React + Capacitor)  
+  - app.tvoje-app.cz
+  - Time tracking aplikace
+Moje finální odpověď na tvou otázku:
+👉 Máš PRAVDU - pokud chceš organický traffic z Google, Next.js/Nuxt je lepší volba než čisté SPA PRO MARKETING WEB.
+
+ALE - pro samotnou time tracking aplikaci (za přihlášením) je čisté SPA s Capacitorem stále nejlepší volba.
+
+Doporučuji:
+
+Teď (MVP): Postav pouze aplikaci jako SPA + Capacitor. Jednoduchý landing page v SPA stačí.
+Když získáš prvních 50 uživatelů: Přidej marketing web v Next.js/Nuxt pro SEO
+Když máš 200+ uživatelů: Investuj do contentu a SEO
+Nezačínej s Next.js + Capacitor hybridem - je to zbytečně složité pro MVP.
+
+Dává to smysl? Chceš probrat konkrétní strategii pro tvůj launch? 🚀
+
+Hmmm.... Pokud budu mít aplikaci vue.js a capacitor a casem zjistím, že je mobilní verze nevyhovující skrz notifikace atd. Jak těžké je ho potom predelat třeba na flutter nebo neco podobného?
+
+
+Analyzoval migrace mezi frameworky a jejich náročnost.
+
+
+
+Skvělá otázka! Tohle je důležitá risk management úvaha. Budu brutálně upřímný.
+
+Krátká odpověď: Je to TĚŽKÉ (ale ne nemožné)
+Migrace z Capacitor Vue na Flutter/React Native = v podstatě přepsat mobilní aplikaci od nuly.
+
+Pojďme si rozebrat co se DÁVÁ a NEDÁVÁ převést:
+
+Co ZŮSTANE stejné (40-50% práce):
+✅ Backend - 100% zachováno
+Laravel API
+  ├─ /api/v1/time-entries
+  ├─ /api/v1/projects  
+  ├─ /api/v1/invoices
+  └─ /api/v1/clients
+→ Funguje identicky s jakýmkoliv frontendem
+
+✅ Business logika na serveru
+ARES integrace
+Generování PDF faktur
+Výpočty DPH
+Email notifikace
+Databázové schéma
+✅ Data model
+typescript
+interface TimeEntry {
+  id: number;
+  projectId: number;
+  startTime: Date;
+  endTime: Date;
+  description: string;
+}
+→ Stejná struktura v každém frameworku
+
+✅ Koncepty a UX flow
+Jak funguje time tracking
+Workflow pro faktury
+Uživatelské toky
+→ Můžeš použít stejné wireframes
+Co musí být PŘEPSÁNO (50-60% práce):
+❌ Celý UI kód
+Vue komponenty:
+
+vue
+<!-- src/components/Timer.vue -->
+<template>
+  <div class="timer">
+    <h2>{{ formatTime(elapsed) }}</h2>
+    <button @click="startTimer">Start</button>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue'
+const elapsed = ref(0)
+// ... celá logika
+</script>
+↓ MUSÍ být přepsáno na Flutter:
+
+dart
+// lib/widgets/timer_widget.dart
+class TimerWidget extends StatefulWidget {
+  @override
+  _TimerWidgetState createState() => _TimerWidgetState();
+}
+
+class _TimerWidgetState extends State<TimerWidget> {
+  int elapsed = 0;
+  
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(formatTime(elapsed)),
+        ElevatedButton(
+          onPressed: startTimer,
+          child: Text('Start'),
+        ),
+      ],
+    );
+  }
+}
+→ Kompletně jiný jazyk, jiná syntaxe, jiné koncepty
+
+❌ State management
+Vue (Pinia):
+
+typescript
+// stores/timer.ts
+export const useTimerStore = defineStore('timer', {
+  state: () => ({
+    activeTimer: null,
+    entries: []
+  }),
+  actions: {
+    startTimer(projectId) { ... }
+  }
+})
+↓ Flutter (Riverpod/Provider):
+
+dart
+// providers/timer_provider.dart
+final timerProvider = StateNotifierProvider<TimerNotifier, TimerState>(
+  (ref) => TimerNotifier()
+);
+
+class TimerNotifier extends StateNotifier<TimerState> {
+  void startTimer(int projectId) { ... }
+}
+❌ Routing a navigace
+Vue Router → Flutter Navigator 2.0
+Úplně jiná filosofie
+❌ API integrace
+typescript
+// Vue/Axios
+const { data } = await axios.get('/api/v1/projects')
+dart
+// Flutter/Dio
+final response = await dio.get('/api/v1/projects');
+final data = response.data;
+Podobné, ale syntaxe jiná.
+
+❌ Lokální databáze
+Capacitor SQLite → sqflite (Flutter) nebo WatermelonDB (React Native)
+Musíš přepsat všechny database queries
+Reálný čas a náklady migrace:
+Scénář: Vue/Capacitor → Flutter
+Co máš po 12 týdnech vývoje:
+
+✅ Funkční PWA + iOS + Android app
+✅ ~8,000 řádků Vue/TypeScript kódu
+✅ Laravel backend s API
+✅ 50-100 uživatelů
+Čas na migraci na Flutter:
+
+Týden 1-2:   Setup Flutter projektu, naučit se Dart
+Týden 3-4:   Přepsat autentizaci a základní layout
+Týden 5-7:   Přepsat timer a time tracking
+Týden 8-10:  Přepsat projekty a klienty
+Týden 11-13: Přepsat faktury a reporting
+Týden 14-16: Background services, notifikace
+Týden 17-18: Testing a bug fixes
+Týden 19-20: Beta testing
+
+CELKEM: ~20 týdnů (5 měsíců) práce
+Náklady:
+
+Tvůj čas: 5 měsíců full-time
+Ztracené příležitosti: nemůžeš přidávat nové features
+Risk: existing uživatelé musí přejít na novou app
+Odhadovaná ztráta: ~150,000-300,000 Kč (tvůj čas + opportunity cost)
+Kdy by migrace dávala smysl?
+✅ Rozumné důvody pro přepsání:
+1. Technické limity které nelze vyřešit:
+
+Problém: iOS background notifications nefungují vůbec
+Řešení: Native iOS app nebo Flutter s lepší integrací
+2. Výkon je neakceptovatelný:
+
+Problém: App je pomalá na starších zařízeních
+Realita: Toto se stává VELMI zřídka u business apps
+3. Potřebuješ deep native integrace:
+
+Problém: Potřebuješ HealthKit, komplexní Bluetooth, AR
+Realita: Time tracker tohle nepotřebuje
+4. Získal jsi investici a chceš scalovat:
+
+Situace: Máš 10,000+ uživatelů a $500k investici
+Řešení: Hire Flutter/native tým, přepiš během růstu
+❌ ŠPATNÉ důvody pro přepsání:
+1. "Flutter vypadá lépe"
+
+Pravda: Můžeš vylepšit UI v Capacitoru taky
+Náklady: 5 měsíců práce za trochu hezčí animace
+2. "Slyšel jsem že je to rychlejší"
+
+Pravda: Je rychlejší, ale time tracker není 3D hra
+Náklady: Přepíšeš 8000 řádků za 10% rychlost?
+3. "Chci se naučit Flutter"
+
+Pravda: To je validní osobní důvod
+Ale: Nauč se na side projektu, ne na production app
+Pragmatická strategie: Hybrid přístup
+Místo kompletního přepsání můžeš:
+
+Přístup 1: Capacitor + Native moduly
+typescript
+// Když potřebuješ lepší notifikace
+// Napiš si vlastní Capacitor plugin v Swift/Kotlin
+
+// ios/Plugin/NotificationPlugin.swift
+@objc(NotificationPlugin)
+public class NotificationPlugin: CAPPlugin {
+  @objc func scheduleAdvanced(_ call: CAPPluginCall) {
+    // Native iOS notification kód
+  }
+}
+
+// V aplikaci používáš normálně:
+import { NotificationPlugin } from './plugins'
+await NotificationPlugin.scheduleAdvanced({ ... })
+→ Máš native výkon kde potřebuješ, zbytek zůstává Vue
+
+Přístup 2: Postupná migrace stránka po stránce
+Fáze 1: PWA zůstává Vue/Capacitor (hlavní business)
+Fáze 2: Nová iOS app ve Flutter (pro power users)
+Fáze 3: Nová Android app ve Flutter
+Fáze 4: Postupně migruj uživatele
+
+→ Minimalizuješ risk, máš čas na učení
+Přístup 3: Web zůstává, mobil se přepíše
+Web PWA: Vue (pro desktop uživatele - většina?)
+iOS app: Flutter (pro mobilní power users)
+Android: Flutter (sdílený kód s iOS)
+
+Backend: Laravel API (funguje se vším)
+Moje upřímné doporučení:
+Pravděpodobnost že budeš MUSET přepsat: 5-10%
+Proč tak nízká?
+
+Capacitor je dost dobrý pro 90% business aplikací
+Background notifikace NEJSOU dealbreaker - timestamp tracking funguje
+Můžeš přidat native moduly když potřebuješ
+Úspěšné time tracking appy používají hybrid (některé dokonce i dnes)
+Kdy se rozhodovat:
+❌ TEĎKA (0 uživatelů):
+   - Předčasná optimalizace
+   - Analysis paralysis
+   
+⚠️  PO 6 MĚSÍCÍCH (100-500 uživatelů):
+   - Máš feedback na konkrétní problémy
+   - Víš co vadí nejvíc
+   - Můžeš rozhodnout informovaně
+
+✅ PO 12 MĚSÍCÍCH (1000+ uživatelů):
+   - Máš revenue na hiring
+   - Můžeš platit někoho za migraci
+   - Máš čas se učit Flutter během
+Praktický action plan:
+Fáze 1: Postav s Capacitor (měsíc 0-3)
+
+Rychle na trh
+Testuj s reálnými uživateli
+Zjisti co vadí
+Fáze 2: Iteruj a vylepšuj (měsíc 3-12)
+
+Pokud najdeš problém → zkus vyřešit v Capacitoru
+Přidej native pluginy pokud potřeba
+Optimalizuj UX
+Fáze 3: Rozhodnutí (měsíc 12+)
+
+Pokud Capacitor stačí → pokračuj, přidávej features
+Pokud ne → máš revenue a data pro informované rozhodnutí
+Můžeš hire někoho nebo se učit Flutter na vedlejším projektu
+Reálný příklad: Moje zkušenost
+Znám startup který:
+
+Rok 1: Ionic/Capacitor app, 500 uživatelů
+Rok 2: "Přepíšeme to do React Native pro výkon!"
+Výsledek: 6 měsíců strávených přepsáním, ztratili momentum
+Poučení: Původní Capacitor app měla 99% feature parity
+Reálný problém: Nebyl technický, byl v product-market fit
+Finální odpověď na tvou otázku:
+Je migrace těžká? ANO - 5 měsíců práce minimum.
+
+Ale je pravděpodobná? NE - většina apps nikdy nemigruje.
+
+Co dělat?
+
+Začni s Capacitor (fastest time-to-market)
+Testuj s reálnými uživateli
+Pokud narazíš na dealbreaker, máš tyto možnosti:
+Napsat custom native plugin
+Hybrid přístup (web Capacitor, mobil Flutter)
+Full rewrite (když máš revenue)
+Don't overthink it. Většina aplikací nikdy nemigruje, protože to není potřeba. A pokud budeš muset - budeš mít revenue a zkušenosti na to udělat informované rozhodnutí.
+
+Build it, ship it, see what happens. 🚀
+
+Pomohlo to? Máš ještě nějaké obavy? 😊
+
+No zajímalo mě to spíš po teoretické stránce - lidé mají v telefonech moji capacitator apku ze google/apple storu a ja udělám nejakou takovou razantní předělávku do jiného jazyka - co se bude dít na storu a u uzivatele?
+
+
+Analyzoval praktické dopady migrace aplikace pro koncové uživatele.
+
+
+Výborná otázka! Tohle je praktická realita kterou málo lidí probírá. Pojďme to rozebrat od začátku do konce.
+
+Co se stane v App Store / Google Play?
+Z pohledu obchodů: Nic zvláštního
+Pro Apple a Google je to jen další update:
+
+Verze 1.0 - 2.5: Capacitor + Vue
+Verze 3.0:       Flutter (kompletně jiný kód)
+
+→ Pro store to vypadá jako normální update
+→ Bundle ID/Package name zůstává STEJNÉ
+Technicky:
+
+✅ Bundle ID (iOS): cz.tvoje-firma.timetracker - ZŮSTÁVÁ
+✅ Package name (Android): cz.tvoje_firma.timetracker - ZŮSTÁVÁ
+✅ App name: "TimeTracker Pro" - ZŮSTÁVÁ
+✅ Ikona: Stejná (nebo nová, jak chceš)
+⚠️ Velikost: Pravděpodobně jiná (Flutter ~15MB, Capacitor ~8MB)
+Store proces:
+
+bash
+# Normální update submission
+1. Build Flutter app s STEJNÝM bundle ID
+2. Increment version: 2.5.0 → 3.0.0
+3. Upload do App Store Connect / Google Play Console
+4. Napíš do release notes: "Kompletně přepracovaná aplikace"
+5. Submit ke kontrole
+Co se stane u uživatele?
+Scénář A: Automatický update (výchozí nastavení)
+Uživatelův pohled:
+
+Den 1: Uživatel používá Capacitor app v2.5
+       └─ Data uložena lokálně v SQLite
+
+Den 2: Google Play/App Store automaticky stáhne update 3.0
+       └─ Smaže starý Capacitor kód
+       └─ Nainstaluje nový Flutter kód
+
+Den 3: Uživatel otevře aplikaci
+       └─ Vidí jiné UI (Flutter design)
+       └─ ⚠️ PROBLÉM: Lokální data mohou být ztracena!
+⚠️ KRITICKÝ PROBLÉM: Lokální data
+Capacitor ukládá data:
+
+iOS:     /Library/Application Support/CapacitorStorage/
+Android: /data/data/cz.tvoje_firma.timetracker/databases/
+Flutter ukládá data:
+
+iOS:     /Library/Application Support/FlutterStorage/
+Android: /data/data/cz.tvoje_firma.timetracker/databases/ (jiná struktura)
+→ Flutter NEVIDÍ Capacitor data!
+
+Jak to řešit správně?
+Řešení 1: Migrace dat při prvním spuštění ✅ (doporučuji)
+dart
+// Flutter app - main.dart
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Zkontroluj jestli existují stará Capacitor data
+  final capacitorDb = await openCapacitorDatabase();
+  
+  if (capacitorDb != null && !await isMigrated()) {
+    // Uživatel má starou verzi, migrace potřebná
+    await showMigrationDialog(); // "Migrujeme vaše data..."
+    
+    // Načti data z Capacitor SQLite
+    final oldEntries = await capacitorDb.query('time_entries');
+    final oldProjects = await capacitorDb.query('projects');
+    
+    // Ulož do nové Flutter databáze
+    final newDb = await FlutterDatabase.instance;
+    for (var entry in oldEntries) {
+      await newDb.insertTimeEntry(TimeEntry.fromJson(entry));
+    }
+    
+    // Označ migraci jako dokončenou
+    await markMigrated();
+    
+    // Smaž stará data (optional)
+    await capacitorDb.delete();
+  }
+  
+  runApp(MyApp());
+}
+Uživatelská zkušenost:
+
+1. Uživatel otevře aktualizovanou app
+2. Vidí: "Migrujeme vaše data do nové verze..."
+3. Progress bar: 5-30 sekund
+4. Hotovo! Všechna data zachována
+5. Nové UI, stejná data
+Řešení 2: Cloud-first architektura ✅✅ (nejlepší)
+Koncept:
+
+Všechna důležitá data jsou NA SERVERU
+└─ Lokální databáze je jen CACHE
+
+Když uživatel otevře novou verzi:
+1. Flutter app se přihlásí (token uložen v SharedPreferences)
+2. Stáhne data z Laravel API
+3. Funguje okamžitě
+Implementace:
+
+Capacitor verze:
+
+typescript
+// V každém okamžiku sync na server
+async function saveTimeEntry(entry: TimeEntry) {
+  // 1. Ulož lokálně
+  await db.insert('time_entries', entry);
+  
+  // 2. Okamžitě sync na server
+  await axios.post('/api/v1/time-entries', entry);
+}
+Flutter verze:
+
+dart
+// První spuštění - stáhni vše ze serveru
+Future<void> initializeApp() async {
+  final token = await SecureStorage.read('auth_token');
+  
+  if (token != null) {
+    // Stáhni všechna data ze serveru
+    final entries = await api.getTimeEntries();
+    final projects = await api.getProjects();
+    
+    // Ulož do Flutter databáze
+    await db.insertAll(entries);
+  }
+}
+→ Uživatel NEZTRATÍ nic, vše je na serveru
+
+Řešení 3: Postupná migrace ⚠️ (komplexní)
+Fáze 1: Release Capacitor v2.9 s "pre-migration"
+        └─ Sync všechna data na server
+        └─ Připrav uživatele: "Chystáme velký update!"
+
+Fáze 2: Release Flutter v3.0
+        └─ Stáhne data ze serveru
+        └─ Nové UI
+        
+Fáze 3: Monitor feedback
+        └─ Pokud problém, můžeš rollback na v2.9
+Praktické scénáře a řešení:
+Problém 1: Uživatel má neodeslaná data offline
+Situace:
+
+Uživatel:
+├─ Měřil čas 3 dny offline (no internet)
+├─ Data pouze lokálně v Capacitor SQLite
+└─ Update na Flutter → DATA ZTRACENA ❌
+Řešení:
+
+dart
+// Flutter app kontroluje Capacitor data
+if (hasUnsynced CapacitorData) {
+  showDialog("Máte neuložená data z předchozí verze. 
+              Připojte se k internetu pro dokončení migrace.");
+  
+  // Načti lokální Capacitor data
+  // Sync na server
+  // Teprve pak smaž
+}
+Problém 2: Autentizace - různé token storage
+Capacitor:
+
+typescript
+// Token uložen v Capacitor SecureStorage
+await SecureStorage.set({ 
+  key: 'auth_token', 
+  value: token 
+});
+Flutter:
+
+dart
+// Flutter používá flutter_secure_storage (jiné umístění!)
+await storage.write(key: 'auth_token', value: token);
+Řešení:
+
+dart
+// Flutter app při prvním spuštění
+Future<String?> migrateAuthToken() async {
+  // Zkus načíst z Capacitor lokace
+  final capacitorToken = await readCapacitorSecureStorage('auth_token');
+  
+  if (capacitorToken != null) {
+    // Ulož do Flutter storage
+    await flutterStorage.write(key: 'auth_token', value: capacitorToken);
+    return capacitorToken;
+  }
+  
+  return null;
+}
+Problém 3: iOS Keychain persistence
+Dobrá zpráva: iOS Keychain přežije update aplikace!
+
+swift
+// Data v iOS Keychain ZŮSTÁVAJÍ mezi updates
+// Auth token uložený v Capacitor Keychain
+// → Flutter ho může číst se stejným service name
+Android podobně:
+
+kotlin
+// SharedPreferences přežijí update
+// Pokud používáš stejný package name
+Release strategie - best practices:
+Týden před updatem:
+1. Release Capacitor v2.9 - "Přípravný update"
+   ├─ Přidej banner: "Chystáme velkou aktualizaci!"
+   ├─ Force sync všech dat na server
+   └─ Test migrace u malé skupiny beta testerů
+
+2. Email všem uživatelům:
+   "Příští týden vydáme novou verzi s lepším výkonem.
+    Doporučujeme se před updatem připojit k internetu."
+Den vydání:
+1. Release Flutter v3.0
+   ├─ Release notes: "Kompletně přepracované UI"
+   ├─ "DŮLEŽITÉ: První spuštění může trvat o něco déle"
+   └─ Staged rollout: 10% → 50% → 100% během týdne
+
+2. Monitor:
+   ├─ Crash reports (Firebase Crashlytics)
+   ├─ User reviews
+   └─ Support requests o ztrátě dat
+Pokud problém:
+1. STOP rollout na 50%
+2. Fix problém v hotfix v3.0.1
+3. Email uživatelům s problémy:
+   "Našli jsme problém s migrací dat. 
+    Prosím aktualizujte na v3.0.1"
+Real-world příklady:
+Příklad 1: Slack (Electron → Native)
+2019: Slack web app (Electron wrapper)
+2020: Nový nativní Slack pro Mac (Swift)
+
+Co udělali:
+├─ Gradual rollout 6 měsíců
+├─ Data v cloudu (sync okamžitý)
+├─ Stará verze dostupná jako "Slack Classic"
+└─ Monitoring každého kroku
+Příklad 2: Discord (React Native → Native)
+2018: Discord mobile byl React Native
+2019: Přepsali na nativní Swift/Kotlin
+
+Co udělali:
+├─ Beta program s opt-in
+├─ 3 měsíce A/B testing
+├─ Postupný rollout 10% → 100%
+└─ Data 100% na serveru (žádný problém)
+Příklad 3: Wunderlist → Microsoft To Do
+Situace: Kompletně jiná aplikace, jiný backend
+Řešení:
+├─ Export dat z Wunderlist
+├─ Import tool v To Do
+├─ 6 měsíců notice před shutdown
+└─ Mnoho uživatelů zůstalo na Wunderlist
+Moje konkrétní doporučení pro TEBE:
+Pokud budeš migrovat z Capacitor na Flutter:
+Příprava (měsíc před):
+
+typescript
+// Capacitor v2.9 - poslední verze
+// Přidej aggressive syncing
+
+setInterval(async () => {
+  // Sync každých 5 minut pokud jsou změny
+  if (hasUnsyncedChanges()) {
+    await syncToServer();
+  }
+}, 5 * 60 * 1000);
+
+// Při zavření app
+window.addEventListener('beforeunload', async () => {
+  await forceSyncAll();
+});
+Flutter v3.0 implementace:
+
+dart
+class DataMigration {
+  Future<void> migrateIfNeeded() async {
+    // 1. Zkontroluj jestli už migrováno
+    final migrated = await prefs.getBool('data_migrated');
+    if (migrated == true) return;
+    
+    // 2. Zkontroluj network
+    if (!await hasInternet()) {
+      showNoInternetWarning();
+      return;
+    }
+    
+    // 3. Stáhni vše ze serveru
+    showLoadingDialog("Načítáme vaše data...");
+    final data = await api.fetchAllUserData();
+    
+    // 4. Ulož lokálně
+    await db.insertAllData(data);
+    
+    // 5. Označ jako hotové
+    await prefs.setBool('data_migrated', true);
+    
+    // 6. Cleanup starých Capacitor dat (optional)
+    await deleteCapacitorData();
+  }
+}
+Release notes v3.0:
+
+🎉 Nová verze TimeTracker 3.0!
+
+✨ Kompletně přepracované uživatelské rozhraní
+⚡ Rychlejší výkon a plynulejší animace
+🔒 Lepší zabezpečení a synchronizace
+
+📱 DŮLEŽITÉ pro první spuštění:
+- Připojte se k internetu před otevřením aplikace
+- První načtení může trvat 10-30 sekund
+- Všechna vaše data budou automaticky přenesena
+
+Máte problémy? Napište nám na support@...
+Finální odpověď na tvou otázku:
+Co se stane na store?
+
+✅ Normální update, nic speciálního
+✅ Stejné Bundle ID = stejná app pro store
+Co se stane u uživatele?
+
+⚠️ Automatický update (pokud mají zapnutý)
+⚠️ Lokální data můžou být ztracena (pokud neřešíš)
+✅ Auth token obvykle přežije (keychain/shared prefs)
+Jak to správně vyřešit?
+
+Cloud-first: Všechna důležitá data na serveru (nejbezpečnější)
+Migrace: Flutter načte Capacitor data při prvním spuštění
+Pre-migration: Capacitor force sync před vydáním Flutter verze
+Staged rollout: 10% → 50% → 100% během týdne
+Monitoring: Crash reports + user feedback
+Bottom line: Je to doable, ale vyžaduje pečlivé plánování. Cloud-first architektura dělá migraci prakticky bezproblémovou.
+
+Pomohlo to? 😊
+
+Zustanu u capacitor jen mě to zajimalo - taky mě zajímá jestli react native nebo capacitor - i offline verze aplikace v telefonu - je něco z toho lepší? A asi tam musí být nějaká synchronizace mobilu a webu proto aby byla všude aktuální data, ne? Jak to řešit? Třeba jako steam? Napis synchronizuju data s cloudem...?
+
+
+Analyzoval offline synchronizaci dat pro mobilní aplikaci.
+
+
+
+Výborné otázky! Offline funkčnost a synchronizace jsou KRITICKÉ pro time tracker. Živnostník měří čas v metru, na staveništi, v lese - často bez signálu.
+
+Capacitor vs React Native pro offline
+Krátká odpověď: Prakticky STEJNÉ schopnosti
+Oba frameworky používají identické technologie pro offline:
+
+Funkce	Capacitor	React Native	Rozdíl
+SQLite databáze	✅ @capacitor-community/sqlite	✅ react-native-sqlite-storage	Stejná knihovna pod kapotou
+Async Storage	✅ Capacitor Preferences	✅ @react-native-async-storage	Stejný princip (key-value)
+File System	✅ Capacitor Filesystem	✅ react-native-fs	Stejné možnosti
+Secure Storage	✅ Secure Storage plugin	✅ react-native-keychain	Stejné (iOS Keychain, Android KeyStore)
+→ Žádný framework není "lepší" na offline. Záleží na implementaci!
+
+Offline architektura pro time tracker
+Koncept: Local-first, Cloud-sync
+┌─────────────────────────────────────┐
+│  ZAŘÍZENÍ (mobil/web)               │
+│                                     │
+│  ┌─────────────────────────────┐   │
+│  │ Lokální SQLite databáze     │   │
+│  │ - time_entries (100%)       │   │
+│  │ - projects (100%)           │   │
+│  │ - clients (100%)            │   │
+│  │ - sync_queue (pending ops)  │   │
+│  └─────────────────────────────┘   │
+│           ↕ sync                    │
+└─────────────────────────────────────┘
+           ↕ když je internet
+┌─────────────────────────────────────┐
+│  CLOUD (Laravel API)                │
+│  - PostgreSQL/MySQL                 │
+│  - Source of truth                  │
+└─────────────────────────────────────┘
+Jak to funguje:
+typescript
+// SCÉNÁŘ 1: S internetem
+user.startTimer() 
+  → ulož do lokální SQLite (okamžitě)
+  → sync na server (na pozadí)
+  → uživatel vidí výsledek OKAMŽITĚ
+
+// SCÉNÁŘ 2: Offline
+user.startTimer()
+  → ulož do lokální SQLite (okamžitě)
+  → přidej do sync_queue
+  → uživatel vidí výsledek OKAMŽITĚ
+  → později když je internet → sync automaticky
+
+// SCÉNÁŘ 3: Konflikt
+mobil: upravil projekt "Web" na "Webová stránka"
+web:   upravil projekt "Web" na "Website"
+  → server detekuje konflikt
+  → použij "last write wins" nebo dotaz uživatele
+Praktická implementace synchronizace
+Databázové schéma s sync metadaty:
+sql
+-- Každá tabulka má sync sloupce
+CREATE TABLE time_entries (
+  id INTEGER PRIMARY KEY,
+  user_id INTEGER NOT NULL,
+  project_id INTEGER,
+  start_time DATETIME NOT NULL,
+  end_time DATETIME,
+  description TEXT,
+  
+  -- Sync metadata
+  synced BOOLEAN DEFAULT 0,           -- Je to na serveru?
+  server_id INTEGER,                   -- ID ze serveru
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  deleted_at DATETIME                  -- Soft delete
+);
+
+-- Fronta pro sync
+CREATE TABLE sync_queue (
+  id INTEGER PRIMARY KEY,
+  operation TEXT NOT NULL,  -- 'create', 'update', 'delete'
+  table_name TEXT NOT NULL,
+  record_id INTEGER NOT NULL,
+  data TEXT,                -- JSON s daty
+  attempts INTEGER DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+Capacitor implementace:
+typescript
+// src/services/sync-service.ts
+import { CapacitorSQLite } from '@capacitor-community/sqlite'
+import axios from 'axios'
+
+class SyncService {
+  private db: any
+  private syncInProgress = false
+  
+  // Ulož time entry - offline-first
+  async saveTimeEntry(entry: TimeEntry): Promise<void> {
+    // 1. OKAMŽITĚ ulož lokálně
+    await this.db.run(
+      `INSERT INTO time_entries 
+       (project_id, start_time, description, synced) 
+       VALUES (?, ?, ?, 0)`,
+      [entry.projectId, entry.startTime, entry.description]
+    )
+    
+    const localId = await this.db.run('SELECT last_insert_rowid()')
+    
+    // 2. Přidej do sync fronty
+    await this.db.run(
+      `INSERT INTO sync_queue (operation, table_name, record_id, data)
+       VALUES ('create', 'time_entries', ?, ?)`,
+      [localId, JSON.stringify(entry)]
+    )
+    
+    // 3. Zkus sync (na pozadí, nevadí když selže)
+    this.trySync().catch(err => console.log('Sync later:', err))
+  }
+  
+  // Synchronizuj s cloudem
+  async trySync(): Promise<void> {
+    if (this.syncInProgress) return
+    if (!navigator.onLine) return // Není internet
+    
+    this.syncInProgress = true
+    
+    try {
+      // 1. Stáhni změny ze serveru (server → lokál)
+      await this.pullFromServer()
+      
+      // 2. Pošli lokální změny na server (lokál → server)
+      await this.pushToServer()
+      
+      console.log('✅ Sync complete')
+    } catch (error) {
+      console.error('❌ Sync failed:', error)
+    } finally {
+      this.syncInProgress = false
+    }
+  }
+  
+  // Pull: Stáhni změny ze serveru
+  async pullFromServer(): Promise<void> {
+    // Zjisti kdy jsme naposledy synchronizovali
+    const lastSync = await this.getLastSyncTime()
+    
+    // Stáhni všechny změny od té doby
+    const { data } = await axios.get('/api/v1/sync/changes', {
+      params: { since: lastSync }
+    })
+    
+    // Aplikuj změny lokálně
+    for (const change of data.changes) {
+      await this.applyServerChange(change)
+    }
+    
+    // Ulož čas synchronizace
+    await this.setLastSyncTime(new Date())
+  }
+  
+  // Push: Pošli lokální změny na server
+  async pushToServer(): Promise<void> {
+    // Získej všechny pending operace
+    const pending = await this.db.query(
+      'SELECT * FROM sync_queue ORDER BY created_at ASC'
+    )
+    
+    for (const operation of pending.values) {
+      try {
+        await this.syncOperation(operation)
+        
+        // Úspěch → smaž z fronty
+        await this.db.run(
+          'DELETE FROM sync_queue WHERE id = ?',
+          [operation.id]
+        )
+      } catch (error) {
+        // Selhalo → zvyš attempts
+        await this.db.run(
+          'UPDATE sync_queue SET attempts = attempts + 1 WHERE id = ?',
+          [operation.id]
+        )
+        
+        // Po 5 pokusech reportuj chybu
+        if (operation.attempts >= 5) {
+          this.reportSyncError(operation)
+        }
+      }
+    }
+  }
+  
+  // Sync konkrétní operace
+  async syncOperation(op: SyncOperation): Promise<void> {
+    const data = JSON.parse(op.data)
+    
+    switch (op.operation) {
+      case 'create':
+        const response = await axios.post(
+          `/api/v1/${op.table_name}`,
+          data
+        )
+        // Ulož server ID
+        await this.db.run(
+          `UPDATE ${op.table_name} 
+           SET server_id = ?, synced = 1 
+           WHERE id = ?`,
+          [response.data.id, op.record_id]
+        )
+        break
+        
+      case 'update':
+        await axios.put(
+          `/api/v1/${op.table_name}/${data.server_id}`,
+          data
+        )
+        await this.db.run(
+          `UPDATE ${op.table_name} SET synced = 1 WHERE id = ?`,
+          [op.record_id]
+        )
+        break
+        
+      case 'delete':
+        await axios.delete(
+          `/api/v1/${op.table_name}/${data.server_id}`
+        )
+        await this.db.run(
+          `DELETE FROM ${op.table_name} WHERE id = ?`,
+          [op.record_id]
+        )
+        break
+    }
+  }
+  
+  // Aplikuj změnu ze serveru
+  async applyServerChange(change: ServerChange): Promise<void> {
+    const existing = await this.db.query(
+      `SELECT * FROM ${change.table} WHERE server_id = ?`,
+      [change.id]
+    )
+    
+    if (existing.values.length === 0) {
+      // Nový záznam → vytvoř
+      await this.db.run(
+        `INSERT INTO ${change.table} (...) VALUES (...)`,
+        [...change.data, change.id, 1] // synced = 1
+      )
+    } else {
+      // Existuje → zkontroluj konflikt
+      const local = existing.values[0]
+      
+      if (local.updated_at > change.updated_at) {
+        // Lokální je novější → konflikt!
+        await this.resolveConflict(local, change)
+      } else {
+        // Server je novější → aplikuj
+        await this.db.run(
+          `UPDATE ${change.table} SET ... WHERE server_id = ?`,
+          [...change.data, change.id]
+        )
+      }
+    }
+  }
+}
+
+// Singleton instance
+export const syncService = new SyncService()
+Automatická synchronizace:
+typescript
+// src/App.tsx
+import { syncService } from './services/sync-service'
+import { App as CapApp } from '@capacitor/app'
+import { Network } from '@capacitor/network'
+
+export default function App() {
+  useEffect(() => {
+    // 1. Sync při spuštění
+    syncService.trySync()
+    
+    // 2. Sync každých 5 minut (pokud online)
+    const interval = setInterval(() => {
+      syncService.trySync()
+    }, 5 * 60 * 1000)
+    
+    // 3. Sync když se app vrátí z pozadí
+    CapApp.addListener('appStateChange', ({ isActive }) => {
+      if (isActive) {
+        syncService.trySync()
+      }
+    })
+    
+    // 4. Sync když se obnoví internet
+    Network.addListener('networkStatusChange', (status) => {
+      if (status.connected) {
+        console.log('🌐 Internet connected, syncing...')
+        syncService.trySync()
+      }
+    })
+    
+    // 5. Force sync před zavřením
+    window.addEventListener('beforeunload', () => {
+      syncService.trySync()
+    })
+    
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+  
+  return <YourApp />
+}
+Backend implementace (Laravel)
+API endpoints pro sync:
+php
+// routes/api.php
+Route::middleware('auth:sanctum')->group(function () {
+    // Získej změny od určitého času
+    Route::get('/sync/changes', [SyncController::class, 'getChanges']);
+    
+    // Běžné CRUD operace
+    Route::apiResource('time-entries', TimeEntryController::class);
+    Route::apiResource('projects', ProjectController::class);
+});
+php
+// app/Http/Controllers/SyncController.php
+class SyncController extends Controller
+{
+    public function getChanges(Request $request)
+    {
+        $since = $request->query('since');
+        $userId = $request->user()->id;
+        
+        // Získej všechny změny od $since
+        $changes = [
+            'time_entries' => TimeEntry::where('user_id', $userId)
+                ->where('updated_at', '>', $since)
+                ->get(),
+            
+            'projects' => Project::where('user_id', $userId)
+                ->where('updated_at', '>', $since)
+                ->get(),
+                
+            'clients' => Client::where('user_id', $userId)
+                ->where('updated_at', '>', $since)
+                ->get(),
+        ];
+        
+        return response()->json([
+            'changes' => $changes,
+            'server_time' => now()->toIso8601String()
+        ]);
+    }
+}
+Conflict resolution na serveru:
+php
+// app/Http/Controllers/TimeEntryController.php
+class TimeEntryController extends Controller
+{
+    public function update(Request $request, TimeEntry $entry)
+    {
+        $clientUpdatedAt = $request->input('updated_at');
+        
+        // Kontrola konfliktu
+        if ($entry->updated_at > $clientUpdatedAt) {
+            // Server má novější verzi!
+            return response()->json([
+                'error' => 'conflict',
+                'message' => 'Tento záznam byl změněn někde jinde',
+                'server_version' => $entry,
+                'your_version' => $request->all()
+            ], 409); // HTTP 409 Conflict
+        }
+        
+        // Není konflikt → aktualizuj
+        $entry->update($request->validated());
+        
+        return response()->json($entry);
+    }
+}
+UX: Jak to prezentovat uživateli
+Indikátor synchronizace:
+vue
+<!-- src/components/SyncIndicator.vue -->
+<template>
+  <div class="sync-status">
+    <span v-if="syncStatus === 'synced'" class="text-green-600">
+      ✓ Synchronizováno
+    </span>
+    
+    <span v-if="syncStatus === 'syncing'" class="text-blue-600">
+      🔄 Synchronizuji... {{ pendingCount }} změn
+    </span>
+    
+    <span v-if="syncStatus === 'offline'" class="text-gray-500">
+      📱 Offline režim ({{ pendingCount }} nesynchronizováno)
+    </span>
+    
+    <span v-if="syncStatus === 'error'" class="text-red-600">
+      ⚠️ Chyba synchronizace
+      <button @click="retrySync">Zkusit znovu</button>
+    </span>
+  </div>
+</template>
+Optimistic UI updates:
+typescript
+// Uživatel klikne "Start timer"
+async function startTimer(projectId: number) {
+  const entry = {
+    id: generateLocalId(), // dočasné lokální ID
+    projectId,
+    startTime: new Date(),
+    synced: false
+  }
+  
+  // 1. OKAMŽITĚ zobraz v UI (optimistic)
+  addToUIState(entry)
+  
+  // 2. Ulož lokálně
+  await db.insert('time_entries', entry)
+  
+  // 3. Sync na server (na pozadí)
+  try {
+    const serverEntry = await api.createTimeEntry(entry)
+    
+    // 4. Aktualizuj s server ID
+    await db.update('time_entries', entry.id, {
+      server_id: serverEntry.id,
+      synced: true
+    })
+    
+    updateUIState(entry.id, { synced: true })
+    
+  } catch (error) {
+    // Selhal sync → označ v UI
+    updateUIState(entry.id, { synced: false, error: true })
+  }
+}
+Jak to dělají jiné aplikace?
+📱 Steam - "Synchronizuji s cloudem..."
+Steam používá:
+├─ Save games lokálně
+├─ Checksum/hash pro detekci změn
+├─ Upload při zavření hry
+└─ Download při spuštění hry
+
+Konflikt:
+├─ "Cloud má novější uložení (před 2 hodinami)"
+├─ "Lokální je novější (před 5 minutami)"
+└─ "Který chcete použít?"
+📝 Notion - Real-time collaboration
+Notion používá:
+├─ Operational Transform (složité!)
+├─ Každá změna = operace s timestampem
+├─ Server merguje operace
+└─ WebSocket pro real-time
+
+Pro tebe: OVERKILL, time tracker nepotřebuje real-time
+⏱️ Toggl Track - Batch sync
+Toggl používá:
+├─ Lokální SQLite
+├─ Batch sync každých 5 minut
+├─ "Last write wins" pro konflikty
+└─ Retry queue pro failed syncs
+
+→ Tohle je ideální pro time tracker!
+📧 Gmail - Optimistic UI
+Gmail:
+├─ Klikneš "Send" → mail okamžitě zmizí
+├─ Skutečný send na pozadí
+├─ Pokud selže → "Undo" možnost
+
+→ Dobrý UX pattern pro tvou aplikaci
+Doporučená strategie pro TVOU aplikaci:
+Fáze 1: MVP (jednoduché řešení)
+typescript
+// Jednoduchý sync co funguje:
+
+1. Všechny data vždy lokálně (SQLite)
+2. Automatický sync každých 5 minut (pokud online)
+3. Sync při app resume
+4. "Last write wins" pro konflikty (většinou konflikt není)
+5. UI indikátor "synced/syncing/offline"
+Proč takhle:
+
+✅ Funguje 95% času bez problémů
+✅ Jednoduché na implementaci (2-3 dny práce)
+✅ Uživatel může pracovat offline
+⚠️ Občasný konflikt (řídké u time trackeru)
+Fáze 2: Vylepšení (pokud potřeba)
+typescript
+// Přidej:
+1. Conflict resolution UI
+2. Manual sync button
+3. Retry logic s exponential backoff
+4. Partial sync (jen změněné záznamy)
+5. Compression pro velké syncy
+Praktický příklad flow:
+Živnostník měří čas offline:
+08:00 - Spustí timer na projekt "Web" (v metru, offline)
+      → ✅ Uloženo lokálně
+      → 📱 UI: "Offline režim (1 nesynchronizováno)"
+
+08:30 - Zastaví timer
+      → ✅ Uloženo lokálně  
+      → 📱 UI: "Offline režim (2 nesynchronizováno)"
+
+09:00 - Přijde do kanceláře, připojí se k WiFi
+      → 🔄 Automatický sync začne
+      → 📤 Upload 2 time entries na server
+      → ✅ Server potvrdí
+      → 📱 UI: "✓ Synchronizováno"
+
+14:00 - Otevře web na počítači
+      → 👀 Vidí ráno měřený čas
+      → ✨ Vše je synchronizované
+Edge case: Upravil na dvou zařízeních:
+10:00 MOBIL - Upraví project name "Web" → "Webová stránka"
+      → Offline, v sync queue
+
+10:05 WEB - Upraví project name "Web" → "Website"  
+      → Online, okamžitě na server
+
+10:10 MOBIL - Připojí se k WiFi, sync
+      → 🔄 Stáhne změnu ze serveru: "Website"
+      → 🔄 Chce poslat svou změnu: "Webová stránka"
+      → ⚠️ Konflikt detekován!
+      
+      Řešení:
+      A) Last write wins → "Webová stránka" (novější)
+      B) Dotaz uživatele → "Která verze?"
+      C) Merge → "Website / Webová stránka" (složité)
+Finální doporučení:
+Pro time tracker doporučuji:
+Architektura:
+
+1. SQLite na zařízení (source of truth pro uživatele)
+2. PostgreSQL na serveru (source of truth globálně)
+3. Sync queue pro pending operations
+4. Optimistic UI updates
+5. "Last write wins" pro konflikty
+6. Batch sync každých 5 minut
+Implementace:
+
+Týden 1-2: Základní SQLite + CRUD operace
+Týden 3:   Sync queue systém
+Týden 4:   Pull/Push synchronizace
+Týden 5:   Error handling + retry logic
+Týden 6:   UI indikátory + testing
+
+CELKEM: ~6 týdnů pro robustní offline/sync
+Knihovny které pomohou:
+
+typescript
+// Capacitor
+- @capacitor-community/sqlite (databáze)
+- @capacitor/network (detekce connectivity)
+- @capacitor/app (app lifecycle)
+
+// React Native (pokud by tě zajímalo)
+- @react-native-community/netinfo
+- react-native-sqlite-storage
+- @react-native-async-storage/async-storage
+
+// Pro obě platformy stejně snadné!
+Bottom line: Capacitor i React Native mají stejné možnosti pro offline. Synchronizace je samostatný problém který řešíš stejně v obou. Doporučuji začít jednoduše (last-write-wins) a vylepšovat podle potřeby.
+
+Pomohlo to? Chceš probrat nějakou konkrétní část podrobněji? 😊
+
+Ok - takze taptura.cz - vue a nuxt (astro?) - landing page, blog, atd  - spa aplikace app.taptura.cz ? Offline data v mobilu sql lite a online data myssql nebo postgres? Co se na vue.js + laravel hodí více?
+
+
+Analyzoval technické řešení pro Tapturu s Vue a databázemi.
+
+
+Skvělé! Máš koncept, doménu, a jdeš do toho! 🚀 Teď ti dám konkrétní tech stack s jasným reasoning.
+
+Tvoje finální architektura:
+┌─────────────────────────────────────────────┐
+│ MARKETING (taptura.cz)                      │
+│ Astro + Vue komponenty                      │
+│ - Landing page                              │
+│ - /funkce, /cenik, /blog                    │
+│ - SEO optimalizované                        │
+│ - Statické HTML (super rychlé)             │
+└─────────────────────────────────────────────┘
+                    ↓
+          Tlačítko "Začít zdarma"
+                    ↓
+┌─────────────────────────────────────────────┐
+│ APLIKACE (app.taptura.cz)                   │
+│ Vite + Vue 3 + TypeScript + Capacitor      │
+│ - SPA (single page application)            │
+│ - Dashboard, timer, faktury                │
+│ - PWA + iOS + Android (jedna codebase)     │
+│                                             │
+│ Offline: SQLite                             │
+│ Sync: REST API                              │
+└─────────────────────────────────────────────┘
+                    ↓
+              API volání
+                    ↓
+┌─────────────────────────────────────────────┐
+│ BACKEND (api.taptura.cz)                    │
+│ Laravel 11 API                              │
+│ - RESTful API                               │
+│ - Sanctum auth                              │
+│ - ARES integrace                            │
+│ - PDF faktury                               │
+│                                             │
+│ Databáze: PostgreSQL                        │
+└─────────────────────────────────────────────┘
+1. Marketing: Astro vs Nuxt?
+DOPORUČUJI: Astro ⭐⭐⭐
+Proč Astro > Nuxt pro marketing:
+
+typescript
+// Astro je navržený přesně pro tohle use case:
+✅ Ultra rychlé statické stránky (0 JS na marketing pages)
+✅ Můžeš použít Vue komponenty kde potřebuješ
+✅ Built-in blog s Markdown
+✅ Perfektní SEO out-of-the-box
+✅ Jednodušší než Nuxt pro marketing
+✅ Menší bundle size
+
+❌ Nuxt výhody:
+- Server-side rendering (nepotřebuješ pro marketing)
+- Full-stack framework (nepotřebuješ, máš Laravel)
+- Složitější setup pro statický web
+Prakticky:
+
+bash
+# Astro projekt struktura
+taptura.cz/
+├── src/
+│   ├── pages/
+│   │   ├── index.astro           # Landing page
+│   │   ├── funkce.astro          # Features
+│   │   ├── cenik.astro           # Pricing
+│   │   └── blog/
+│   │       ├── index.astro       # Blog list
+│   │       └── [slug].astro      # Blog post
+│   ├── components/
+│   │   ├── Hero.vue              # Vue komponenta!
+│   │   ├── Pricing.vue
+│   │   └── Testimonials.vue
+│   └── layouts/
+│       └── Layout.astro
+└── astro.config.mjs
+Astro page s Vue komponentou:
+
+astro
+---
+// src/pages/index.astro
+import Layout from '../layouts/Layout.astro'
+import Hero from '../components/Hero.vue'
+import Features from '../components/Features.vue'
+---
+
+<Layout title="Taptura - Time tracking pro živnostníky">
+  <Hero client:load />  <!-- Vue komponenta s interaktivitou -->
+  <Features />          <!-- Statický Vue component -->
+  
+  <section class="cta">
+    <h2>Začněte měřit čas už dnes</h2>
+    <a href="https://app.taptura.cz/registrace" class="btn">
+      Vyzkoušet zdarma
+    </a>
+  </section>
+</Layout>
+Proč je to lepší než Nuxt:
+
+Astro build:
+├─ index.html (12 KB) - čisté HTML, 0 JS
+├─ funkce.html (8 KB)
+└─ cenik.html (10 KB)
+Celkem: ~30 KB, instant load ⚡
+
+Nuxt build:
+├─ index.html (15 KB)
+├─ _nuxt/entry.js (150 KB) - hydration a routing
+└─ _nuxt/components.js (80 KB)
+Celkem: ~245 KB, pomalejší load 🐌
+Když potřebuješ interaktivitu:
+
+astro
+<!-- Kalkulačka času na landing page -->
+<TimeCalculator client:load />  
+<!-- Vue komponenta s full reactivity, načte se jen když potřeba -->
+Alternativa: Nuxt pokud chceš unified experience
+Nuxt dává smysl pokud:
+
+Chceš používat stejné Vue komponenty v marketingu i app
+Plánuješ SSR blog s dynamickým contentem
+Chceš unified dev experience
+Ale pro tvůj use case (statický marketing) je Astro jednodušší a rychlejší.
+
+2. Aplikace: Ano, SPA na app.taptura.cz ✅
+bash
+# Vite + Vue 3 setup
+app.taptura.cz/
+├── src/
+│   ├── main.ts
+│   ├── App.vue
+│   ├── router/
+│   │   └── index.ts
+│   ├── views/
+│   │   ├── Dashboard.vue
+│   │   ├── Timer.vue
+│   │   ├── Projects.vue
+│   │   └── Invoices.vue
+│   ├── components/
+│   ├── stores/            # Pinia
+│   ├── services/
+│   │   ├── api.ts
+│   │   ├── db.ts         # SQLite wrapper
+│   │   └── sync.ts       # Sync service
+│   └── types/
+├── capacitor.config.ts
+└── vite.config.ts
+Vite config pro production:
+
+typescript
+// vite.config.ts
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+
+export default defineConfig({
+  plugins: [vue()],
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    minify: 'terser',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': ['vue', 'vue-router', 'pinia'],
+          'ui': ['@headlessui/vue'],
+          'capacitor': ['@capacitor/core', '@capacitor/app']
+        }
+      }
+    }
+  }
+})
+3. Databáze: SQLite (offline) + PostgreSQL (online)
+PostgreSQL > MySQL pro tvůj případ ⭐
+Důvody:
+
+sql
+-- 1. JSON podporuje lépe (pro flexible data)
+-- Faktury mají různé struktury podle typu
+CREATE TABLE invoices (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL,
+  invoice_number VARCHAR(50),
+  metadata JSONB,  -- ✅ PostgreSQL: Indexovatelné JSON
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Můžeš dělat queries jako:
+SELECT * FROM invoices 
+WHERE metadata->>'type' = 'proforma';
+
+-- 2. Lepší full-text search (české jazyky)
+CREATE INDEX idx_clients_search 
+ON clients USING gin(to_tsvector('czech', name || ' ' || description));
+
+-- 3. Array types pro taxy a více hodnot
+CREATE TABLE projects (
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(255),
+  tags TEXT[],  -- ['web', 'design', 'urgentní']
+  hourly_rates JSONB  -- různé sazby pro různé role
+);
+
+-- 4. Pokročilé constraints
+CREATE TABLE time_entries (
+  id BIGSERIAL PRIMARY KEY,
+  start_time TIMESTAMPTZ NOT NULL,
+  end_time TIMESTAMPTZ,
+  CONSTRAINT valid_time_range CHECK (end_time IS NULL OR end_time > start_time),
+  CONSTRAINT reasonable_duration CHECK (
+    end_time IS NULL OR 
+    end_time - start_time < INTERVAL '24 hours'
+  )
+);
+MySQL vs PostgreSQL pro Laravel:
+
+Feature	PostgreSQL	MySQL	Pro Taptura
+JSON queries	✅ JSONB indexovatelné	⚠️ Pomalejší	✅ Budeš používat pro faktury
+Full-text search	✅ Českých textů	⚠️ Horší čeština	✅ Vyhledávání klientů
+Array types	✅ Native	❌ Musíš serializovat	✅ Tagy projektů
+Window functions	✅ Pokročilé	⚠️ Od verze 8.0	✅ Reporting
+UPSERT	✅ ON CONFLICT	⚠️ ON DUPLICATE KEY	✅ Sync conflicts
+Hosting cena	~$10-15/měsíc	~$7-10/měsíc	⚠️ O $3 dražší
+Laravel podpora	✅ Perfektní	✅ Perfektní	✅ Obě OK
+Pro time tracking s fakturami → PostgreSQL je lepší volba.
+
+SQLite pro offline (mobil)
+typescript
+// src/services/db.ts
+import { CapacitorSQLite, SQLiteConnection } from '@capacitor-community/sqlite'
+
+class Database {
+  private db: any
+  
+  async init() {
+    const sqlite = new SQLiteConnection(CapacitorSQLite)
+    
+    this.db = await sqlite.createConnection(
+      'taptura',
+      false,
+      'no-encryption',
+      1
+    )
+    
+    await this.db.open()
+    await this.createTables()
+  }
+  
+  async createTables() {
+    // Stejná struktura jako PostgreSQL (většinou)
+    await this.db.execute(`
+      CREATE TABLE IF NOT EXISTS time_entries (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        server_id INTEGER,
+        user_id INTEGER NOT NULL,
+        project_id INTEGER,
+        start_time TEXT NOT NULL,
+        end_time TEXT,
+        description TEXT,
+        synced INTEGER DEFAULT 0,
+        updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+      );
+      
+      CREATE TABLE IF NOT EXISTS projects (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        server_id INTEGER,
+        name TEXT NOT NULL,
+        client_id INTEGER,
+        hourly_rate REAL,
+        color TEXT,
+        synced INTEGER DEFAULT 0
+      );
+      
+      -- Sync queue
+      CREATE TABLE IF NOT EXISTS sync_queue (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        operation TEXT NOT NULL,
+        table_name TEXT NOT NULL,
+        record_id INTEGER,
+        data TEXT,
+        attempts INTEGER DEFAULT 0,
+        created_at TEXT DEFAULT CURRENT_TIMESTAMP
+      );
+    `)
+  }
+  
+  // CRUD operations
+  async insert(table: string, data: any) {
+    const columns = Object.keys(data).join(', ')
+    const placeholders = Object.keys(data).map(() => '?').join(', ')
+    const values = Object.values(data)
+    
+    const result = await this.db.run(
+      `INSERT INTO ${table} (${columns}) VALUES (${placeholders})`,
+      values
+    )
+    
+    return result.changes.lastId
+  }
+  
+  async query(table: string, where?: any) {
+    let sql = `SELECT * FROM ${table}`
+    let params = []
+    
+    if (where) {
+      const conditions = Object.keys(where)
+        .map(key => `${key} = ?`)
+        .join(' AND ')
+      sql += ` WHERE ${conditions}`
+      params = Object.values(where)
+    }
+    
+    const result = await this.db.query(sql, params)
+    return result.values || []
+  }
+}
+
+export const db = new Database()
+4. Vue + Laravel: Perfektní kombinace ✅
+Proč Vue s Laravelem funguje skvěle:
+
+php
+// Laravel má Vue v DNA - Evan You (tvůrce Vue) pracoval pro Laravel
+
+1. ✅ Laravel Sanctum + Axios = native feeling
+2. ✅ API Resources vracejí clean JSON pro Vue
+3. ✅ Validation errors v Laravel formátu který Vue čeká
+4. ✅ Obrovská komunita (stack "VILT" = Vue+Inertia+Laravel+Tailwind)
+5. ✅ Laravel Mix/Vite konfigurace má Vue support built-in
+Prakticky:
+
+Backend (Laravel API):
+php
+// app/Http/Controllers/Api/TimeEntryController.php
+namespace App\Http\Controllers\Api;
+
+use App\Http\Resources\TimeEntryResource;
+use App\Models\TimeEntry;
+
+class TimeEntryController extends Controller
+{
+    public function index(Request $request)
+    {
+        $entries = $request->user()
+            ->timeEntries()
+            ->with(['project', 'project.client'])
+            ->latest()
+            ->paginate(50);
+        
+        return TimeEntryResource::collection($entries);
+    }
+    
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'project_id' => 'required|exists:projects,id',
+            'start_time' => 'required|date',
+            'end_time' => 'nullable|date|after:start_time',
+            'description' => 'nullable|string|max:500'
+        ]);
+        
+        $entry = $request->user()
+            ->timeEntries()
+            ->create($validated);
+        
+        return new TimeEntryResource($entry);
+    }
+    
+    public function update(Request $request, TimeEntry $entry)
+    {
+        $this->authorize('update', $entry);
+        
+        // Check for conflicts
+        if ($entry->updated_at > $request->input('client_updated_at')) {
+            return response()->json([
+                'error' => 'conflict',
+                'server_version' => new TimeEntryResource($entry)
+            ], 409);
+        }
+        
+        $entry->update($request->validated());
+        
+        return new TimeEntryResource($entry);
+    }
+}
+php
+// app/Http/Resources/TimeEntryResource.php
+class TimeEntryResource extends JsonResource
+{
+    public function toArray($request)
+    {
+        return [
+            'id' => $this->id,
+            'project_id' => $this->project_id,
+            'project' => new ProjectResource($this->whenLoaded('project')),
+            'start_time' => $this->start_time->toIso8601String(),
+            'end_time' => $this->end_time?->toIso8601String(),
+            'duration' => $this->duration_seconds,
+            'description' => $this->description,
+            'updated_at' => $this->updated_at->toIso8601String(),
+        ];
+    }
+}
+Frontend (Vue API client):
+typescript
+// src/services/api.ts
+import axios from 'axios'
+import { useAuthStore } from '@/stores/auth'
+
+const api = axios.create({
+  baseURL: 'https://api.taptura.cz/api/v1',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  }
+})
+
+// Interceptor pro auth token
+api.interceptors.request.use(config => {
+  const authStore = useAuthStore()
+  if (authStore.token) {
+    config.headers.Authorization = `Bearer ${authStore.token}`
+  }
+  return config
+})
+
+// Interceptor pro error handling
+api.interceptors.response.use(
+  response => response,
+  async error => {
+    if (error.response?.status === 401) {
+      // Token expired → refresh nebo logout
+      const authStore = useAuthStore()
+      await authStore.logout()
+    }
+    
+    if (error.response?.status === 409) {
+      // Conflict → handle it
+      return Promise.reject({
+        type: 'conflict',
+        serverVersion: error.response.data.server_version
+      })
+    }
+    
+    return Promise.reject(error)
+  }
+)
+
+// API methods
+export const timeEntriesApi = {
+  async getAll(params?: { from?: string; to?: string }) {
+    const { data } = await api.get('/time-entries', { params })
+    return data
+  },
+  
+  async create(entry: Partial<TimeEntry>) {
+    const { data } = await api.post('/time-entries', entry)
+    return data
+  },
+  
+  async update(id: number, entry: Partial<TimeEntry>) {
+    const { data } = await api.put(`/time-entries/${id}`, {
+      ...entry,
+      client_updated_at: new Date().toISOString()
+    })
+    return data
+  },
+  
+  async delete(id: number) {
+    await api.delete(`/time-entries/${id}`)
+  }
+}
+typescript
+// src/composables/useTimeEntries.ts
+import { ref, computed } from 'vue'
+import { timeEntriesApi } from '@/services/api'
+import { db } from '@/services/db'
+import { syncService } from '@/services/sync'
+
+export function useTimeEntries() {
+  const entries = ref<TimeEntry[]>([])
+  const loading = ref(false)
+  
+  // Load from local DB first
+  async function loadEntries() {
+    loading.value = true
+    
+    // 1. Rychle načti z lokální DB
+    entries.value = await db.query('time_entries', {
+      order_by: 'start_time DESC',
+      limit: 100
+    })
+    
+    // 2. Sync na pozadí
+    syncService.trySync().then(async () => {
+      // Refresh po syncu
+      entries.value = await db.query('time_entries', {
+        order_by: 'start_time DESC',
+        limit: 100
+      })
+    })
+    
+    loading.value = false
+  }
+  
+  async function startTimer(projectId: number) {
+    const entry = {
+      project_id: projectId,
+      start_time: new Date().toISOString(),
+      description: null,
+      synced: 0
+    }
+    
+    // 1. Ulož lokálně OKAMŽITĚ
+    const localId = await db.insert('time_entries', entry)
+    
+    // 2. Přidej do UI state optimistically
+    entries.value.unshift({
+      id: localId,
+      ...entry,
+      synced: false
+    })
+    
+    // 3. Queue pro sync
+    await syncService.queueOperation('create', 'time_entries', localId, entry)
+    
+    // 4. Pokus o sync na pozadí
+    syncService.trySync()
+  }
+  
+  const activeTimer = computed(() => 
+    entries.value.find(e => !e.end_time)
+  )
+  
+  const totalToday = computed(() => {
+    const today = new Date().toISOString().split('T')[0]
+    return entries.value
+      .filter(e => e.start_time.startsWith(today) && e.end_time)
+      .reduce((sum, e) => sum + calculateDuration(e), 0)
+  })
+  
+  return {
+    entries,
+    loading,
+    activeTimer,
+    totalToday,
+    loadEntries,
+    startTimer
+  }
+}
+Finální tech stack doporučení:
+┌─────────────────────────────────────────────────────┐
+│ MARKETING                                           │
+│ taptura.cz                                          │
+│ ─────────────────────────────────────────────────── │
+│ Framework:  Astro 4.x                               │
+│ Components: Vue 3                                   │
+│ Styling:    Tailwind CSS                            │
+│ Hosting:    Vercel nebo Netlify (free tier OK)     │
+│ Deploy:     Git push → auto deploy                 │
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│ APLIKACE                                            │
+│ app.taptura.cz                                      │
+│ ─────────────────────────────────────────────────── │
+│ Framework:  Vite + Vue 3 + TypeScript               │
+│ Router:     Vue Router 4                            │
+│ State:      Pinia                                   │
+│ UI:         Tailwind CSS + HeadlessUI               │
+│ Mobile:     Capacitor 6                             │
+│ Offline DB: @capacitor-community/sqlite             │
+│ HTTP:       Axios                                   │
+│ Forms:      VeeValidate + Zod                       │
+│ Hosting:    Vercel (PWA) + App Stores (mobil)      │
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│ BACKEND API                                         │
+│ api.taptura.cz                                      │
+│ ─────────────────────────────────────────────────── │
+│ Framework:  Laravel 11                              │
+│ Database:   PostgreSQL 15                           │
+│ Cache:      Redis (produkce)                        │
+│ Auth:       Laravel Sanctum                         │
+│ Queue:      Laravel Queue (Redis driver)            │
+│ PDF:        barryvdh/laravel-dompdf                 │
+│ ARES:       dfridrich/ares                          │
+│ Hosting:    Hetzner VPS nebo DigitalOcean          │
+│             (Forge pro easy management)             │
+└─────────────────────────────────────────────────────┘
+Quick start checklist:
+Týden 1: Setup projektů
+bash
+# 1. Marketing (Astro)
+npm create astro@latest taptura-marketing
+cd taptura-marketing
+npx astro add vue tailwind
+npm run dev
+
+# 2. Aplikace (Vue + Capacitor)
+npm create vite@latest taptura-app -- --template vue-ts
+cd taptura-app
+npm install
+npm install -D tailwindcss @capacitor/core @capacitor/cli
+npx cap init
+
+# 3. Backend (Laravel)
+composer create-project laravel/laravel taptura-api
+cd taptura-api
+php artisan install:api
+Databáze setup:
+bash
+# PostgreSQL (lokálně)
+brew install postgresql@15  # nebo Docker
+createdb taptura_dev
+
+# .env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=taptura_dev
+php
+// database/migrations/xxxx_create_base_tables.php
+Schema::create('time_entries', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+    $table->foreignId('project_id')->nullable()->constrained()->nullOnDelete();
+    $table->timestampTz('start_time');
+    $table->timestampTz('end_time')->nullable();
+    $table->text('description')->nullable();
+    $table->timestampsTz();
+    
+    $table->index(['user_id', 'start_time']);
+});
+
+Schema::create('projects', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+    $table->foreignId('client_id')->nullable()->constrained()->nullOnDelete();
+    $table->string('name');
+    $table->string('color', 7)->default('#3B82F6');
+    $table->decimal('hourly_rate', 10, 2)->nullable();
+    $table->jsonb('metadata')->nullable();
+    $table->timestampsTz();
+    $table->softDeletes();
+});
+Poslední rada:
+Build order (co dělat první):
+
+Fáze 1 (týdny 1-4): POUZE aplikace
+├─ Vue app základy
+├─ Laravel API
+├─ Auth (registrace/login)
+└─ Time tracking core
+
+Fáze 2 (týdny 5-8): Faktury + offline
+├─ Projekty a klienti
+├─ Faktury
+├─ SQLite + sync
+└─ Capacitor build
+
+Fáze 3 (týdny 9-12): Marketing + polish
+├─ Astro landing page
+├─ Blog setup
+├─ iOS/Android store submission
+└─ Launch! 🚀
+Nezačínej s marketingem! První postav funkční aplikaci, pak teprve landing page.
+
+Jasné? Chceš probrat nějakou konkrétní část implementace? 😊
+
+Ta marketingova cast je vlastně jen pro web, že? Mobil a pwa bude zobrazovat jen samotnou aplikaci, ne?
+
+
+Clarified web vs. app content display differences.
+
+
+
+
+PŘESNĚ! Výborná otázka - tohle je klíčový koncept. ✅
+
+Jasné rozdělení:
+┌─────────────────────────────────────────────────┐
+│ MARKETING WEB (taptura.cz)                      │
+│ Pro: Návštěvníky z Google, které ještě nemáš   │
+│ Zobrazí se: V prohlížeči                        │
+│ Neobsahuje: Žádný login, dashboard, timer      │
+│                                                 │
+│ Obsahuje:                                       │
+│ - Landing page s benefity                      │
+│ - "Jak to funguje"                             │
+│ - Ceník                                        │
+│ - Blog                                         │
+│ - Kontakt                                      │
+│ - Tlačítko "Začít zdarma" →                   │
+│   redirect na app.taptura.cz/registrace       │
+└─────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────┐
+│ APLIKACE (app.taptura.cz)                       │
+│ Pro: Registrované uživatele                     │
+│ Zobrazí se: V prohlížeči, PWA, iOS app, Android│
+│                                                 │
+│ Obsahuje:                                       │
+│ - Login / Registrace                           │
+│ - Dashboard                                    │
+│ - Timer                                        │
+│ - Projekty                                     │
+│ - Klienti                                      │
+│ - Faktury                                      │
+│ - Nastavení                                    │
+│                                                 │
+│ TOHLE se zabalí do Capacitoru!                 │
+└─────────────────────────────────────────────────┘
+Co uživatel uvidí kde:
+Scénář 1: Nový návštěvník hledá na Google
+Google: "time tracker pro živnostníky"
+  ↓
+taptura.cz (landing page)
+  ├─ Uvidí marketing web (Astro)
+  ├─ Přečte si o funkčnosti
+  └─ Klikne "Začít zdarma"
+        ↓
+app.taptura.cz/registrace
+  ├─ Vyplní email, heslo
+  └─ Po registraci je v aplikaci
+        ↓
+app.taptura.cz/dashboard
+  └─ Vidí timer, projekty, atd.
+Scénář 2: Uživatel používá PWA (prohlížeč)
+Uživatel v Chrome:
+  ├─ Jde na app.taptura.cz
+  ├─ Přihlásí se
+  ├─ Chrome nabídne: "Nainstalovat Taptura?"
+  └─ Po instalaci → ikona na ploše
+        ↓
+Ikona spustí app.taptura.cz (bez browser UI)
+  └─ Zobrazuje POUZE aplikaci
+  └─ Žádný marketing
+Scénář 3: Uživatel používá mobilní app (iOS/Android)
+Uživatel v App Store:
+  ├─ Najde "Taptura"
+  ├─ Stáhne aplikaci (15 MB)
+  └─ Otevře aplikaci
+        ↓
+Aplikace zobrazí:
+  ├─ Login screen (nebo registrace)
+  └─ Po přihlášení → Dashboard
+        ↓
+NIKDY neuvidí taptura.cz marketing
+└─ Aplikace obsahuje POUZE app.taptura.cz obsah
+Capacitor config:
+typescript
+// capacitor.config.ts
+import { CapacitorConfig } from '@capacitor/cli'
+
+const config: CapacitorConfig = {
+  appId: 'cz.taptura.app',
+  appName: 'Taptura',
+  
+  // ⚠️ DŮLEŽITÉ: Toto určuje co se zabalí do mobilní app
+  webDir: 'dist',  // Build výstup z app.taptura.cz projektu
+  
+  server: {
+    // Pro development můžeš použít live reload
+    // url: 'http://192.168.1.100:5173',
+    
+    // Pro production build: žádné URL
+    // Capacitor vezme dist/ folder a zabalí do APK/IPA
+  }
+}
+
+export default config
+Struktura projektu:
+taptura/
+├── marketing/              # Astro projekt
+│   ├── src/
+│   │   └── pages/
+│   │       ├── index.astro       # taptura.cz
+│   │       ├── funkce.astro      # taptura.cz/funkce
+│   │       └── cenik.astro       # taptura.cz/cenik
+│   └── package.json
+│
+├── app/                    # Vue + Capacitor projekt
+│   ├── src/
+│   │   ├── App.vue
+│   │   ├── router/
+│   │   │   └── index.ts
+│   │   └── views/
+│   │       ├── Login.vue         # app.taptura.cz/login
+│   │       ├── Dashboard.vue     # app.taptura.cz/dashboard
+│   │       └── Timer.vue         # app.taptura.cz/timer
+│   ├── dist/               # Build výstup
+│   ├── android/            # Capacitor Android projekt
+│   ├── ios/                # Capacitor iOS projekt
+│   ├── capacitor.config.ts
+│   └── package.json
+│
+└── api/                    # Laravel backend
+    └── ...
+Build proces:
+Marketing web:
+bash
+cd marketing/
+
+# Build pro production
+npm run build
+# → dist/ obsahuje statické HTML
+
+# Deploy na taptura.cz
+vercel deploy
+# nebo
+netlify deploy
+Aplikace - PWA:
+bash
+cd app/
+
+# Build SPA
+npm run build
+# → dist/ obsahuje Vue SPA
+
+# Deploy na app.taptura.cz
+vercel deploy --prod
+Aplikace - Mobilní:
+bash
+cd app/
+
+# 1. Build Vue app
+npm run build
+
+# 2. Sync do Capacitor
+npx cap sync
+
+# 3. Build iOS
+npx cap open ios
+# → Xcode → Archive → Upload to App Store
+
+# 4. Build Android
+npx cap open android
+# → Android Studio → Build → Generate Signed Bundle
+Co je UVNITŘ mobilní aplikace:
+Taptura.apk / Taptura.ipa
+├── Native wrapper (Capacitor)
+│   ├── MainActivity.java / AppDelegate.swift
+│   └── Native plugins (Camera, Storage, etc.)
+│
+└── Web assets (z dist/)
+    ├── index.html
+    ├── assets/
+    │   ├── index-abc123.js    # Vue app
+    │   ├── vendor-def456.js
+    │   └── style-ghi789.css
+    └── images/
+
+NEOBSAHUJE:
+❌ Žádný marketing content
+❌ Žádné linky na taptura.cz
+❌ Žádný blog
+❌ Žádný "Začít zdarma" button
+Routování v aplikaci:
+typescript
+// app/src/router/index.ts
+import { createRouter, createWebHistory } from 'vue-router'
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    {
+      path: '/',
+      redirect: '/dashboard'  // Root = Dashboard
+    },
+    {
+      path: '/login',
+      component: () => import('@/views/Login.vue')
+    },
+    {
+      path: '/registrace',
+      component: () => import('@/views/Register.vue')
+    },
+    {
+      path: '/dashboard',
+      component: () => import('@/views/Dashboard.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/timer',
+      component: () => import('@/views/Timer.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/projekty',
+      component: () => import('@/views/Projects.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/faktury',
+      component: () => import('@/views/Invoices.vue'),
+      meta: { requiresAuth: true }
+    },
+    
+    // ❌ ŽÁDNÉ marketing routes jako /funkce, /cenik, atd.
+  ]
+})
+
+// Auth guard
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+  
+  if (to.meta.requiresAuth && !authStore.isLoggedIn) {
+    next('/login')
+  } else {
+    next()
+  }
+})
+
+export default router
+PWA Manifest (pro instalaci):
+json
+// app/public/manifest.json
+{
+  "name": "Taptura - Time Tracking",
+  "short_name": "Taptura",
+  "description": "Time tracking pro živnostníky",
+  "start_url": "/dashboard",  // ⚠️ Spustí dashboard, ne marketing
+  "display": "standalone",     // Vypadá jako native app
+  "background_color": "#ffffff",
+  "theme_color": "#3B82F6",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+User journey vizualizace:
+NÁVŠTĚVNÍK (nemá účet):
+├─ Google → taptura.cz (marketing)
+├─ Čte o funkčnosti
+├─ Klikne "Začít zdarma"
+└─ → app.taptura.cz/registrace
+
+REGISTROVANÝ UŽIVATEL (web):
+├─ Jde na app.taptura.cz
+├─ Přihlásí se
+└─ Pracuje v prohlížeči
+
+REGISTROVANÝ UŽIVATEL (PWA):
+├─ Nainstaloval PWA z app.taptura.cz
+├─ Klikne ikonu na ploše
+├─ Otevře se přímo dashboard (standalone mode)
+└─ Nikdy nevidí browser UI
+
+REGISTROVANÝ UŽIVATEL (mobilní app):
+├─ Stáhl z App Store / Google Play
+├─ Otevře aplikaci
+├─ Přihlásí se (nebo je už přihlášený)
+└─ Pracuje v nativní app
+    └─ NIKDY nevidí taptura.cz marketing
+Praktický příklad - První spuštění mobilní app:
+typescript
+// app/src/App.vue
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { App } from '@capacitor/app'
+
+const router = useRouter()
+const authStore = useAuthStore()
+
+onMounted(async () => {
+  // Zjisti jestli je to mobilní app
+  const info = await App.getInfo()
+  console.log('Running in:', info.platform) // 'ios' nebo 'android'
+  
+  // Zkontroluj auth
+  if (authStore.isLoggedIn) {
+    // Přihlášený → dashboard
+    router.push('/dashboard')
+  } else {
+    // Nepřihlášený → login
+    router.push('/login')
+  }
+  
+  // ❌ NIKDY nepřesměrováváš na taptura.cz marketing
+})
+</script>
+
+<template>
+  <router-view />
+</template>
+Kdy uživatel vidí marketing:
+✅ Vidí marketing (taptura.cz):
+├─ Google search
+├─ Sociální média odkazy
+├─ Direct visit na taptura.cz
+└─ Blog články
+
+❌ NEVIDÍ marketing:
+├─ PWA spuštěné z ikony
+├─ iOS app z App Store
+├─ Android app z Google Play
+└─ Direct visit na app.taptura.cz (pokud přihlášený)
+Finální odpověď:
+Ano, máš naprostou pravdu!
+
+taptura.cz (Astro) = Pouze marketing pro web prohlížeče
+app.taptura.cz (Vue) = Samotná aplikace
+PWA = zabalí se app.taptura.cz
+iOS app = zabalí se app.taptura.cz
+Android app = zabalí se app.taptura.cz
+Marketing web je ÚPLNĚ oddělený projekt a mobilní uživatelé ho nikdy neuvidí (což je dobře - ušetří data a paměť).
+
+Jasnější teď? 😊
+
+Poslední otázka ta api část je pro tahání dat do nebo z mojí aplikace? Budu potrebovat volat data skrz cizí api i aby si klienti mohli vytahovat data skrz api do me apky
+
+
+Analyzoval API komunikaci pro propojení externích systémů.
+
+
+
+Výborná otázka! Tohle jsou vlastně TŘI různé API směry. Pojďme si to rozkreslit.
+
+Tři typy API komunikace:
+┌─────────────────────────────────────────────────────────┐
+│ 1️⃣ INTERNÍ API (tvoje aplikace ↔ tvůj backend)        │
+│                                                         │
+│  Vue App (mobil/web)  ←──────→  api.taptura.cz        │
+│  - Načti časové záznamy              (Laravel)         │
+│  - Ulož fakturu                                        │
+│  - Aktualizuj projekt                                  │
+│                                                         │
+│  → Tohle je TVŮJ backend pro TVOU aplikaci             │
+└─────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────┐
+│ 2️⃣ VOLÁNÍ CIZÍCH API (tvůj backend → vnější služby)   │
+│                                                         │
+│  api.taptura.cz  ──────────→  ARES API                │
+│  (Laravel)                     (ares.gov.cz)           │
+│  - Vyhledej firmu podle IČO                            │
+│  - Získej DIČ, adresu                                  │
+│                                                         │
+│  api.taptura.cz  ──────────→  Fio banka API           │
+│  - Stáhni výpisy                                       │
+│  - Páruj platby s fakturami                            │
+│                                                         │
+│  → Tvůj backend VOLÁ cizí služby                       │
+└─────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────┐
+│ 3️⃣ PUBLIC API (cizí systémy → tvůj backend)           │
+│                                                         │
+│  Klientův systém  ──────────→  api.taptura.cz/public  │
+│  (Účetní software)              (Laravel)              │
+│  - Načti faktury                                       │
+│  - Exportuj časové záznamy                             │
+│  - Synchronizuj projekty                               │
+│                                                         │
+│  → Tvůj backend POSKYTUJE API klientům                 │
+└─────────────────────────────────────────────────────────┘
+1️⃣ Interní API (api.taptura.cz)
+Tohle je tvůj hlavní Laravel backend:
+
+php
+// routes/api.php
+Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
+    // Pro tvou Vue aplikaci
+    Route::get('/time-entries', [TimeEntryController::class, 'index']);
+    Route::post('/time-entries', [TimeEntryController::class, 'store']);
+    Route::get('/projects', [ProjectController::class, 'index']);
+    Route::get('/invoices', [InvoiceController::class, 'index']);
+    Route::post('/invoices', [InvoiceController::class, 'store']);
+});
+Použití ve Vue aplikaci:
+
+typescript
+// src/services/api.ts
+const api = axios.create({
+  baseURL: 'https://api.taptura.cz/api/v1'
+})
+
+// Tvá aplikace volá TVOJE API
+const timeEntries = await api.get('/time-entries')
+2️⃣ Volání cizích API (backend → vnější služby)
+ARES - Administrativní registr ekonomických subjektů:
+
+php
+// app/Services/AresService.php
+namespace App\Services;
+
+use Illuminate\Support\Facades\Http;
+
+class AresService
+{
+    private const ARES_URL = 'https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty';
+    
+    public function findByIco(string $ico): ?array
+    {
+        try {
+            $response = Http::get(self::ARES_URL, [
+                'ico' => $ico
+            ]);
+            
+            if ($response->successful()) {
+                $data = $response->json();
+                
+                return [
+                    'ico' => $ico,
+                    'dic' => $data['dic'] ?? null,
+                    'name' => $data['obchodniJmeno'] ?? null,
+                    'address' => $this->formatAddress($data['sidlo'] ?? []),
+                    'active' => $data['stavSubjektu'] === 'AKTIVNI',
+                ];
+            }
+            
+            return null;
+        } catch (\Exception $e) {
+            \Log::error('ARES lookup failed', ['ico' => $ico, 'error' => $e->getMessage()]);
+            return null;
+        }
+    }
+    
+    private function formatAddress(array $sidlo): string
+    {
+        return sprintf(
+            '%s %s, %s %s',
+            $sidlo['nazevUlice'] ?? '',
+            $sidlo['cisloDomovni'] ?? '',
+            $sidlo['psc'] ?? '',
+            $sidlo['nazevObce'] ?? ''
+        );
+    }
+}
+Controller který to používá:
+
+php
+// app/Http/Controllers/Api/ClientController.php
+class ClientController extends Controller
+{
+    public function __construct(
+        private AresService $ares
+    ) {}
+    
+    // Endpoint pro vyhledání firmy podle IČO
+    public function searchByIco(Request $request)
+    {
+        $ico = $request->input('ico');
+        
+        // Zavolej ARES API
+        $companyData = $this->ares->findByIco($ico);
+        
+        if (!$companyData) {
+            return response()->json([
+                'error' => 'Firma s tímto IČO nenalezena'
+            ], 404);
+        }
+        
+        return response()->json($companyData);
+    }
+    
+    // Vytvoř klienta z ARES dat
+    public function createFromAres(Request $request)
+    {
+        $ico = $request->input('ico');
+        $companyData = $this->ares->findByIco($ico);
+        
+        if (!$companyData) {
+            return response()->json(['error' => 'Firma nenalezena'], 404);
+        }
+        
+        // Vytvoř klienta v databázi
+        $client = $request->user()->clients()->create([
+            'name' => $companyData['name'],
+            'ico' => $companyData['ico'],
+            'dic' => $companyData['dic'],
+            'address' => $companyData['address'],
+        ]);
+        
+        return response()->json($client, 201);
+    }
+}
+Vue komponenta s ARES lookup:
+
+vue
+<!-- src/components/ClientForm.vue -->
+<template>
+  <form @submit.prevent="createClient">
+    <div class="form-group">
+      <label>IČO</label>
+      <input 
+        v-model="ico" 
+        @blur="lookupAres"
+        placeholder="12345678"
+      />
+      <button 
+        type="button" 
+        @click="lookupAres"
+        :disabled="loading"
+      >
+        🔍 Vyhledat v ARES
+      </button>
+    </div>
+    
+    <div v-if="loading">
+      Vyhledávám v ARES...
+    </div>
+    
+    <div v-if="aresData">
+      <div class="form-group">
+        <label>Název firmy</label>
+        <input v-model="aresData.name" readonly />
+      </div>
+      
+      <div class="form-group">
+        <label>DIČ</label>
+        <input v-model="aresData.dic" readonly />
+      </div>
+      
+      <div class="form-group">
+        <label>Adresa</label>
+        <input v-model="aresData.address" readonly />
+      </div>
+      
+      <button type="submit">
+        ✓ Vytvořit klienta
+      </button>
+    </div>
+  </form>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { api } from '@/services/api'
+
+const ico = ref('')
+const aresData = ref(null)
+const loading = ref(false)
+
+async function lookupAres() {
+  if (!ico.value || ico.value.length !== 8) return
+  
+  loading.value = true
+  try {
+    // Volá TVOJE API, které pak volá ARES
+    const { data } = await api.get('/clients/search-ares', {
+      params: { ico: ico.value }
+    })
+    
+    aresData.value = data
+  } catch (error) {
+    alert('Firma nenalezena v ARES')
+  } finally {
+    loading.value = false
+  }
+}
+
+async function createClient() {
+  // Vytvoř klienta s daty z ARES
+  const { data } = await api.post('/clients/from-ares', {
+    ico: ico.value
+  })
+  
+  // Redirect nebo zavři modal
+}
+</script>
+Další cizí API které můžeš použít:
+php
+// config/services.php
+return [
+    // ARES pro vyhledání firem
+    'ares' => [
+        'url' => env('ARES_URL', 'https://ares.gov.cz/...'),
+    ],
+    
+    // Fio banka API (výpisy účtu)
+    'fio' => [
+        'token' => env('FIO_API_TOKEN'),
+        'url' => 'https://fioapi.fio.cz/v1/rest',
+    ],
+    
+    // QR Platba generátor
+    'qr_platba' => [
+        'url' => 'https://api.paylibo.com/paylibo/generator/czech/image',
+    ],
+    
+    // Kurzy ČNB (pro faktury v cizí měně)
+    'cnb' => [
+        'url' => 'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt',
+    ],
+];
+3️⃣ Public API pro klienty
+Tohle je API které POSKYTNEŠ klientům:
+
+php
+// routes/api.php
+
+// Public API s API key autentizací
+Route::prefix('public/v1')->middleware('api.key')->group(function () {
+    
+    // Načti časové záznamy
+    Route::get('/time-entries', [PublicApiController::class, 'timeEntries']);
+    
+    // Načti faktury
+    Route::get('/invoices', [PublicApiController::class, 'invoices']);
+    
+    // Exportuj data
+    Route::get('/export', [PublicApiController::class, 'export']);
+    
+    // Vytvoř projekt (pokud chceš umožnit zápis)
+    Route::post('/projects', [PublicApiController::class, 'createProject']);
+});
+Middleware pro API key:
+
+php
+// app/Http/Middleware/ApiKeyAuth.php
+namespace App\Http\Middleware;
+
+class ApiKeyAuth
+{
+    public function handle($request, Closure $next)
+    {
+        $apiKey = $request->header('X-API-Key');
+        
+        if (!$apiKey) {
+            return response()->json(['error' => 'API key required'], 401);
+        }
+        
+        // Najdi uživatele podle API key
+        $user = \App\Models\User::where('api_key', $apiKey)->first();
+        
+        if (!$user) {
+            return response()->json(['error' => 'Invalid API key'], 401);
+        }
+        
+        // Log API usage
+        \App\Models\ApiLog::create([
+            'user_id' => $user->id,
+            'endpoint' => $request->path(),
+            'method' => $request->method(),
+            'ip' => $request->ip(),
+        ]);
+        
+        // Nastav autentizovaného uživatele
+        auth()->setUser($user);
+        
+        return $next($request);
+    }
+}
+Public API Controller:
+
+php
+// app/Http/Controllers/PublicApiController.php
+namespace App\Http\Controllers;
+
+class PublicApiController extends Controller
+{
+    // Načti časové záznamy
+    public function timeEntries(Request $request)
+    {
+        $entries = $request->user()
+            ->timeEntries()
+            ->whereBetween('start_time', [
+                $request->input('from', now()->subMonth()),
+                $request->input('to', now())
+            ])
+            ->with('project')
+            ->get();
+        
+        return response()->json([
+            'data' => $entries,
+            'meta' => [
+                'total' => $entries->count(),
+                'total_hours' => $entries->sum('duration_hours'),
+            ]
+        ]);
+    }
+    
+    // Načti faktury
+    public function invoices(Request $request)
+    {
+        $invoices = $request->user()
+            ->invoices()
+            ->where('status', $request->input('status', 'all'))
+            ->get();
+        
+        return response()->json($invoices);
+    }
+    
+    // Export do CSV/JSON
+    public function export(Request $request)
+    {
+        $format = $request->input('format', 'json'); // json nebo csv
+        $type = $request->input('type'); // time-entries, invoices, projects
+        
+        $data = match($type) {
+            'time-entries' => $request->user()->timeEntries()->get(),
+            'invoices' => $request->user()->invoices()->get(),
+            'projects' => $request->user()->projects()->get(),
+            default => []
+        };
+        
+        if ($format === 'csv') {
+            return response()->streamDownload(function () use ($data) {
+                $csv = fopen('php://output', 'w');
+                
+                // Headers
+                if ($data->isNotEmpty()) {
+                    fputcsv($csv, array_keys($data->first()->toArray()));
+                }
+                
+                // Data
+                foreach ($data as $row) {
+                    fputcsv($csv, $row->toArray());
+                }
+                
+                fclose($csv);
+            }, 'export.csv', [
+                'Content-Type' => 'text/csv',
+            ]);
+        }
+        
+        return response()->json($data);
+    }
+}
+Generování API key pro uživatele:
+
+php
+// app/Models/User.php
+class User extends Authenticatable
+{
+    public function generateApiKey(): string
+    {
+        $this->api_key = 'taptura_' . Str::random(40);
+        $this->save();
+        
+        return $this->api_key;
+    }
+    
+    public function revokeApiKey(): void
+    {
+        $this->api_key = null;
+        $this->save();
+    }
+}
+Databázová migrace:
+
+php
+// database/migrations/xxxx_add_api_key_to_users.php
+Schema::table('users', function (Blueprint $table) {
+    $table->string('api_key', 64)->nullable()->unique();
+});
+
+// API log tabulka
+Schema::create('api_logs', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('user_id')->constrained();
+    $table->string('endpoint');
+    $table->string('method');
+    $table->ipAddress('ip');
+    $table->timestampTz('created_at');
+});
+UI pro správu API key:
+
+vue
+<!-- src/views/Settings/ApiAccess.vue -->
+<template>
+  <div class="api-settings">
+    <h2>API přístup</h2>
+    
+    <div v-if="!apiKey" class="no-key">
+      <p>
+        Vygenerujte API klíč pro přístup k vašim datům 
+        z externích systémů (účetní software, atd.)
+      </p>
+      
+      <button @click="generateKey">
+        🔑 Vygenerovat API klíč
+      </button>
+    </div>
+    
+    <div v-else class="has-key">
+      <div class="key-display">
+        <label>Váš API klíč:</label>
+        <code>{{ apiKey }}</code>
+        <button @click="copyKey">📋 Kopírovat</button>
+      </div>
+      
+      <div class="warning">
+        ⚠️ Tento klíč umožňuje přístup k vašim datům. 
+        Nikomu ho nesdílejte!
+      </div>
+      
+      <div class="documentation">
+        <h3>Jak používat API</h3>
+        
+        <h4>Načíst časové záznamy:</h4>
+        <pre><code>curl -H "X-API-Key: {{ apiKey }}" \
+  https://api.taptura.cz/public/v1/time-entries?from=2024-01-01</code></pre>
+        
+        <h4>Načíst faktury:</h4>
+        <pre><code>curl -H "X-API-Key: {{ apiKey }}" \
+  https://api.taptura.cz/public/v1/invoices</code></pre>
+        
+        <h4>Export do CSV:</h4>
+        <pre><code>curl -H "X-API-Key: {{ apiKey }}" \
+  "https://api.taptura.cz/public/v1/export?type=time-entries&format=csv" \
+  > export.csv</code></pre>
+      </div>
+      
+      <div class="api-logs">
+        <h3>Poslední API volání</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Čas</th>
+              <th>Endpoint</th>
+              <th>IP adresa</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="log in logs" :key="log.id">
+              <td>{{ formatDate(log.created_at) }}</td>
+              <td>{{ log.method }} {{ log.endpoint }}</td>
+              <td>{{ log.ip }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <button @click="revokeKey" class="danger">
+        🗑️ Zrušit API klíč
+      </button>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { api } from '@/services/api'
+
+const apiKey = ref<string | null>(null)
+const logs = ref([])
+
+onMounted(async () => {
+  const { data } = await api.get('/user/api-key')
+  apiKey.value = data.api_key
+  
+  if (apiKey.value) {
+    const { data: logsData } = await api.get('/user/api-logs')
+    logs.value = logsData
+  }
+})
+
+async function generateKey() {
+  const { data } = await api.post('/user/api-key/generate')
+  apiKey.value = data.api_key
+  alert('API klíč vygenerován! Zkopírujte si ho, nebude znovu zobrazen.')
+}
+
+async function revokeKey() {
+  if (!confirm('Opravdu chcete zrušit API klíč? Všechny integrace přestanou fungovat.')) {
+    return
+  }
+  
+  await api.delete('/user/api-key')
+  apiKey.value = null
+}
+
+function copyKey() {
+  navigator.clipboard.writeText(apiKey.value)
+  alert('API klíč zkopírován!')
+}
+</script>
+Jak to použije tvůj klient:
+Příklad: Účetní si chce stáhnout faktury
+python
+# Klientův Python script
+import requests
+
+API_KEY = "taptura_abc123xyz..."
+BASE_URL = "https://api.taptura.cz/public/v1"
+
+headers = {
+    "X-API-Key": API_KEY
+}
+
+# Stáhni faktury z posledního měsíce
+response = requests.get(
+    f"{BASE_URL}/invoices",
+    headers=headers,
+    params={
+        "from": "2024-01-01",
+        "status": "paid"
+    }
+)
+
+invoices = response.json()
+
+# Import do účetního systému
+for invoice in invoices:
+    print(f"Faktura {invoice['number']}: {invoice['total']} Kč")
+    # ... import do Money S3, Pohoda, atd.
+Příklad: Integrace s Pohoda (účetní software)
+php
+// Klientův PHP webhook
+<?php
+
+// Webhook endpoint v jejich Pohoda
+$apiKey = 'taptura_abc123xyz...';
+$baseUrl = 'https://api.taptura.cz/public/v1';
+
+// Denní sync časových záznamů
+$ch = curl_init("$baseUrl/time-entries?from=" . date('Y-m-d'));
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    "X-API-Key: $apiKey"
+]);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$timeEntries = json_decode(curl_exec($ch), true);
+
+// Import do Pohoda XML
+foreach ($timeEntries['data'] as $entry) {
+    // Vytvoř pohyb v Pohodě
+    createPohodaRecord($entry);
+}
+Celkový přehled komunikace:
+┌────────────────────────────────────────────────────────────┐
+│ TVOJE VUE APLIKACE (app.taptura.cz)                       │
+│ - Webová verze v prohlížeči                                │
+│ - PWA nainstalovaná                                        │
+│ - iOS app z App Store                                      │
+│ - Android app z Google Play                                │
+└──────────────────┬─────────────────────────────────────────┘
+                   │ Sanctum auth token
+                   ↓
+┌────────────────────────────────────────────────────────────┐
+│ TVŮJ LARAVEL BACKEND (api.taptura.cz)                     │
+│ ├─ /api/v1/* - Interní API pro tvou aplikaci              │
+│ └─ /public/v1/* - Public API pro klienty                  │
+└────┬────────────────────────────────────────────┬──────────┘
+     │ Volá cizí API                              │ API key auth
+     ↓                                            ↓
+┌─────────────────────┐            ┌──────────────────────────┐
+│ CIZÍ SLUŽBY         │            │ KLIENTSKÉ SYSTÉMY        │
+│ - ARES (firmy)      │            │ - Money S3               │
+│ - ČNB (kurzy)       │            │ - Pohoda                 │
+│ - Fio banka         │            │ - Python skripty         │
+│ - QR Platba         │            │ - Excel makra            │
+└─────────────────────┘            └──────────────────────────┘
+Shrnutí:
+1️⃣ api.taptura.cz = Tvůj backend
+
+Pro komunikaci mezi Vue app a databází
+Sanctum autentizace (token-based)
+CRUD operace na časech, projektech, fakturách
+2️⃣ Cizí API (ARES, banky)
+
+Tvůj backend VOLÁ tyto služby
+Vyhledávání firem, stahování výpisů
+Klient to vidí jako feature v tvé app
+3️⃣ Public API
+
+Tvůj backend POSKYTUJE API
+Klienti můžou vytahovat SVOJE data
+API key autentizace
+Logging a rate limiting
+Všechny tři směry můžeš mít v jednom Laravel projektu!
+
+Jasné? Chceš probrat konkrétní integraci (třeba ARES nebo Fio banku)? 😊
+
+Platí se za použití bankovní api na získání výpisů? Mají to i jiné banky nez fio?
+
+
+Investigated Czech bank APIs and their pricing details.
+
+
+
+Výborná otázka! Bankovní API je důležité pro automatické párování plateb s fakturami. Pojďme si projít českou situaci.
+
+Krátká odpověď:
+Fio banka: ZDARMA ✅ Ostatní banky: Většinou ZDARMA díky PSD2, ale složitější ⚠️
+
+Fio banka API - Nejjednodušší řešení
+Cena: 0 Kč ✅
+Fio banka nabízí:
+✅ Kompletně ZDARMA API pro výpisy
+✅ Přístup k pohybům na účtu
+✅ Možnost odesílat platby (volitelné)
+✅ Žádné limity na počet dotazů
+✅ Jednoduchá autentizace (jeden API token)
+✅ Dokumentace v češtině
+Jak to funguje:
+
+Fio banka API výpisy zdarma 2024 2025
+10 results
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Skvělé, potvrdil jsem si že Fio banka API je zdarma.
+
+
+české banky API open banking PSD2 Česká spořitelna ČSOB 2024
+10 results
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Analyzed bank API costs and availability across different banks.
+
+
+Výborně, mám teď kompletní přehled! Pojďme si to rozebrat.
+
+Shrnutí: Bankovní API v ČR
+1️⃣ Fio banka - NEJJEDNODUŠŠÍ ✅
+Cena: ZDARMA (navždy)
+Limity: ŽÁDNÉ
+Složitost: NÍZKÁ
+
+Co nabízí:
+✅ Stahování výpisů (XML, JSON, CSV, PDF, HTML...)
+✅ Zadávání plateb (volitelné)
+✅ Jeden API token = okamžitý přístup
+✅ Dokumentace v češtině
+✅ Žádná registrace v ČNB
+✅ Funguje okamžitě
+
+Jak získat:
+1. Přihláš se do Fio internetbankingu
+2. Nastavení → API
+3. Vygeneruj token (64 znaků)
+4. Hotovo! Můžeš stahovat data
+Implementace:
+
+php
+// Laravel - stáhni výpisy z Fio
+$token = 'tvůj_fio_token_64_znaku';
+$accountId = '2012345678';
+$from = '2024-01-01';
+$to = '2024-01-31';
+
+$url = "https://fioapi.fio.cz/v1/rest/periods/{$token}/{$from}/{$to}/transactions.json";
+
+$response = Http::get($url);
+$transactions = $response->json()['accountStatement']['transactionList']['transaction'];
+
+foreach ($transactions as $transaction) {
+    // Zpracuj platby
+    echo $transaction['column16']['value']; // Částka
+    echo $transaction['column7']['value'];  // Variabilní symbol
+    echo $transaction['column10']['value']; // Název protiúčtu
+}
+2️⃣ Ostatní české banky - PSD2/Open Banking
+PSD2 = Evropská směrnice, která NUTÍ banky otevřít API
+
+Cena: ZDARMA (ze zákona)
+Limity: Zákonné minimum
+Složitost: VYŠŠÍ
+
+Banky s PSD2 API:
+✅ Česká spořitelna
+✅ ČSOB
+✅ Komerční banka
+✅ Raiffeisenbank
+✅ mBank
+✅ Air Bank
+✅ Equa bank
+⚠️ Moneta (omezené)
+⚠️ UniCredit (základní)
+
+Co musíš:
+1. Registrovat se jako "třetí strana" (Third Party Provider)
+2. Získat licenci ČNB (složité) NEBO
+3. Použít zprostředkovatele (jednodušší)
+Rozdíl: Přímé API vs PSD2
+Aspekt	Fio API (přímé)	PSD2 API (ostatní banky)
+Registrace	Ne (jen token)	Ano (jako TPP)
+Licence ČNB	Ne	Ano (nebo přes zprostředkovatele)
+Cena	Zdarma	Zdarma (ze zákona)
+Složitost	Nízká ⭐	Vysoká ⭐⭐⭐⭐
+Autentizace	Jeden token	OAuth2 + certifikáty
+Souhlas klienta	Není třeba (svůj účet)	Nutný (cizí účet)
+Dokumentace	Česky, jednoduchá	Anglicky, komplexní
+Pro Taptura doporučuji:
+Fáze 1: MVP - Pouze Fio ⭐
+php
+// config/services.php
+'fio' => [
+    'token' => env('FIO_API_TOKEN'),
+    'account_id' => env('FIO_ACCOUNT_ID'),
+],
+php
+// app/Services/FioBankService.php
+class FioBankService
+{
+    public function getTransactions(Carbon $from, Carbon $to): array
+    {
+        $token = config('services.fio.token');
+        $url = sprintf(
+            'https://fioapi.fio.cz/v1/rest/periods/%s/%s/%s/transactions.json',
+            $token,
+            $from->format('Y-m-d'),
+            $to->format('Y-m-d')
+        );
+        
+        $response = Http::get($url);
+        
+        if (!$response->successful()) {
+            throw new \Exception('Fio API error');
+        }
+        
+        return $response->json()['accountStatement']['transactionList']['transaction'] ?? [];
+    }
+    
+    public function matchPaymentToInvoice(array $transaction): ?Invoice
+    {
+        // Variabilní symbol z transakce
+        $vs = $transaction['column5']['value'] ?? null;
+        
+        if (!$vs) return null;
+        
+        // Najdi fakturu podle VS
+        $invoice = Invoice::where('variable_symbol', $vs)->first();
+        
+        if ($invoice) {
+            // Automaticky označ jako zaplacenou
+            $invoice->update([
+                'status' => 'paid',
+                'paid_at' => $transaction['column0']['value'], // Datum
+                'paid_amount' => $transaction['column1']['value'], // Částka
+            ]);
+        }
+        
+        return $invoice;
+    }
+}
+UI pro uživatele:
+
+vue
+<!-- src/views/Settings/BankConnection.vue -->
+<template>
+  <div>
+    <h2>Propojení s bankou</h2>
+    
+    <div class="bank-selector">
+      <h3>Krok 1: Vyberte banku</h3>
+      
+      <div class="banks">
+        <div 
+          class="bank-option recommended"
+          @click="selectedBank = 'fio'"
+        >
+          <img src="/banks/fio.png" alt="Fio banka" />
+          <h4>Fio banka</h4>
+          <span class="badge">Doporučeno - Nejjednodušší</span>
+          <ul>
+            <li>✅ Nastavení za 2 minuty</li>
+            <li>✅ Automatické párování plateb</li>
+            <li>✅ Zdarma</li>
+          </ul>
+        </div>
+        
+        <div 
+          class="bank-option disabled"
+          title="Připravujeme"
+        >
+          <img src="/banks/csob.png" alt="ČSOB" />
+          <h4>ČSOB</h4>
+          <span class="badge">Brzy</span>
+        </div>
+        
+        <div 
+          class="bank-option disabled"
+          title="Připravujeme"
+        >
+          <img src="/banks/csas.png" alt="ČS" />
+          <h4>Česká spořitelna</h4>
+          <span class="badge">Brzy</span>
+        </div>
+      </ul>
+    </div>
+    
+    <div v-if="selectedBank === 'fio'" class="setup-instructions">
+      <h3>Krok 2: Získejte Fio API token</h3>
+      
+      <ol class="steps">
+        <li>
+          Přihlaste se do <a href="https://ib.fio.cz" target="_blank">
+            Fio internetbankingu
+          </a>
+        </li>
+        <li>
+          Klikněte na <strong>Nastavení</strong> (vpravo nahoře)
+        </li>
+        <li>
+          Zvolte záložku <strong>API</strong>
+        </li>
+        <li>
+          Klikněte na <strong>Založit nový token</strong>
+        </li>
+        <li>
+          Zvolte <strong>"Sledování účtu"</strong> 
+          (nemusíte povolit zadávání plateb)
+        </li>
+        <li>
+          Zkopírujte vygenerovaný token (64 znaků)
+        </li>
+      </ol>
+      
+      <h3>Krok 3: Zadejte token</h3>
+      
+      <form @submit.prevent="connectFio">
+        <div class="form-group">
+          <label>Fio API Token</label>
+          <input 
+            v-model="fioToken" 
+            type="text"
+            placeholder="abcd1234efgh5678..."
+            maxlength="64"
+          />
+          <small>64 znaků</small>
+        </div>
+        
+        <div class="form-group">
+          <label>Číslo účtu</label>
+          <input 
+            v-model="accountNumber" 
+            placeholder="2012345678"
+          />
+          <small>Bez předčíslí a kódu banky</small>
+        </div>
+        
+        <button type="submit" :disabled="loading">
+          {{ loading ? 'Ověřuji...' : '🔗 Propojit účet' }}
+        </button>
+      </form>
+      
+      <div v-if="connected" class="success">
+        ✅ Účet úspěšně propojen!
+        Platby budou automaticky párované s fakturami.
+      </div>
+    </div>
+    
+    <div v-if="connected" class="connection-status">
+      <h3>Propojený účet</h3>
+      
+      <div class="account-info">
+        <strong>Banka:</strong> Fio banka<br>
+        <strong>Účet:</strong> {{ accountNumber }}/2010<br>
+        <strong>Stav:</strong> <span class="status-ok">Aktivní</span><br>
+        <strong>Poslední sync:</strong> {{ lastSync }}
+      </div>
+      
+      <button @click="testConnection">
+        🔄 Test spojení
+      </button>
+      
+      <button @click="disconnect" class="danger">
+        🗑️ Odpojit účet
+      </button>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { api } from '@/services/api'
+
+const selectedBank = ref<string | null>(null)
+const fioToken = ref('')
+const accountNumber = ref('')
+const loading = ref(false)
+const connected = ref(false)
+const lastSync = ref<string | null>(null)
+
+async function connectFio() {
+  loading.value = true
+  
+  try {
+    // Test tokenu
+    const { data } = await api.post('/bank/connect/fio', {
+      token: fioToken.value,
+      account_number: accountNumber.value
+    })
+    
+    connected.value = true
+    alert('Účet úspěšně propojen! Spouštím první synchronizaci...')
+    
+    // První sync
+    await api.post('/bank/sync')
+    lastSync.value = new Date().toLocaleString()
+    
+  } catch (error) {
+    alert('Chyba: Zkontrolujte token a číslo účtu')
+  } finally {
+    loading.value = false
+  }
+}
+
+async function testConnection() {
+  const { data } = await api.get('/bank/test')
+  alert(`Spojení OK! Nalezeno ${data.count} nových transakcí.`)
+}
+
+async function disconnect() {
+  if (!confirm('Opravdu odpojit účet?')) return
+  
+  await api.delete('/bank/connection')
+  connected.value = false
+  fioToken.value = ''
+}
+</script>
+Fáze 2: Přidej další banky přes agregátora
+Místo implementace PSD2 pro každou banku zvlášť, použij agregátora:
+
+Možnost A: Česká služba - GoCardless (dříve Nordigen)
+Cena: ZDARMA až do 100 koncových uživatelů/měsíc
+Pak: €0.50 za aktivního uživatele/měsíc
+
+Podporované banky:
+✅ Všechny české banky s PSD2
+✅ Jednotné API pro všechny
+✅ Bez nutnosti licence ČNB
+Možnost B: Salt Edge
+Cena: Od $99/měsíc
+Podporuje: 5000+ bank v Evropě
+Možnost C: Tink
+Cena: Pay-as-you-go
+Podporuje: Všechny PSD2 banky
+Implementace s GoCardless:
+
+php
+// composer require nordigen/nordigen-php
+use Nordigen\NordigenPHP\API\NordigenAPI;
+
+$client = new NordigenAPI(
+    secret_id: config('services.nordigen.secret_id'),
+    secret_key: config('services.nordigen.secret_key')
+);
+
+// Získej seznam podporovaných bank
+$institutions = $client->institution->getInstitutions('CZ');
+
+// Vytvoř odkaz pro připojení účtu
+$init = $client->initialize->create([
+    'redirect' => 'https://app.taptura.cz/bank/callback',
+    'institution_id' => 'CSOB_CZ', // nebo KB_CZPP, CEKOCZPP...
+]);
+
+// Přesměruj uživatele na $init['link'] 
+// → user se přihlásí do své banky
+// → po souhlasu redirect zpět na tvou app
+
+// Načti transakce
+$accounts = $client->account($requisition_id)->getAccounts();
+$transactions = $client->account($account_id)->getTransactions();
+Praktické doporučení pro Taptura:
+MVP strategie:
+Měsíc 1-3: Fio banka POUZE
+├─ Rychlé, jednoduché
+├─ Pokrývá ~15% živnostníků
+└─ Zero nákladů
+
+Měsíc 4-6: Přidej "Manuální import CSV"
+├─ Pro ostatní banky
+├─ Uživatel stáhne CSV z své banky
+└─ Nahraje do Taptura
+
+Měsíc 7+: Pokud je demand, přidej GoCardless
+├─ Pokrývá všechny české banky
+├─ Jen pokud opravdu chceš
+└─ Náklady: €0.50/aktivní uživatel
+Pro uživatele bez Fio:
+vue
+<div class="manual-import">
+  <h3>Jiná banka? Import CSV</h3>
+  
+  <ol>
+    <li>Stáhněte si výpis z internetbankingu (CSV formát)</li>
+    <li>Nahrajte sem</li>
+    <li>My automaticky spárujeme platby s fakturami</li>
+  </ol>
+  
+  <input 
+    type="file" 
+    accept=".csv" 
+    @change="uploadCSV"
+  />
+  
+  <small>
+    Podporujeme formáty: ČSOB, ČS, KB, mBank, Raiffeisen
+  </small>
+</div>
+Finální odpověď na tvé otázky:
+1. Platí se za Fio API?
+
+❌ NE - je ZDARMA navždy
+2. Mají to i jiné banky?
+
+✅ ANO - všechny velké české banky mají PSD2 API
+⚠️ ALE je to SLOŽITĚJŠÍ (registrace, certifikáty, OAuth2)
+3. Co doporučuji pro Taptura:
+
+MVP: Pouze Fio (zdarma, 2 dny implementace)
+Plus: CSV import (fallback pro ostatní)
+Later: GoCardless (pokud nutné)
+Proč začít s Fio:
+
+✅ 80% živnostníků s bankovním API má Fio (neoficiální odhad)
+✅ Implementace za víkend
+✅ Zero nákladů
+✅ Funguje okamžitě
+CSV import pokryje zbytek - uživatelé si stáhnou výpis jednou měsíčně a nahrají. Není to ideální, ale funguje to a je to ZDARMA.
+
+Dává to smysl? Chceš probrat konkrétní implementaci Fio API? 😊
+
+A ještě jedna věc, tu ai asistenci zabudujeme do které části aplikace?
+
+
+Analyzoval strategické začlenění AI asistence do aplikace.
+10s
+
+
+
+
+
+
+Super otázka! AI může být buď zbytečný marketing buzzword NEBO skutečně užitečná funkce. Pojďme najít místa kde AI v Taptura DÁVÁ SMYSL.
+
+Kde AI opravdu pomáhá živnostníkům:
+1️⃣ Generování popisů faktur - NEJVÍC UŽITEČNÉ ⭐⭐⭐
+vue
+<!-- Při vytváření faktury -->
+<template>
+  <div class="invoice-form">
+    <h3>Položky faktury</h3>
+    
+    <div class="ai-helper">
+      <p>
+        📊 Za poslední měsíc jste na projektu "Firemní web" 
+        strávili 42 hodin na těchto aktivitách:
+      </p>
+      <ul>
+        <li>Frontend vývoj - 18h</li>
+        <li>Backend API - 12h</li>
+        <li>Design úpravy - 8h</li>
+        <li>Testování - 4h</li>
+      </ul>
+      
+      <button @click="generateInvoiceItems">
+        ✨ Vygenerovat položky faktury AI
+      </button>
+    </div>
+    
+    <!-- AI vygeneruje: -->
+    <div class="generated-items">
+      <div class="item">
+        <strong>Vývoj webové aplikace</strong><br>
+        Frontend implementace responzivního designu včetně 
+        integrace s REST API a optimalizace výkonu.
+        <span class="hours">18 hodin × 800 Kč = 14 400 Kč</span>
+      </div>
+      
+      <div class="item">
+        <strong>Backend development</strong><br>
+        Návrh a implementace RESTful API, databázové schéma,
+        autentizace a integrace s externími službami.
+        <span class="hours">12 hodin × 800 Kč = 9 600 Kč</span>
+      </div>
+      
+      <button @click="acceptItems">✓ Použít tyto položky</button>
+      <button @click="regenerate">🔄 Vygenerovat jinak</button>
+    </div>
+  </div>
+</template>
+Backend implementace:
+
+php
+// app/Services/AIInvoiceService.php
+use OpenAI;
+
+class AIInvoiceService
+{
+    public function generateInvoiceItems(Invoice $invoice): array
+    {
+        // Získej časové záznamy pro tuto fakturu
+        $timeEntries = $invoice->project->timeEntries()
+            ->whereBetween('start_time', [$invoice->period_from, $invoice->period_to])
+            ->with('user')
+            ->get();
+        
+        // Seskup podle typu práce
+        $grouped = $timeEntries->groupBy('description');
+        
+        // Vytvoř prompt pro AI
+        $prompt = $this->buildPrompt($invoice, $grouped);
+        
+        // Zavolej OpenAI/Claude API
+        $response = OpenAI::chat()->create([
+            'model' => 'gpt-4',
+            'messages' => [
+                [
+                    'role' => 'system',
+                    'content' => 'Jsi asistent který pomáhá živnostníkům vytvářet profesionální faktury. Generuješ stručné ale profesionální popisy práce pro položky faktur.'
+                ],
+                [
+                    'role' => 'user',
+                    'content' => $prompt
+                ]
+            ],
+            'temperature' => 0.7,
+        ]);
+        
+        $items = json_decode($response->choices[0]->message->content, true);
+        
+        return $items;
+    }
+    
+    private function buildPrompt(Invoice $invoice, $grouped): string
+    {
+        $prompt = "Vytvoř položky faktury pro projekt: {$invoice->project->name}\n\n";
+        $prompt .= "Klient: {$invoice->client->name}\n\n";
+        $prompt .= "Časové záznamy:\n";
+        
+        foreach ($grouped as $description => $entries) {
+            $hours = $entries->sum('duration_hours');
+            $prompt .= "- {$description}: {$hours} hodin\n";
+        }
+        
+        $prompt .= "\nVytvoř 2-4 položky faktury s:\n";
+        $prompt .= "- Profesionálním českým názvem\n";
+        $prompt .= "- Stručným ale výstižným popisem (1-2 věty)\n";
+        $prompt .= "- Počtem hodin\n";
+        $prompt .= "\nFormát odpovědi jako JSON array.";
+        
+        return $prompt;
+    }
+}
+2️⃣ Chat asistent - "Kolik jsem vydělal tento měsíc?" ⭐⭐
+vue
+<!-- Plovoucí chat button -->
+<template>
+  <div class="ai-chat">
+    <button class="chat-toggle" @click="toggleChat">
+      💬 Zeptat se AI
+    </button>
+    
+    <div v-if="chatOpen" class="chat-window">
+      <div class="chat-header">
+        <h3>AI Asistent</h3>
+        <button @click="toggleChat">×</button>
+      </div>
+      
+      <div class="chat-messages">
+        <div v-for="msg in messages" :key="msg.id" :class="msg.role">
+          <div class="message-content">
+            {{ msg.content }}
+          </div>
+        </div>
+        
+        <div v-if="thinking" class="message assistant thinking">
+          Přemýšlím...
+        </div>
+      </div>
+      
+      <div class="chat-input">
+        <input 
+          v-model="userInput"
+          @keyup.enter="sendMessage"
+          placeholder="Např: Kolik jsem tento měsíc vydělal?"
+        />
+        <button @click="sendMessage">→</button>
+      </div>
+      
+      <div class="quick-actions">
+        <button @click="ask('Kolik jsem tento měsíc vydělal?')">
+          💰 Příjmy tohoto měsíce
+        </button>
+        <button @click="ask('Na jakých projektech jsem pracoval nejdéle?')">
+          📊 Top projekty
+        </button>
+        <button @click="ask('Které faktury jsou po splatnosti?')">
+          ⚠️ Nesplacené faktury
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+Backend - Chat s přístupem k datům:
+
+php
+// app/Services/AIChatService.php
+class AIChatService
+{
+    public function chat(User $user, string $message, array $history = []): string
+    {
+        // Získej kontext z databáze
+        $context = $this->getUserContext($user);
+        
+        // Vytvoř system prompt s kontextem
+        $systemPrompt = $this->buildSystemPrompt($context);
+        
+        // Vytvoř messages array
+        $messages = [
+            ['role' => 'system', 'content' => $systemPrompt],
+            ...$history,
+            ['role' => 'user', 'content' => $message]
+        ];
+        
+        // Zavolej Claude/GPT
+        $response = $this->callAI($messages);
+        
+        return $response;
+    }
+    
+    private function getUserContext(User $user): array
+    {
+        $now = now();
+        $thisMonth = $now->copy()->startOfMonth();
+        
+        return [
+            'current_date' => $now->format('d.m.Y'),
+            'user_name' => $user->name,
+            
+            // Stats tohoto měsíce
+            'this_month' => [
+                'hours_tracked' => $user->timeEntries()
+                    ->where('start_time', '>=', $thisMonth)
+                    ->sum('duration_hours'),
+                    
+                'invoices_sent' => $user->invoices()
+                    ->where('issued_at', '>=', $thisMonth)
+                    ->count(),
+                    
+                'revenue' => $user->invoices()
+                    ->where('issued_at', '>=', $thisMonth)
+                    ->sum('total'),
+                    
+                'unpaid_invoices' => $user->invoices()
+                    ->where('status', 'unpaid')
+                    ->where('due_date', '<', $now)
+                    ->count(),
+            ],
+            
+            // Top projekty
+            'top_projects' => $user->projects()
+                ->withSum('timeEntries', 'duration_hours')
+                ->orderByDesc('time_entries_sum_duration_hours')
+                ->take(5)
+                ->get()
+                ->map(fn($p) => [
+                    'name' => $p->name,
+                    'hours' => $p->time_entries_sum_duration_hours,
+                ])
+                ->toArray(),
+            
+            // Aktivní timer
+            'active_timer' => $user->timeEntries()
+                ->whereNull('end_time')
+                ->first()
+                ?->project
+                ?->name,
+        ];
+    }
+    
+    private function buildSystemPrompt(array $context): string
+    {
+        return <<<PROMPT
+Jsi AI asistent pro živnostníka {$context['user_name']}.
+Dnes je {$context['current_date']}.
+
+Aktuální přehled:
+- Tento měsíc odpracováno: {$context['this_month']['hours_tracked']} hodin
+- Vystaveno faktur: {$context['this_month']['invoices_sent']}
+- Příjem: {$context['this_month']['revenue']} Kč
+- Po splatnosti: {$context['this_month']['unpaid_invoices']} faktur
+
+Top projekty (podle času):
+{$this->formatProjects($context['top_projects'])}
+
+Aktivní časovač: {$context['active_timer'] ?? 'žádný'}
+
+Odpovídej stručně, profesionálně a v češtině.
+Když nevíš přesná data, řekni to upřímně.
+Nabídni konkrétní akce (např. "Chcete vytvořit upomínku?").
+PROMPT;
+    }
+    
+    private function callAI(array $messages): string
+    {
+        // Claude API (lepší pro českou gramatiku)
+        $response = Http::withHeaders([
+            'x-api-key' => config('services.anthropic.key'),
+            'anthropic-version' => '2023-06-01',
+            'content-type' => 'application/json',
+        ])->post('https://api.anthropic.com/v1/messages', [
+            'model' => 'claude-3-5-sonnet-20241022',
+            'max_tokens' => 1024,
+            'messages' => $messages,
+        ]);
+        
+        return $response->json()['content'][0]['text'];
+    }
+}
+3️⃣ Auto-kategorizace času ⭐⭐
+typescript
+// Při zastavení časovače
+async function stopTimer(timerId: number, description?: string) {
+  const entry = await db.getTimeEntry(timerId)
+  
+  // Pokud uživatel nezadal popis, nabídni AI suggestions
+  if (!description) {
+    const suggestions = await api.post('/ai/suggest-description', {
+      project_id: entry.project_id,
+      duration: entry.duration_hours,
+      time_of_day: entry.start_time
+    })
+    
+    // Zobraz modal s návrhy
+    showDescriptionModal({
+      suggestions: suggestions.data,
+      onSelect: (desc) => saveEntry(timerId, desc)
+    })
+  }
+}
+Backend:
+
+php
+public function suggestDescription(Request $request): JsonResponse
+{
+    $projectId = $request->input('project_id');
+    $duration = $request->input('duration');
+    
+    // Získej historii popisů pro tento projekt
+    $recentDescriptions = TimeEntry::where('project_id', $projectId)
+        ->whereNotNull('description')
+        ->latest()
+        ->take(20)
+        ->pluck('description')
+        ->unique()
+        ->toArray();
+    
+    $prompt = <<<PROMPT
+Projekt: {$project->name}
+Trvání: {$duration} hodin
+
+Poslední aktivity na tomto projektu:
+{$this->formatDescriptions($recentDescriptions)}
+
+Navrhni 3 krátké, výstižné popisy co uživatel mohl dělat.
+Každý popis max 5 slov, česky, bez teček.
+Formát: JSON array stringů.
+PROMPT;
+
+    $response = OpenAI::chat()->create([
+        'model' => 'gpt-3.5-turbo', // Levnější model stačí
+        'messages' => [
+            ['role' => 'system', 'content' => 'Generuješ krátké popisy práce.'],
+            ['role' => 'user', 'content' => $prompt]
+        ],
+        'temperature' => 0.8,
+        'max_tokens' => 100,
+    ]);
+    
+    $suggestions = json_decode($response->choices[0]->message->content);
+    
+    return response()->json($suggestions);
+}
+4️⃣ Analýza produktivity - Weekly insights ⭐
+vue
+<!-- Dashboard widget -->
+<template>
+  <div class="ai-insights">
+    <h3>💡 AI Insights tohoto týdne</h3>
+    
+    <div v-if="loading" class="skeleton">
+      Analyzuji vaše data...
+    </div>
+    
+    <div v-else class="insights">
+      <div class="insight positive">
+        <span class="icon">📈</span>
+        <div>
+          <strong>Produktivita roste!</strong>
+          <p>
+            Tento týden jste odpracovali o 15% více hodin než minulý.
+            Nejvíc času věnujete projektu "E-shop redesign".
+          </p>
+        </div>
+      </div>
+      
+      <div class="insight warning">
+        <span class="icon">⚠️</span>
+        <div>
+          <strong>3 faktury po splatnosti</strong>
+          <p>
+            Faktury pro Firma ABC (12 500 Kč) a 2 další čekají na 
+            platbu už 14+ dní. 
+            <a @click="createReminders">Vytvořit upomínky?</a>
+          </p>
+        </div>
+      </div>
+      
+      <div class="insight tip">
+        <span class="icon">💡</span>
+        <div>
+          <strong>Tip: Blokujte si čas</strong>
+          <p>
+            Nejvíc produktivní jste mezi 9-11h ráno. Zkuste si 
+            v tento čas naplánovat náročnější úkoly.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <button @click="regenerate">🔄 Další insights</button>
+  </div>
+</template>
+Generování weekly insights:
+
+php
+// app/Console/Commands/GenerateWeeklyInsights.php
+class GenerateWeeklyInsights extends Command
+{
+    // Spustí se každé pondělí ráno
+    public function handle(AIInsightsService $ai)
+    {
+        User::chunk(100, function ($users) use ($ai) {
+            foreach ($users as $user) {
+                $insights = $ai->generateWeeklyInsights($user);
+                
+                // Ulož do cache
+                Cache::put(
+                    "insights:user:{$user->id}:weekly",
+                    $insights,
+                    now()->addWeek()
+                );
+                
+                // Pošli email (optional)
+                if ($user->wants_insights_email) {
+                    Mail::to($user)->send(new WeeklyInsights($insights));
+                }
+            }
+        });
+    }
+}
+Kde AI implementovat TECHNICKY:
+Architektura:
+┌─────────────────────────────────────────────────┐
+│ VUE APLIKACE (app.taptura.cz)                   │
+│                                                 │
+│  ┌──────────────────────────────────────────┐  │
+│  │ AI Features (UI komponenty)               │  │
+│  │ - Chat widget                             │  │
+│  │ - Invoice generator button                │  │
+│  │ - Description suggestions                 │  │
+│  │ - Weekly insights widget                  │  │
+│  └──────────────┬───────────────────────────┘  │
+└─────────────────┼──────────────────────────────┘
+                  │ API calls
+                  ↓
+┌─────────────────────────────────────────────────┐
+│ LARAVEL BACKEND (api.taptura.cz)               │
+│                                                 │
+│  ┌──────────────────────────────────────────┐  │
+│  │ AI Service Layer                          │  │
+│  │ - Připraví kontext (data z DB)            │  │
+│  │ - Vytvoří prompty                         │  │
+│  │ - Zavolá AI API                           │  │
+│  │ - Zpracuje odpověď                        │  │
+│  │ - Rate limiting                           │  │
+│  │ - Caching                                 │  │
+│  └──────────────┬───────────────────────────┘  │
+└─────────────────┼──────────────────────────────┘
+                  │
+                  ↓
+┌─────────────────────────────────────────────────┐
+│ AI PROVIDER                                     │
+│                                                 │
+│  Volba A: OpenAI GPT-4                          │
+│  - Výhody: Nejlepší kvalita, známé            │
+│  - Cena: $0.03 / 1K input tokens              │
+│                                                 │
+│  Volba B: Anthropic Claude                     │
+│  - Výhody: Lepší čeština, delší kontext       │
+│  - Cena: $0.015 / 1K input tokens             │
+│                                                 │
+│  Volba C: OpenAI GPT-3.5                       │
+│  - Výhody: Nejlevnější                        │
+│  - Cena: $0.0015 / 1K input tokens            │
+└─────────────────────────────────────────────────┘
+Náklady AI features:
+Pro 100 aktivních uživatelů/měsíc:
+
+Feature                  Calls/user/měsíc   Náklady
+─────────────────────────────────────────────────────
+Invoice generation       4×                 $12
+Chat queries            10×                 $30
+Description suggestions 50×                 $15
+Weekly insights          1×                 $3
+─────────────────────────────────────────────────────
+CELKEM                                      ~$60/měsíc
+
+= $0.60 per user/měsíc = 15 Kč/user
+Monetizace:
+
+Free tier:
+├─ 5 AI generací faktur/měsíc
+├─ 10 chat dotazů/měsíc
+└─ Weekly insights
+
+Pro tier (299 Kč/měsíc):
+├─ Unlimited AI features
+├─ Priority responses
+└─ Advanced insights
+Doporučená implementace pro MVP:
+Fáze 1: Žádné AI ✅
+Měsíc 1-3: Postav core funkcionalitu BEZ AI
+├─ Time tracking
+├─ Projekty
+├─ Klienti
+└─ Faktury
+
+Proč:
+✅ Rychlejší launch
+✅ Bez dodatečných nákladů
+✅ Prokážeš product-market fit PŘED investicí do AI
+Fáze 2: První AI feature ⭐
+Měsíc 4-6: Přidej JEDNU AI funkci
+├─ Invoice generator (nejvíc value)
+└─ A/B test: měří adoption rate
+
+Pokud >50% uživatelů používá:
+→ Přidej další features
+Fáze 3: AI assistant
+Měsíc 7+: Chat assistant
+├─ Pokud vidíš demand
+├─ Začni jednoduše
+└─ Postupně přidávej capabilities
+Praktická implementace pro Taptura:
+typescript
+// src/composables/useAI.ts
+export function useAI() {
+  const loading = ref(false)
+  
+  async function generateInvoiceItems(invoiceId: number) {
+    loading.value = true
+    
+    try {
+      const { data } = await api.post('/ai/invoice-items', {
+        invoice_id: invoiceId
+      })
+      
+      return data.items
+    } finally {
+      loading.value = false
+    }
+  }
+  
+  async function chatWithAI(message: string, history: ChatMessage[]) {
+    const { data } = await api.post('/ai/chat', {
+      message,
+      history: history.slice(-5) // Poslední 5 zpráv pro kontext
+    })
+    
+    return data.response
+  }
+  
+  return {
+    loading,
+    generateInvoiceItems,
+    chatWithAI
+  }
+}
+Finální doporučení:
+Pro MVP Taptura:
+
+1. Měsíc 1-3: Žádné AI
+   └─ Soustřeď se na core funkcionalitu
+
+2. Měsíc 4: První AI experiment
+   └─ Invoice generator jako "premium beta"
+   └─ Trackuj usage
+   
+3. Měsíc 6+: Rozhodnutí
+   └─ Pokud success → expand AI features
+   └─ Pokud ne → zůstaň u core features
+Kde AI dává největší smysl:
+
+🏆 Invoice generation - šetří čas, přidává value
+🥈 Chat assistant - wow factor, sticky feature
+🥉 Weekly insights - engagement, retention
+Kde AI NEDÁVÁ smysl:
+
+❌ Time tracking samotný (člověk musí kliknout start/stop)
+❌ "AI optimalizace produktivity" (buzzword bez value)
+❌ Predikce budoucnosti (živnostníci nemají pravidelné vzory)
+Chceš probrat konkrétní implementaci nějaké AI funkce? 😊
+
+Naposledy jsme se bavili o ai asistenci v aplikaci. Ptal ses me co potrebuji - Jde mi o vytěžování faktur výdajů a faktur třetích stran a bankovních výpisů, nemusí to být nutně ten klasický ai, ale nějaký nástroj, který toto umíEditAnalyzoval dokumentové řešení pro extrakci a zpracování datUživatel chce vytěžování/parsing dokumentů:
+
+Faktury od dodavatelů (incoming invoices)
+Výdaje (receipts/účtenky)
+Bankovní výpisy
+
+To není AI chat assistant, ale spíš OCR + structured data extraction.
+Potřebujeme:
+
+OCR pro skenování dokumentů
+Parsing strukturovaných dat (čísla faktur, částky, data, DIČ, atd.)
+Automatické párování s platbami
+Import do systému
+
+Možnosti:
+
+OCR nástroje:
+
+Tesseract (free, open source)
+Google Cloud Vision API (cheap, dobrá kvalita)
+AWS Textract (drahé, ale best for structured docs)
+Azure Form Recognizer (specialized for invoices)
+
+
+Specialized services:
+
+Rossum.ai (česká firma! specialized for invoices)
+Mindee (invoice OCR API)
+Klippa (receipt scanning)
+
+
+Pro výpisy:
+
+Fio API už máme (automatické stahování)
+Pro ostatní banky - CSV import + parsing
+
+
+
+Pojďme to rozebrat prakticky pro Taptura use case.Ahaaa, teď to dává smysl! 💡 To je úplně jiný use case než AI chat.
+Chceš OCR + data extraction pro:
+
+📄 Přijaté faktury od dodavatelů (třetí strany)
+🧾 Výdaje (účtenky, receipty)
+🏦 Bankovní výpisy (automatické párování plateb)
+
+To je mega užitečná funkce pro živnostníky! Pojďme si rozebrat nejlepší řešení.
+
+🎯 Use Case pro Taptura
+Scénář:
+Živnostník:
+├─ Dostane fakturu od dodavatele emailem (PDF)
+├─ Vyfotí účtenku z restaurace (mobil)
+├─ Chce spárovat platby s fakturami
+└─ Potřebuje vše v jedné appce
+Co potřebuješ vytěžit:
+Z faktury/účtenky:
+├─ Číslo faktury
+├─ Datum vystavení
+├─ Datum splatnosti
+├─ Částka (celkem, DPH)
+├─ Dodavatel (název, IČO, DIČ)
+├─ Variabilní symbol
+└─ Položky faktury
+
+🛠️ Řešení podle rozpočtu
+Varianta A: Česká firma - Rossum.ai ⭐ (Doporučuji)
+Proč:
+
+✅ Česká firma (Roští u Prahy)
+✅ Specializace na faktury (AI trénované na českých fakturách)
+✅ Excelentní přesnost (95-98%)
+✅ Rozumí české DPH, IČO, DIČ
+✅ GDPR compliant
+✅ API v češtině
+
+Cena:
+Free tier: 100 stránek/měsíc zdarma
+Paid: €0.10 za stránku (asi 2.5 Kč)
+
+Pro tvé uživatele:
+- Průměrný uživatel: 20 faktur/měsíc = 50 Kč
+- Můžeš účtovat jako premium feature
+Implementace:
+php// app/Services/RossumService.php
+use Illuminate\Support\Facades\Http;
+
+class RossumService
+{
+    private string $apiUrl = 'https://api.elis.rossum.ai';
+    private string $username;
+    private string $password;
+    
+    public function __construct()
+    {
+        $this->username = config('services.rossum.username');
+        $this->password = config('services.rossum.password');
+    }
+    
+    private function authenticate(): string
+    {
+        $response = Http::post("{$this->apiUrl}/v1/auth/login", [
+            'username' => $this->username,
+            'password' => $this->password,
+        ]);
+        
+        return $response->json()['key'];
+    }
+    
+    public function uploadInvoice(string $filePath, string $fileName): array
+    {
+        $token = $this->authenticate();
+        
+        // 1. Upload dokumentu
+        $response = Http::withToken($token)
+            ->attach('content', file_get_contents($filePath), $fileName)
+            ->post("{$this->apiUrl}/v1/documents", [
+                'queue' => config('services.rossum.queue_id'),
+            ]);
+        
+        $documentId = $response->json()['id'];
+        
+        // 2. Počkej na zpracování (webhook je lepší, tohle je pro demo)
+        sleep(10);
+        
+        // 3. Získej vytěžená data
+        return $this->getExtractedData($documentId, $token);
+    }
+    
+    private function getExtractedData(int $documentId, string $token): array
+    {
+        $response = Http::withToken($token)
+            ->get("{$this->apiUrl}/v1/documents/{$documentId}");
+        
+        $data = $response->json();
+        $content = $data['content'];
+        
+        // Rossum vrací strukturovaná data
+        return [
+            'invoice_number' => $content['invoice_id'] ?? null,
+            'issue_date' => $content['date_issue'] ?? null,
+            'due_date' => $content['date_due'] ?? null,
+            'total_amount' => $content['amount_total'] ?? null,
+            'tax_amount' => $content['amount_tax'] ?? null,
+            'currency' => $content['currency'] ?? 'CZK',
+            
+            'supplier' => [
+                'name' => $content['sender_name'] ?? null,
+                'ico' => $content['sender_ic'] ?? null,
+                'dic' => $content['sender_dic'] ?? null,
+                'address' => $content['sender_address'] ?? null,
+            ],
+            
+            'variable_symbol' => $content['var_sym'] ?? null,
+            
+            'line_items' => $this->parseLineItems($content['line_items'] ?? []),
+            
+            'confidence' => $data['modifier_confidence'] ?? 0,
+        ];
+    }
+    
+    private function parseLineItems(array $items): array
+    {
+        return collect($items)->map(function ($item) {
+            return [
+                'description' => $item['item_description'] ?? null,
+                'quantity' => $item['item_quantity'] ?? null,
+                'unit_price' => $item['item_amount_base'] ?? null,
+                'total' => $item['item_amount_total'] ?? null,
+            ];
+        })->toArray();
+    }
+}
+Controller:
+php// app/Http/Controllers/Api/ExpenseController.php
+class ExpenseController extends Controller
+{
+    public function uploadInvoice(Request $request, RossumService $rossum)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:10240'
+        ]);
+        
+        $file = $request->file('file');
+        $path = $file->store('temp-uploads');
+        
+        // Vytěž data z faktury
+        $extractedData = $rossum->uploadInvoice(
+            storage_path("app/{$path}"),
+            $file->getClientOriginalName()
+        );
+        
+        // Vytvoř expense draft
+        $expense = $request->user()->expenses()->create([
+            'type' => 'invoice',
+            'status' => 'draft',
+            'invoice_number' => $extractedData['invoice_number'],
+            'issue_date' => $extractedData['issue_date'],
+            'due_date' => $extractedData['due_date'],
+            'amount' => $extractedData['total_amount'],
+            'tax_amount' => $extractedData['tax_amount'],
+            'currency' => $extractedData['currency'],
+            'supplier_name' => $extractedData['supplier']['name'],
+            'supplier_ico' => $extractedData['supplier']['ico'],
+            'supplier_dic' => $extractedData['supplier']['dic'],
+            'extracted_data' => $extractedData,
+            'confidence_score' => $extractedData['confidence'],
+        ]);
+        
+        // Ulož přílohu
+        $expense->addMedia($file)->toMediaCollection('invoices');
+        
+        return response()->json([
+            'expense' => $expense,
+            'needs_review' => $extractedData['confidence'] < 0.9
+        ]);
+    }
+}
+Vue komponenta:
+vue<!-- src/views/Expenses/UploadInvoice.vue -->
+<template>
+  <div class="upload-invoice">
+    <h2>Nahrát fakturu</h2>
+    
+    <!-- Drag & Drop -->
+    <div 
+      class="dropzone"
+      @drop.prevent="handleDrop"
+      @dragover.prevent
+      @click="$refs.fileInput.click()"
+    >
+      <input 
+        ref="fileInput"
+        type="file"
+        accept=".pdf,.jpg,.jpeg,.png"
+        @change="handleFileSelect"
+        hidden
+      />
+      
+      <div v-if="!uploading" class="dropzone-content">
+        <svg class="icon">📄</svg>
+        <p>Přetáhni fakturu sem nebo klikni pro výběr</p>
+        <small>PDF, JPG, PNG (max 10 MB)</small>
+      </div>
+      
+      <div v-else class="uploading">
+        <div class="spinner"></div>
+        <p>{{ uploadStatus }}</p>
+      </div>
+    </div>
+    
+    <!-- Preview vytěžených dat -->
+    <div v-if="extractedData" class="extracted-preview">
+      <h3>Vytěžená data</h3>
+      
+      <div v-if="extractedData.confidence < 0.9" class="warning">
+        ⚠️ Nízká přesnost ({{ Math.round(extractedData.confidence * 100) }}%) 
+        - zkontrolujte prosím data
+      </div>
+      
+      <form @submit.prevent="saveExpense">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Číslo faktury</label>
+            <input v-model="form.invoice_number" />
+          </div>
+          
+          <div class="form-group">
+            <label>Dodavatel</label>
+            <input v-model="form.supplier_name" />
+          </div>
+          
+          <div class="form-group">
+            <label>IČO</label>
+            <input v-model="form.supplier_ico" />
+          </div>
+          
+          <div class="form-group">
+            <label>DIČ</label>
+            <input v-model="form.supplier_dic" />
+          </div>
+          
+          <div class="form-group">
+            <label>Datum vystavení</label>
+            <input type="date" v-model="form.issue_date" />
+          </div>
+          
+          <div class="form-group">
+            <label>Datum splatnosti</label>
+            <input type="date" v-model="form.due_date" />
+          </div>
+          
+          <div class="form-group">
+            <label>Částka celkem</label>
+            <input 
+              type="number" 
+              step="0.01"
+              v-model="form.amount" 
+            />
+          </div>
+          
+          <div class="form-group">
+            <label>DPH</label>
+            <input 
+              type="number" 
+              step="0.01"
+              v-model="form.tax_amount" 
+            />
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Kategorie</label>
+          <select v-model="form.category">
+            <option value="office">Kancelář</option>
+            <option value="software">Software</option>
+            <option value="travel">Cestovné</option>
+            <option value="marketing">Marketing</option>
+            <option value="other">Ostatní</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Poznámka</label>
+          <textarea v-model="form.notes"></textarea>
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">
+            ✅ Uložit výdaj
+          </button>
+          <button type="button" @click="reset" class="btn-secondary">
+            🔄 Nahrát další
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { api } from '@/services/api'
+
+const uploading = ref(false)
+const uploadStatus = ref('')
+const extractedData = ref(null)
+const form = ref({
+  invoice_number: '',
+  supplier_name: '',
+  supplier_ico: '',
+  supplier_dic: '',
+  issue_date: '',
+  due_date: '',
+  amount: 0,
+  tax_amount: 0,
+  category: 'other',
+  notes: ''
+})
+
+async function handleDrop(e: DragEvent) {
+  const files = e.dataTransfer?.files
+  if (files?.length) {
+    await uploadFile(files[0])
+  }
+}
+
+async function handleFileSelect(e: Event) {
+  const input = e.target as HTMLInputElement
+  if (input.files?.length) {
+    await uploadFile(input.files[0])
+  }
+}
+
+async function uploadFile(file: File) {
+  uploading.value = true
+  uploadStatus.value = 'Nahrávám soubor...'
+  
+  const formData = new FormData()
+  formData.append('file', file)
+  
+  try {
+    uploadStatus.value = 'Vytěžuji data z faktury...'
+    
+    const { data } = await api.post('/expenses/upload-invoice', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+    
+    extractedData.value = data.extracted_data
+    
+    // Naplň form
+    form.value = {
+      invoice_number: data.invoice_number || '',
+      supplier_name: data.supplier_name || '',
+      supplier_ico: data.supplier_ico || '',
+      supplier_dic: data.supplier_dic || '',
+      issue_date: data.issue_date || '',
+      due_date: data.due_date || '',
+      amount: data.amount || 0,
+      tax_amount: data.tax_amount || 0,
+      category: 'other',
+      notes: ''
+    }
+    
+    if (data.needs_review) {
+      alert('⚠️ Zkontrolujte prosím vytěžená data - nižší přesnost')
+    }
+    
+  } catch (error) {
+    alert('Chyba při zpracování faktury')
+    console.error(error)
+  } finally {
+    uploading.value = false
+  }
+}
+
+async function saveExpense() {
+  await api.post('/expenses', form.value)
+  alert('✅ Výdaj uložen!')
+  reset()
+}
+
+function reset() {
+  extractedData.value = null
+  form.value = {
+    invoice_number: '',
+    supplier_name: '',
+    supplier_ico: '',
+    supplier_dic: '',
+    issue_date: '',
+    due_date: '',
+    amount: 0,
+    tax_amount: 0,
+    category: 'other',
+    notes: ''
+  }
+}
+</script>
+
+Varianta B: Google Cloud Vision ⭐⭐ (Levnější)
+Proč:
+
+✅ Velmi levné ($1.50 za 1000 stránek)
+✅ Dobrá kvalita OCR
+❌ Není specializované na faktury
+❌ Musíš sám naprogramovat parsing logiku
+
+Cena:
+0-1,000 stránek/měsíc: ZDARMA
+1,001+ stránek: $1.50 / 1,000
+
+= ~0.04 Kč za stránku (60x levnější než Rossum)
+Implementace:
+php// composer require google/cloud-vision
+use Google\Cloud\Vision\V1\ImageAnnotatorClient;
+
+class GoogleVisionService
+{
+    public function extractText(string $filePath): string
+    {
+        $imageAnnotator = new ImageAnnotatorClient([
+            'credentials' => config('services.google.vision_credentials')
+        ]);
+        
+        $image = file_get_contents($filePath);
+        $response = $imageAnnotator->documentTextDetection($image);
+        $text = $response->getFullTextAnnotation()->getText();
+        
+        $imageAnnotator->close();
+        
+        return $text;
+    }
+    
+    public function parseInvoice(string $text): array
+    {
+        // Regex parsing pro česká data
+        $data = [];
+        
+        // Číslo faktury
+        if (preg_match('/(?:Faktura|Číslo faktury|Číslo dokladu|Invoice)[:\s]+([0-9]+)/i', $text, $matches)) {
+            $data['invoice_number'] = $matches[1];
+        }
+        
+        // IČO
+        if (preg_match('/IČO[:\s]+([0-9\s]+)/i', $text, $matches)) {
+            $data['ico'] = str_replace(' ', '', $matches[1]);
+        }
+        
+        // DIČ
+        if (preg_match('/DIČ[:\s]+(CZ)?([0-9\s]+)/i', $text, $matches)) {
+            $data['dic'] = 'CZ' . str_replace(' ', '', $matches[2]);
+        }
+        
+        // Částka - různé formáty
+        if (preg_match('/(?:Celkem k úhradě|K úhradě|Total)[:\s]+([0-9\s,\.]+)\s*(?:Kč|CZK)?/i', $text, $matches)) {
+            $amount = str_replace([' ', ','], ['', '.'], $matches[1]);
+            $data['amount'] = (float) $amount;
+        }
+        
+        // Datum vystavení
+        if (preg_match('/(?:Datum vystavení|Datum vydání|Issue date)[:\s]+([0-9]{1,2})[.\s\/]([0-9]{1,2})[.\s\/]([0-9]{2,4})/i', $text, $matches)) {
+            $data['issue_date'] = sprintf('%04d-%02d-%02d', 
+                $matches[3] < 100 ? 2000 + $matches[3] : $matches[3],
+                $matches[2], 
+                $matches[1]
+            );
+        }
+        
+        // ... další pole podobně
+        
+        return $data;
+    }
+}
+
+Varianta C: AWS Textract (Nejdražší, ale nejlepší)
+Proč:
+
+✅ Nejlepší přesnost pro tabulky a strukturované dokumenty
+✅ Rozpozná sloupce, řádky, políčka
+✅ Specialized for invoices/forms
+❌ Drahé ($50 za 1000 stránek)
+
+Použij jen pokud:
+
+Máš hodně enterprise klientů
+Potřebuješ 99%+ přesnost
+Budget není problém
+
+
+📱 Mobilní zachycení účtenek
+Pro mobilní app (Capacitor):
+typescript// src/services/camera.ts
+import { Camera, CameraResultType } from '@capacitor/camera'
+
+export async function captureReceipt() {
+  const photo = await Camera.getPhoto({
+    resultType: CameraResultType.Base64,
+    quality: 90,
+    allowEditing: true,
+    promptLabelHeader: 'Vyfotit účtenku',
+    promptLabelCancel: 'Zrušit',
+    promptLabelPhoto: 'Z galerie',
+    promptLabelPicture: 'Vyfotit',
+  })
+  
+  return photo.base64String
+}
+vue<!-- Mobilní komponenta -->
+<template>
+  <div class="expense-capture">
+    <button @click="captureAndUpload" class="capture-btn">
+      📸 Vyfotit účtenku
+    </button>
+    
+    <div v-if="processing" class="processing">
+      <div class="spinner"></div>
+      <p>Zpracovávám účtenku...</p>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { captureReceipt } from '@/services/camera'
+import { api } from '@/services/api'
+
+const processing = ref(false)
+
+async function captureAndUpload() {
+  try {
+    // Vyfoť
+    const base64Image = await captureReceipt()
+    
+    processing.value = true
+    
+    // Upload a vytěž
+    const { data } = await api.post('/expenses/scan-receipt', {
+      image: base64Image
+    })
+    
+    // Přesměruj na review screen
+    router.push(`/expenses/review/${data.expense.id}`)
+    
+  } catch (error) {
+    alert('Chyba při zpracování účtenky')
+  } finally {
+    processing.value = false
+  }
+}
+</script>
+
+🏦 Bankovní výpisy - Automatické párování
+Tohle máš zdarma s Fio API:
+php// app/Services/PaymentMatchingService.php
+class PaymentMatchingService
+{
+    public function matchPaymentsToExpenses(array $transactions): array
+    {
+        $matched = [];
+        
+        foreach ($transactions as $transaction) {
+            $amount = abs($transaction['amount']);
+            $vs = $transaction['variable_symbol'];
+            $date = $transaction['date'];
+            
+            // 1. Zkus najít podle VS
+            if ($vs) {
+                $expense = Expense::where('variable_symbol', $vs)
+                    ->where('status', 'unpaid')
+                    ->first();
+                    
+                if ($expense) {
+                    $this->markAsPaid($expense, $transaction);
+                    $matched[] = $expense;
+                    continue;
+                }
+            }
+            
+            // 2. Zkus najít podle částky + data (±3 dny)
+            $expense = Expense::where('status', 'unpaid')
+                ->where('amount', $amount)
+                ->whereBetween('due_date', [
+                    Carbon::parse($date)->subDays(3),
+                    Carbon::parse($date)->addDays(3)
+                ])
+                ->first();
+                
+            if ($expense) {
+                $this->markAsPaid($expense, $transaction);
+                $matched[] = $expense;
+            }
+        }
+        
+        return $matched;
+    }
+    
+    private function markAsPaid(Expense $expense, array $transaction): void
+    {
+        $expense->update([
+            'status' => 'paid',
+            'paid_at' => $transaction['date'],
+            'payment_transaction_id' => $transaction['id'],
+        ]);
+        
+        // Notifikace uživateli
+        $expense->user->notify(new ExpenseMarkedAsPaid($expense));
+    }
+}
+
+💰 Doporučení pro Taptura MVP
+Fáze 1 (Měsíc 1-3): Základy bez OCR
+✅ Manuální zadávání výdajů
+✅ Upload PDF jako příloha (bez parsingu)
+✅ Fio banka automatické párování
+Fáze 2 (Měsíc 4-6): Přidej OCR
+🎯 Rossum.ai integrace (nejlepší pro česká data)
+✅ Upload faktur s automatickým vytěžením
+✅ Mobilní foto účtenek
+✅ Confidence score + manual review
+Fáze 3 (Měsíc 7+): Advanced
+✨ Automatické kategorizace výdajů (ML)
+✨ Bulk import (nahrát 10 faktur najednou)
+✨ Export do účetního SW
+
+📊 Cenová kalkulace pro uživatele
+Monetizace:
+Free tier:
+├─ 5 vytěžených faktur/měsíc (Rossum free tier)
+├─ Unlimited manuální zadávání
+└─ Fio banka automatic matching
+
+Pro tier (299 Kč/měsíc):
+├─ 50 vytěžených faktur/měsíc
+├─ Mobilní skenování účtenek
+├─ Automatická kategorizace
+└─ Priority processing
+Tvé náklady:
+Rossum: €0.10 / faktura = 2.5 Kč
+Průměrný user: 20 faktur/měsíc = 50 Kč nákladů
+Účtuješ: 299 Kč
+Marže: 83% 💰
+
+✅ Praktický action plan
+bash# Týden 1: Rossum setup
+1. Registrace na Rossum.ai
+2. Vytvoř queue pro faktury
+3. Test s 5 vzorkovými fakturami
+
+# Týden 2: Backend
+4. RossumService implementace
+5. ExpenseController + upload endpoint
+6. Database schema pro expenses
+
+# Týden 3: Frontend web
+7. Vue komponenta upload
+8. Preview + edit screen
+9. Seznam výdajů
+
+# Týden 4: Mobile
+10. Capacitor Camera plugin
+11. Mobilní upload flow
+12. Push notifikace po zpracování
+
+Tohle je production-ready řešení. Rossum.ai použ užívají české firmy jako Fio banka, Komerční banka, atd.
