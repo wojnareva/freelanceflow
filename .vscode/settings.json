@@ -1,0 +1,8 @@
+{
+  "remote.autoForwardPorts": false,
+  "portsAttributes": {
+    "8000": { "onAutoForward": "openBrowser", "label": "Laravel" },
+    ".*": { "onAutoForward": "ignore" }
+  },
+  "workbench.editor.enablePreview": false
+}
